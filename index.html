@@ -61,19 +61,23 @@
     </div>
   </nav>
 
-  <!-- Hero -->
-  <header id="top" class="hero">
-    <div class="container hero-content py-5">
-      <span class="badge text-bg-light brand-badge mb-2">Part of Synergy for Science 2026</span><br/>
-      <span class="badge text-bg-primary brand-badge">6th Edition</span>
-      <h1 class="display-4 fw-bold">International Symposium for Mechanobiology</h1>
-      <p class="lead col-lg-8">Glasgow, UK · 12–16 July 2026 · Scottish Event Campus (SEC)</p>
-      <div class="d-flex gap-3 mt-3">
-        <a class="btn btn-primary btn-lg" href="#about">Learn more</a>
-        <a class="btn btn-outline-light btn-lg" href="https://iop.eventsair.com/synsci26/international-society-for-mechanobiology" target="_blank" rel="noopener">ISMB @ SynSci26</a>
-      </div>
+  <!-- Carousel (Bootstrap 5) -->
+  <div id="top"></div>
+  <div id="ismbCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#ismbCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#ismbCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#ismbCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
     </div>
-  </header>
+    <div class="carousel-inner">
+      <!-- Slide 1 -->
+      <div class="carousel-item active">
+        <img src="assets/slide-1.jpg" class="d-block w-100" alt="Glasgow skyline" />
+        <div class="container">
+          <div class="carousel-caption text-start">
+            <span class="badge text-bg-primary brand-badge mb-2">6th Edition</span>
+            <h1 class="fw-bold">International Symposium for Mechanobiology</h1>
+            <p>Glasgow, UK ·
 
   <!-- About -->
   <section id="about" class="section-pad">
@@ -317,7 +321,9 @@
           </div>
           <a class=\"btn btn-info text-white\" href=\"https://iop.eventsair.com/synsci26/\" target=\"_blank\" rel=\"noopener\">Learn about SynSci26</a>
         </div>
-      </
+      </div>
+    </div>
+  </section>
 
   <div class="divider"></div>
 
