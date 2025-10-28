@@ -42,6 +42,11 @@
     .footer a { color: #cfd8e3; text-decoration: underline; }
       .carousel-item img { height: 85vh; object-fit: cover; }
     .carousel-caption { background: rgba(0,0,0,0.35); padding: 1.25rem 1.5rem; border-radius: .75rem; }
+      .carousel-item img { height: 85vh; object-fit: cover; }
+    .carousel-caption { background: rgba(0,0,0,0.35); padding: 1.25rem 1.5rem; border-radius: .75rem; }
+    /* Icon circles for overview blocks */
+    .icon-wrap { width:140px; height:140px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 1rem; background: var(--bs-light); border:1px solid rgba(0,0,0,.1); }
+    .icon-wrap .bi { width:64px; height:64px; }
   </style>
 </head>
 <body data-bs-spy="scroll" data-bs-target="#nav" data-bs-offset="80" tabindex="0">
@@ -79,7 +84,7 @@
     <div class="carousel-inner">
       <!-- Slide 1 -->
       <div class="carousel-item active">
-        <img src="assets/gla001.png" class="d-block w-100" alt="Glasgow skyline" />
+        <img src="assets/carousel/01-glasgow.jpg" class="d-block w-100" alt="Glasgow skyline" />
         <div class="container">
           <div class="carousel-caption text-start">
             <span class="badge text-bg-primary brand-badge mb-2">6th Edition</span>
@@ -91,7 +96,7 @@
       </div>
       <!-- Slide 2 -->
       <div class="carousel-item">
-        <img src="assets/gla002.png" class="d-block w-100" alt="Scottish Event Campus" />
+        <img src="assets/carousel/02-sec.jpg" class="d-block w-100" alt="Scottish Event Campus" />
         <div class="container">
           <div class="carousel-caption">
             <h1>Dates & Venue</h1>
@@ -102,7 +107,7 @@
       </div>
       <!-- Slide 3 -->
       <div class="carousel-item">
-        <img src="assets/gla003.png" class="d-block w-100" alt="SynSci26" />
+        <img src="assets/carousel/03-synsci.jpg" class="d-block w-100" alt="SynSci26" />
         <div class="container">
           <div class="carousel-caption text-end">
             <span class="badge text-bg-light brand-badge mb-2">Part of Synergy for Science 2026</span>
@@ -128,19 +133,31 @@
     <div class="container">
       <div class="row g-4 text-center">
         <div class="col-lg-4">
-          <img class="bd-placeholder-img rounded-circle mb-3" width="140" height="140" src="assets/icons/about.png" alt="About icon" />
+          <div class="icon-wrap">
+            <svg class="bi" role="img" aria-label="About icon" width="64" height="64" fill="currentColor">
+              <use href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/bootstrap-icons.svg#journal-text" />
+            </svg>
+          </div>
           <h3 class="fw-semibold">About ISMB</h3>
           <p>Founded in 2011 (Shanghai), previous editions: Okayama, Singapore, Sydney, Tainan. Glasgow 2026 is the 6th edition.</p>
           <p><a class="btn btn-outline-primary" href="#about">Read more »</a></p>
         </div>
         <div class="col-lg-4">
-          <img class="bd-placeholder-img rounded-circle mb-3" width="140" height="140" src="assets/icons/speakers.png" alt="Speakers icon" />
+          <div class="icon-wrap">
+            <svg class="bi" role="img" aria-label="Speakers icon" width="64" height="64" fill="currentColor">
+              <use href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/bootstrap-icons.svg#people" />
+            </svg>
+          </div>
           <h3 class="fw-semibold">Speakers</h3>
           <p>Discover our invited line‑up and the 15 featured speakers.</p>
           <p><a class="btn btn-outline-primary" href="#speakers">Meet speakers »</a></p>
         </div>
         <div class="col-lg-4">
-          <img class="bd-placeholder-img rounded-circle mb-3" width="140" height="140" src="assets/icons/calendar.png" alt="Calendar icon" />
+          <div class="icon-wrap">
+            <svg class="bi" role="img" aria-label="Calendar icon" width="64" height="64" fill="currentColor">
+              <use href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/bootstrap-icons.svg#calendar-event" />
+            </svg>
+          </div>
           <h3 class="fw-semibold">Key Dates</h3>
           <p>Abstract deadlines for oral and poster contributions, and the conference week details.</p>
           <p><a class="btn btn-outline-primary" href="#dates">View dates »</a></p>
@@ -151,19 +168,31 @@
 
       <div class="row g-4 text-center">
         <div class="col-lg-4">
-          <img class="bd-placeholder-img rounded-circle mb-3" width="140" height="140" src="assets/icons/venue.png" alt="Venue icon" />
+          <div class="icon-wrap">
+            <svg class="bi" role="img" aria-label="Venue icon" width="64" height="64" fill="currentColor">
+              <use href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/bootstrap-icons.svg#geo-alt" />
+            </svg>
+          </div>
           <h3 class="fw-semibold">Venue</h3>
           <p>Scottish Event Campus (SEC), on the River Clyde—close to the West End and city centre.</p>
           <p><a class="btn btn-outline-primary" href="#venue">See venue »</a></p>
         </div>
         <div class="col-lg-4">
-          <img class="bd-placeholder-img rounded-circle mb-3" width="140" height="140" src="assets/icons/network.png" alt="SynSci26 icon" />
+          <div class="icon-wrap">
+            <svg class="bi" role="img" aria-label="SynSci26 icon" width="64" height="64" fill="currentColor">
+              <use href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/bootstrap-icons.svg#diagram-3" />
+            </svg>
+          </div>
           <h3 class="fw-semibold">SynSci26</h3>
           <p>ISMB is embedded within a larger multidisciplinary programme to maximise cross‑field exchange.</p>
           <p><a class="btn btn-outline-primary" href="https://iop.eventsair.com/synsci26/" target="_blank" rel="noopener">Explore SynSci26 »</a></p>
         </div>
         <div class="col-lg-4">
-          <img class="bd-placeholder-img rounded-circle mb-3" width="140" height="140" src="assets/icons/partners.png" alt="Partners icon" />
+          <div class="icon-wrap">
+            <svg class="bi" role="img" aria-label="Partners icon" width="64" height="64" fill="currentColor">
+              <use href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/bootstrap-icons.svg#people-fill" />
+            </svg>
+          </div>
           <h3 class="fw-semibold">Partners</h3>
           <p>Communities and societies supporting mechanobiology worldwide.</p>
           <p><a class="btn btn-outline-primary" href="#partners">View partners »</a></p>
@@ -403,4 +432,3 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
