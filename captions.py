@@ -17,10 +17,10 @@ Template = """
     </div>
 """
 
-core = '<div id="ismbCarousel" class="carousel slide" data-bs-ride="carousel">\n\t<div class="carousel-indicators">\n'
+core = '<div id="ismbCarousel" class="carousel slide" data-bs-ride="carousel"  data-bs-interval="3000">\n\t<div class="carousel-indicators">\n'
 core += '\t\t<button type="button" data-bs-target="#ismbCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>\n'
 for i in range(1,9):
-    core += f'\t\t<button type="button" data-bs-target="#ismbCarousel" data-bs-slide-to="{i}" aria-label="Slide {i+1}"></button>'
+    core += f'\t\t<button type="button" data-bs-target="#ismbCarousel" data-bs-slide-to="{i}" aria-label="Slide {i+1}"></button>\n'
 core += '\t</div>'
 
 core += '\t<div class="carousel-inner">\n'
