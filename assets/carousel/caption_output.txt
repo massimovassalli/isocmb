@@ -24,7 +24,7 @@
                 <span class="badge text-bg-primary brand-badge mb-2">@Scottish Event Campus</span>
                 <h1 class="fw-bold">Dates & Venue</h1>
                 <p>See key dates</p>
-                <p><a class="btn btn-lg btn-primary" href="SEC Armadillo & SEC Centre and select University venues.">#dates</a></p>
+                <p><a class="btn btn-lg btn-primary" href="#dates">SEC Armadillo & SEC Centre and select University venues.</a></p>
             </div>
         </div>
     </div>
@@ -63,7 +63,7 @@
                 <span class="badge text-bg-primary brand-badge mb-2">@Scottish Event Campus</span>
                 <h1 class="fw-bold">Dates & Venue</h1>
                 <p>See key dates</p>
-                <p><a class="btn btn-lg btn-primary" href="SEC Armadillo & SEC Centre and select University venues.">#dates</a></p>
+                <p><a class="btn btn-lg btn-primary" href="#dates">SEC Armadillo & SEC Centre and select University venues.</a></p>
             </div>
         </div>
     </div>
@@ -102,7 +102,7 @@
                 <span class="badge text-bg-primary brand-badge mb-2">@Scottish Event Campus</span>
                 <h1 class="fw-bold">Dates & Venue</h1>
                 <p>See key dates</p>
-                <p><a class="btn btn-lg btn-primary" href="SEC Armadillo & SEC Centre and select University venues.">#dates</a></p>
+                <p><a class="btn btn-lg btn-primary" href="#dates">SEC Armadillo & SEC Centre and select University venues.</a></p>
             </div>
         </div>
     </div>
