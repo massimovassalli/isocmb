@@ -1,0 +1,23 @@
+digraph G {
+  graph [rankdir=LR, nodesep=0.45, ranksep=0.7, size="7,3!", margin=0.1];
+  node [shape=box, style="rounded,filled", fillcolor="#eef6ff", fontname="Arial"];
+  edge [fontname="Arial"];
+
+  A [label="start"];
+  B [label="set up the variables"];
+  C [label="any readings left?"];
+  D [label="take the next reading"];
+  E [label="above the limit?"];
+  F [label="print result"];
+  G [label="update count"];
+  H [label="reset count"];
+
+  A -> B -> C;
+  C -> F [label="no"];
+  C -> D [label="yes"];
+  D -> E;
+  E -> G [label="yes"];
+  E -> H [label="no"];
+  G -> C;
+  H -> C;
+}
