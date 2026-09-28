@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="145.65819mm"
+   height="82.392471mm"
+   viewBox="0 0 145.65819 82.392471"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="datasets1.svg"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="1.0444209"
+     inkscape:cx="282.9319"
+     inkscape:cy="293.46406"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1">
+    <marker
+       style="overflow:visible"
+       id="Dot"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Dot"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
+         d="M 5,0 C 5,2.76 2.76,5 0,5 -2.76,5 -5,2.76 -5,0 c 0,-2.76 2.3,-5 5,-5 2.76,0 5,2.24 5,5 z"
+         sodipodi:nodetypes="sssss"
+         id="path17" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Triangle"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path135" />
+    </marker>
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-11.952194,-14.787285)">
+    <g
+       id="g13"
+       transform="translate(-72.410071,0.75999052)">
+      <text
+         xml:space="preserve"
+         style="font-size:8.46667px;line-height:0;font-family:'Segoe Script';-inkscape-font-specification:'Segoe Script';text-align:center;letter-spacing:0px;word-spacing:1.6219px;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#000080;stroke:none;stroke-width:0.499999"
+         x="109.10078"
+         y="26.577269"
+         id="text1"><tspan
+           sodipodi:role="line"
+           id="tspan1"
+           style="stroke:none;stroke-width:0.5"
+           x="109.10078"
+           y="26.577269">Dataset</tspan></text>
+      <rect
+         style="fill:none;stroke:#000080;stroke-width:0.372638"
+         id="rect7"
+         width="52.060047"
+         height="15.580503"
+         x="84.548584"
+         y="16.14945"
+         rx="5"
+         ry="5" />
+    </g>
+    <g
+       id="g12"
+       transform="translate(76.759043,-27.162863)">
+      <text
+         xml:space="preserve"
+         style="font-size:8.46667px;line-height:0;font-family:'Segoe Script';-inkscape-font-specification:'Segoe Script';text-align:center;letter-spacing:0px;word-spacing:1.6219px;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#000080;stroke:none;stroke-width:0.499999"
+         x="54.719318"
+         y="52.186012"
+         id="text3"><tspan
+           sodipodi:role="line"
+           id="tspan3"
+           style="stroke-width:0.5"
+           x="54.719318"
+           y="52.186012">Training</tspan><tspan
+           sodipodi:role="line"
+           style="stroke-width:0.5"
+           x="54.719318"
+           y="52.186012"
+           id="tspan4" /></text>
+      <rect
+         style="fill:none;stroke:#000080;stroke-width:0.372638"
+         id="rect8"
+         width="52.060047"
+         height="15.580503"
+         x="28.536331"
+         y="42.136467"
+         rx="5"
+         ry="5" />
+    </g>
+    <g
+       id="g11"
+       transform="translate(21.538784,3.2367576)">
+      <text
+         xml:space="preserve"
+         style="font-size:8.46667px;line-height:0;font-family:'Segoe Script';-inkscape-font-specification:'Segoe Script';text-align:center;letter-spacing:0px;word-spacing:1.6219px;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#ff0000;stroke:none;stroke-width:0.499999"
+         x="109.69196"
+         y="52.810265"
+         id="text6"><tspan
+           sodipodi:role="line"
+           id="tspan5"
+           style="fill:#ff0000;stroke-width:0.5"
+           x="109.69196"
+           y="52.810265">Model</tspan><tspan
+           sodipodi:role="line"
+           style="fill:#ff0000;stroke-width:0.5"
+           x="109.69196"
+           y="52.810265"
+           id="tspan6" /></text>
+      <rect
+         style="fill:none;stroke:#ff0000;stroke-width:0.372638"
+         id="rect9"
+         width="52.060047"
+         height="15.580503"
+         x="83.825233"
+         y="42.136467"
+         rx="5"
+         ry="5" />
+    </g>
+    <g
+       id="g10"
+       transform="translate(-102.43019,30.596417)">
+      <text
+         xml:space="preserve"
+         style="font-size:8.46667px;line-height:0;font-family:'Segoe Script';-inkscape-font-specification:'Segoe Script';text-align:center;letter-spacing:0px;word-spacing:1.6219px;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#000080;stroke:none;stroke-width:0.499999"
+         x="154.5314"
+         y="52.502274"
+         id="text7"><tspan
+           sodipodi:role="line"
+           id="tspan7"
+           style="stroke-width:0.5"
+           x="154.5314"
+           y="52.502274">Test</tspan></text>
+      <rect
+         style="fill:none;stroke:#000080;stroke-width:0.372638"
+         id="rect10"
+         width="52.060047"
+         height="15.580503"
+         x="128.82384"
+         y="42.136467"
+         rx="5"
+         ry="5" />
+    </g>
+    <path
+       style="fill:none;stroke:#000080;stroke-width:0.499999;marker-start:url(#Dot);marker-end:url(#Triangle)"
+       d="m 64.947528,24.478029 c 13.93316,6.079925 19.714965,-2.985086 39.981382,-1.971768"
+       id="path13"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#000080;stroke-width:0.499999;marker-start:url(#Dot);marker-end:url(#Triangle)"
+       d="M 35.693558,32.331264 C 34.841368,43.662197 50.587792,56.350663 52.00811,72.158975"
+       id="path15"
+       sodipodi:nodetypes="cc" />
+    <text
+       xml:space="preserve"
+       style="font-size:8.46667px;line-height:0;font-family:'Segoe Script';-inkscape-font-specification:'Segoe Script';text-align:center;letter-spacing:0px;word-spacing:1.6219px;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#ff0000;stroke:none;stroke-width:0.499999"
+       x="87.105736"
+       y="33.876945"
+       id="text15"><tspan
+         sodipodi:role="line"
+         id="tspan15"
+         style="fill:#ff0000;stroke:none;stroke-width:0.5"
+         x="87.105736"
+         y="33.876945">75%</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:8.46667px;line-height:0;font-family:'Segoe Script';-inkscape-font-specification:'Segoe Script';text-align:center;letter-spacing:0px;word-spacing:1.6219px;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#ff0000;stroke:none;stroke-width:0.499999"
+       x="55.07774"
+       y="53.383369"
+       id="text16"><tspan
+         sodipodi:role="line"
+         id="tspan16"
+         style="fill:#ff0000;stroke:none;stroke-width:0.5"
+         x="55.07774"
+         y="53.383369">25%</tspan></text>
+    <path
+       style="fill:none;stroke:#000080;stroke-width:0.499999;marker-start:url(#Dot);marker-end:url(#Triangle)"
+       d="m 129.54672,30.304623 c 2.5333,6.079925 -3.84474,6.641461 0.96854,15.254684"
+       id="path18"
+       sodipodi:nodetypes="cc" />
+    <g
+       id="g19"
+       transform="translate(-10.639867,1.7733112)">
+      <circle
+         style="fill:none;stroke:#008000;stroke-width:0.499999"
+         id="path19"
+         cx="126.69405"
+         cy="85.023239"
+         r="10.133207" />
+      <text
+         xml:space="preserve"
+         style="font-size:8.46667px;line-height:0;font-family:'Segoe Script';-inkscape-font-specification:'Segoe Script';text-align:center;letter-spacing:0px;word-spacing:1.6219px;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#008000;stroke:none;stroke-width:0.499999"
+         x="126.77018"
+         y="88.342934"
+         id="text19"><tspan
+           sodipodi:role="line"
+           id="tspan19"
+           style="fill:#008000;stroke:none;stroke-width:0.5"
+           x="126.77018"
+           y="88.342934">?</tspan></text>
+    </g>
+    <path
+       style="fill:none;stroke:#000080;stroke-width:0.499999;marker-start:url(#Dot);marker-end:url(#Triangle)"
+       d="m 78.759688,80.210667 c 9.027686,9.050961 19.960837,-12.460146 28.727732,2.588175"
+       id="path20"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#000080;stroke-width:0.499999;marker-start:url(#Dot);marker-end:url(#Triangle)"
+       d="m 129.42572,60.957574 c 7.25438,10.064281 -26.39858,2.233004 -17.63169,17.281325"
+       id="path21"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#ff0000;stroke-width:0.499999;marker-start:url(#Dot);marker-end:url(#Triangle)"
+       d="m 125.8791,90.597204 c 10.04101,-0.322256 29.33406,-15.753438 22.90114,-29.078096"
+       id="path22"
+       sodipodi:nodetypes="cc" />
+  </g>
+</svg>
