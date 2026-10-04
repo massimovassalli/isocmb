@@ -1,0 +1,1633 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="ENG3090_lec03_files/libs/clipboard/clipboard.min.js"></script>
+<script src="ENG3090_lec03_files/libs/quarto-html/tabby.min.js"></script>
+<script src="ENG3090_lec03_files/libs/quarto-html/popper.min.js"></script>
+<script src="ENG3090_lec03_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="ENG3090_lec03_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="ENG3090_lec03_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="ENG3090_lec03_files/libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.10.18">
+
+  <meta name="author" content="Massimo Vassalli">
+  <title>Biomedical Engineering Skills 3</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="ENG3090_lec03_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="ENG3090_lec03_files/libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="ENG3090_lec03_files/libs/revealjs/dist/theme/quarto-081b4b1acf9a5f65d204693e04bde051.css">
+  <link href="ENG3090_lec03_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="ENG3090_lec03_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="ENG3090_lec03_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="ENG3090_lec03_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Biomedical Engineering Skills 3</h1>
+  <p class="subtitle">Week 3: comparing, deciding, validating</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Massimo Vassalli
+</div>
+        <p class="quarto-title-affiliation">
+            massimo.vassalli@glasgow.ac.uk
+          </p>
+    </div>
+</div>
+
+</section>
+<section>
+<section id="where-we-are" class="title-slide slide level1 center">
+<h1>Where we are</h1>
+<p>DEFINE → DECOMPOSE → SPECIFY ⇄ DIAGNOSE → VALIDATE</p>
+<p>Last week: <strong>one</strong> long recording, and a <strong>measurement</strong> (a heart rate). This week: <strong>many</strong> heartbeats, and a <strong>decision</strong> (is this beat normal?).</p>
+<div class="fragment">
+<p>By the end of today you should be able to:</p>
+<ol type="1">
+<li>compare two groups of signals, writing the basic code yourself and asking the AI for the rest, and <strong>read</strong> what it writes</li>
+<li>derive a success criterion from the application, in DEFINE</li>
+<li>turn a parameter chosen by eye into a step that <strong>calculates</strong> it from the data, and diagnose that step with digital data</li>
+<li>validate a classification against reference labels, and choose a search parameter by looking for plateaux, not peaks</li>
+<li>tell performance on the data used to choose from performance on data held back</li>
+</ol>
+</div>
+</section>
+<section id="from-one-recording-to-many-beats" class="slide level2 center">
+<h2>From one recording to many beats</h2>
+<p>Last week’s tutorial <strong>found</strong> the beats in a 5-minute ECG. The next steps of that pipeline would be:</p>
+<ul>
+<li><strong>cut</strong> each beat out of the recording</li>
+<li><strong>stretch</strong> every beat to the same number of samples, and <strong>normalise</strong> its amplitude</li>
+<li><strong>classify</strong> each beat: normal or abnormal?</li>
+</ul>
+<div id="4d396ced" class="cell" data-fig-height="1.6" data-fig-width="11" data-execution_count="2">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="ENG3090_lec03_files/figure-revealjs/cell-3-output-1.png" width="1046" height="147"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p>Today’s data start where the first two steps end: 4998 beats, already cut, stretched to 140 samples and normalised (mean 0, standard deviation 1), each labelled by cardiologists. As far as we can tell, they come from one long recording of one patient with heart failure.</p>
+</div>
+</section></section>
+<section>
+<section id="define" class="title-slide slide level1 center">
+<h1>DEFINE</h1>
+
+</section>
+<section id="the-data" class="slide level2 center">
+<h2>The data</h2>
+<p><code>ecg.csv</code>: one row per beat, 140 samples, then the <strong>label</strong>.</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">beat</th>
+<th style="text-align: center;">0</th>
+<th style="text-align: center;">1</th>
+<th style="text-align: center;">2</th>
+<th style="text-align: center;">…</th>
+<th style="text-align: center;">138</th>
+<th style="text-align: center;">139</th>
+<th style="text-align: center;"><strong>label</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">-0.11</td>
+<td style="text-align: center;">-2.83</td>
+<td style="text-align: center;">-3.77</td>
+<td style="text-align: center;">…</td>
+<td style="text-align: center;">0.93</td>
+<td style="text-align: center;">0.19</td>
+<td style="text-align: center;"><span style="color:#c0392b"><strong>1</strong></span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">-1.10</td>
+<td style="text-align: center;">-4.00</td>
+<td style="text-align: center;">-4.29</td>
+<td style="text-align: center;">…</td>
+<td style="text-align: center;">1.12</td>
+<td style="text-align: center;">-1.44</td>
+<td style="text-align: center;"><span style="color:#c0392b"><strong>1</strong></span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">-0.57</td>
+<td style="text-align: center;">-2.59</td>
+<td style="text-align: center;">-3.87</td>
+<td style="text-align: center;">…</td>
+<td style="text-align: center;">0.90</td>
+<td style="text-align: center;">-0.42</td>
+<td style="text-align: center;"><span style="color:#c0392b"><strong>1</strong></span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">…</td>
+<td style="text-align: center;">…</td>
+<td style="text-align: center;">…</td>
+<td style="text-align: center;">…</td>
+<td style="text-align: center;">…</td>
+<td style="text-align: center;">…</td>
+<td style="text-align: center;">…</td>
+<td style="text-align: center;"><strong>…</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">4997</td>
+<td style="text-align: center;">-1.35</td>
+<td style="text-align: center;">-2.21</td>
+<td style="text-align: center;">-2.52</td>
+<td style="text-align: center;">…</td>
+<td style="text-align: center;">-1.58</td>
+<td style="text-align: center;">-0.68</td>
+<td style="text-align: center;"><span style="color:#c0392b"><strong>0</strong></span></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="reading-it-in" class="slide level2 center">
+<h2>Reading it in</h2>
+<div id="320b6c9f" class="cell columns column-output-location" data-execution_count="4">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="" aria-label="1"></a>data <span class="op">=</span> np.loadtxt(<span class="st">"data/ecg.csv"</span>, delimiter<span class="op">=</span><span class="st">","</span>)</span>
+<span id="cb1-2"><a href="" aria-label="2"></a><span class="bu">print</span>(data.shape)</span>
+<span id="cb1-3"><a href="" aria-label="3"></a></span>
+<span id="cb1-4"><a href="" aria-label="4"></a>beats <span class="op">=</span> data[:, :<span class="op">-</span><span class="dv">1</span>]               <span class="co"># every column but the last</span></span>
+<span id="cb1-5"><a href="" aria-label="5"></a>labels <span class="op">=</span> data[:, <span class="op">-</span><span class="dv">1</span>].astype(<span class="bu">int</span>)   <span class="co"># the last column</span></span>
+<span id="cb1-6"><a href="" aria-label="6"></a><span class="bu">print</span>(beats.shape, labels.shape)</span>
+<span id="cb1-7"><a href="" aria-label="7"></a><span class="bu">print</span>(np.unique(labels, return_counts<span class="op">=</span><span class="va">True</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column fragment">
+<div class="cell-output cell-output-stdout">
+<pre><code>(4998, 141)
+(4998, 140) (4998,)
+(array([0, 1]), array([2079, 2919]))</code></pre>
+</div>
+</div></div>
+<div class="fragment">
+<p><strong>Label 1 is normal, label 0 is abnormal</strong>: 2919 normal beats, 2079 abnormal. A decision written in DEFINE, because everything that follows depends on it.</p>
+</div>
+</section>
+<section id="all-the-beats" class="slide level2 center">
+<h2>All the beats</h2>
+<p>The basic skill: plot everything, with the few calls you know.</p>
+<div id="6473c721" class="cell columns column-output-location" data-fig-height="3.6" data-fig-width="6" data-execution_count="5">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="" aria-label="1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb3-2"><a href="" aria-label="2"></a>ax.plot(beats.T)</span>
+<span id="cb3-3"><a href="" aria-label="3"></a>ax.set_xlabel(<span class="st">"sample"</span>)</span>
+<span id="cb3-4"><a href="" aria-label="4"></a>ax.set_ylabel(<span class="st">"ECG (normalised)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column fragment">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="ENG3090_lec03_files/figure-revealjs/cell-6-output-1.png" width="810" height="432"></p>
+</figure>
+</div>
+</div>
+</div></div>
+<div class="fragment">
+<p><code>ax.plot</code> draws one line per <strong>column</strong>, so we pass the transpose <code>.T</code>: one column per beat. 4998 lines on top of each other: we see that the beats have a common shape, and little else.</p>
+</div>
+</section>
+<section id="two-groups-made-visible" class="slide level2 center">
+<h2>Two groups, made visible</h2>
+<p>What we want to <strong>see</strong> matters more than how to code it. So we ask, and read what comes back:</p>
+<div class="columns">
+<div class="column" style="width:52%;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="" aria-label="1"></a><span class="co"># PROMPT: plot all the beats on one figure,</span></span>
+<span id="cb4-2"><a href="" aria-label="2"></a><span class="co"># normal in black and abnormal in red, with</span></span>
+<span id="cb4-3"><a href="" aria-label="3"></a><span class="co"># enough transparency that the regions where</span></span>
+<span id="cb4-4"><a href="" aria-label="4"></a><span class="co"># many beats overlap stand out. Label the axes.</span></span>
+<span id="cb4-5"><a href="" aria-label="5"></a></span>
+<span id="cb4-6"><a href="" aria-label="6"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb4-7"><a href="" aria-label="7"></a>ax.plot(beats[labels <span class="op">==</span> <span class="dv">1</span>].T,</span>
+<span id="cb4-8"><a href="" aria-label="8"></a>        color<span class="op">=</span><span class="st">"black"</span>, alpha<span class="op">=</span><span class="fl">0.01</span>)</span>
+<span id="cb4-9"><a href="" aria-label="9"></a>ax.plot(beats[labels <span class="op">==</span> <span class="dv">0</span>].T,</span>
+<span id="cb4-10"><a href="" aria-label="10"></a>        color<span class="op">=</span><span class="st">"red"</span>, alpha<span class="op">=</span><span class="fl">0.01</span>)</span>
+<span id="cb4-11"><a href="" aria-label="11"></a>ax.set_xlabel(<span class="st">"sample"</span>)</span>
+<span id="cb4-12"><a href="" aria-label="12"></a>ax.set_ylabel(<span class="st">"ECG (normalised)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column" style="width:48%;">
+<div id="92420276" class="cell" data-fig-height="3.6" data-fig-width="5" data-execution_count="6">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="ENG3090_lec03_files/figure-revealjs/cell-7-output-1.png" width="438" height="329"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+<div class="fragment">
+<p>Read it: <code>beats[labels == 1]</code> keeps the <strong>rows</strong> (beats) whose label is 1; <code>alpha=0.01</code> makes each line almost transparent, so colour builds up only where many beats overlap.</p>
+</div>
+</section>
+<section id="where-do-the-groups-differ" class="slide level2 center">
+<h2>Where do the groups differ?</h2>
+<div class="columns">
+<div class="column" style="width:52%;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="" aria-label="1"></a><span class="co"># PROMPT: for each sample position, compute the</span></span>
+<span id="cb5-2"><a href="" aria-label="2"></a><span class="co"># mean and standard deviation of the normal and</span></span>
+<span id="cb5-3"><a href="" aria-label="3"></a><span class="co"># of the abnormal beats; plot each mean with a</span></span>
+<span id="cb5-4"><a href="" aria-label="4"></a><span class="co"># shaded band of ± one standard deviation,</span></span>
+<span id="cb5-5"><a href="" aria-label="5"></a><span class="co"># normal in black, abnormal in red.</span></span>
+<span id="cb5-6"><a href="" aria-label="6"></a></span>
+<span id="cb5-7"><a href="" aria-label="7"></a>normal <span class="op">=</span> beats[labels <span class="op">==</span> <span class="dv">1</span>]</span>
+<span id="cb5-8"><a href="" aria-label="8"></a>abnormal <span class="op">=</span> beats[labels <span class="op">==</span> <span class="dv">0</span>]</span>
+<span id="cb5-9"><a href="" aria-label="9"></a>x <span class="op">=</span> np.arange(beats.shape[<span class="dv">1</span>])</span>
+<span id="cb5-10"><a href="" aria-label="10"></a></span>
+<span id="cb5-11"><a href="" aria-label="11"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb5-12"><a href="" aria-label="12"></a><span class="cf">for</span> group, colour <span class="kw">in</span> [(normal, <span class="st">"black"</span>),</span>
+<span id="cb5-13"><a href="" aria-label="13"></a>                      (abnormal, <span class="st">"red"</span>)]:</span>
+<span id="cb5-14"><a href="" aria-label="14"></a>    m <span class="op">=</span> group.mean(axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb5-15"><a href="" aria-label="15"></a>    s <span class="op">=</span> group.std(axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb5-16"><a href="" aria-label="16"></a>    ax.plot(x, m, color<span class="op">=</span>colour)</span>
+<span id="cb5-17"><a href="" aria-label="17"></a>    ax.fill_between(x, m <span class="op">-</span> s, m <span class="op">+</span> s,</span>
+<span id="cb5-18"><a href="" aria-label="18"></a>                    color<span class="op">=</span>colour, alpha<span class="op">=</span><span class="fl">0.2</span>)</span>
+<span id="cb5-19"><a href="" aria-label="19"></a>ax.set_xlabel(<span class="st">"sample"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column" style="width:48%;">
+<div id="f28f42b6" class="cell" data-fig-height="3.6" data-fig-width="5" data-execution_count="7">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="ENG3090_lec03_files/figure-revealjs/cell-8-output-1.png" width="420" height="326"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+<div class="fragment">
+<p>Read it: <code>axis=0</code> summarises <strong>down</strong> the rows, giving one mean per sample position. Reading code takes time: train it on every cell the AI gives you.</p>
+</div>
+</section>
+<section id="the-question" class="slide level2 center">
+<h2>The question</h2>
+<blockquote>
+<p>Can a single sample of the beat tell normal beats from abnormal ones?</p>
+</blockquote>
+<div class="fragment">
+<p>What does “a single sample” look like? Take one position, say <strong>sample 70</strong>: one value per beat.</p>
+</div>
+</section>
+<section id="one-slice" class="slide level2 center">
+<h2>One slice</h2>
+<div id="5bba28a0" class="cell columns column-output-location" data-fig-height="3.6" data-fig-width="5.5" data-execution_count="8">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="" aria-label="1"></a><span class="co"># PROMPT: take the values at sample 70</span></span>
+<span id="cb6-2"><a href="" aria-label="2"></a><span class="co"># and plot their histogram for normal</span></span>
+<span id="cb6-3"><a href="" aria-label="3"></a><span class="co"># and abnormal beats separately, as</span></span>
+<span id="cb6-4"><a href="" aria-label="4"></a><span class="co"># densities, on the same axes.</span></span>
+<span id="cb6-5"><a href="" aria-label="5"></a></span>
+<span id="cb6-6"><a href="" aria-label="6"></a>values <span class="op">=</span> beats[:, <span class="dv">70</span>]          <span class="co"># one value per beat</span></span>
+<span id="cb6-7"><a href="" aria-label="7"></a><span class="bu">print</span>(values.shape)</span>
+<span id="cb6-8"><a href="" aria-label="8"></a></span>
+<span id="cb6-9"><a href="" aria-label="9"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb6-10"><a href="" aria-label="10"></a>ax.hist(values[labels <span class="op">==</span> <span class="dv">1</span>], bins<span class="op">=</span><span class="st">"auto"</span>, density<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb6-11"><a href="" aria-label="11"></a>        alpha<span class="op">=</span><span class="fl">0.5</span>, color<span class="op">=</span><span class="st">"black"</span>, label<span class="op">=</span><span class="st">"normal"</span>)</span>
+<span id="cb6-12"><a href="" aria-label="12"></a>ax.hist(values[labels <span class="op">==</span> <span class="dv">0</span>], bins<span class="op">=</span><span class="st">"auto"</span>, density<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb6-13"><a href="" aria-label="13"></a>        alpha<span class="op">=</span><span class="fl">0.5</span>, color<span class="op">=</span><span class="st">"red"</span>, label<span class="op">=</span><span class="st">"abnormal"</span>)</span>
+<span id="cb6-14"><a href="" aria-label="14"></a>ax.set_xlabel(<span class="st">"value at sample 70"</span>)</span>
+<span id="cb6-15"><a href="" aria-label="15"></a>ax.set_ylabel(<span class="st">"density"</span>)</span>
+<span id="cb6-16"><a href="" aria-label="16"></a>ax.legend()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column fragment">
+<div class="cell-output cell-output-stdout">
+<pre><code>(4998,)</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="ENG3090_lec03_files/figure-revealjs/cell-9-output-2.png" width="812" height="429"></p>
+</figure>
+</div>
+</div>
+</div></div>
+<div class="fragment">
+<p>At sample 70 the two groups sit almost on top of each other: knowing the value tells us little about the label. Look back at the mean ± spread plot: <strong>where should we slice instead?</strong></p>
+</div>
+<div class="fragment">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Tip</strong></p>
+</div>
+<div class="callout-content">
+<p><code>density=True</code> scales each histogram to unit area, so groups of different sizes (2919 and 2079) are compared by shape.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="moving-the-slice-a-prompt-or-an-edit" class="slide level2 center">
+<h2>Moving the slice: a prompt, or an edit?</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>The cell we have</strong> (sample 70)</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="" aria-label="1"></a>values <span class="op">=</span> beats[:, <span class="dv">70</span>]</span>
+<span id="cb8-2"><a href="" aria-label="2"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb8-3"><a href="" aria-label="3"></a>ax.hist(values[labels <span class="op">==</span> <span class="dv">1</span>], bins<span class="op">=</span><span class="st">"auto"</span>,</span>
+<span id="cb8-4"><a href="" aria-label="4"></a>        density<span class="op">=</span><span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.5</span>,</span>
+<span id="cb8-5"><a href="" aria-label="5"></a>        color<span class="op">=</span><span class="st">"black"</span>, label<span class="op">=</span><span class="st">"normal"</span>)</span>
+<span id="cb8-6"><a href="" aria-label="6"></a>ax.hist(values[labels <span class="op">==</span> <span class="dv">0</span>], bins<span class="op">=</span><span class="st">"auto"</span>,</span>
+<span id="cb8-7"><a href="" aria-label="7"></a>        density<span class="op">=</span><span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.5</span>,</span>
+<span id="cb8-8"><a href="" aria-label="8"></a>        color<span class="op">=</span><span class="st">"red"</span>, label<span class="op">=</span><span class="st">"abnormal"</span>)</span>
+<span id="cb8-9"><a href="" aria-label="9"></a>ax.set_xlabel(<span class="st">"value at sample 70"</span>)</span>
+<span id="cb8-10"><a href="" aria-label="10"></a>ax.set_ylabel(<span class="st">"density"</span>)</span>
+<span id="cb8-11"><a href="" aria-label="11"></a>ax.legend()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column fragment" style="width:50%;">
+<p><strong>A new prompt</strong>: “show the same histogram at sample 35”</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="" aria-label="1"></a>v35 <span class="op">=</span> beats[:, <span class="dv">35</span>]</span>
+<span id="cb9-2"><a href="" aria-label="2"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
+<span id="cb9-3"><a href="" aria-label="3"></a>plt.hist(v35[labels <span class="op">==</span> <span class="dv">1</span>], bins<span class="op">=</span><span class="dv">30</span>,</span>
+<span id="cb9-4"><a href="" aria-label="4"></a>         label<span class="op">=</span><span class="st">"Normal"</span>)</span>
+<span id="cb9-5"><a href="" aria-label="5"></a>plt.hist(v35[labels <span class="op">==</span> <span class="dv">0</span>], bins<span class="op">=</span><span class="dv">30</span>,</span>
+<span id="cb9-6"><a href="" aria-label="6"></a>         label<span class="op">=</span><span class="st">"Abnormal"</span>)</span>
+<span id="cb9-7"><a href="" aria-label="7"></a>plt.legend()</span>
+<span id="cb9-8"><a href="" aria-label="8"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div></div>
+<div class="fragment">
+<p>The regenerated cell answers the request and quietly changes the rest: 30 bins instead of <code>"auto"</code>, no <code>density=True</code> (the bigger group now looks more important), a different plotting style, no axis labels. <strong>An edit</strong> of the original, <code>beats[:, 35]</code> and the label, changes only what we meant to change.</p>
+</div>
+</section>
+<section id="sample-35" class="slide level2 center">
+<h2>Sample 35</h2>
+<div id="d75d32ee" class="cell" data-fig-height="3.8" data-fig-width="7" data-execution_count="9">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="ENG3090_lec03_files/figure-revealjs/cell-10-output-1.png" width="597" height="341"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The two groups have moved apart, with a gap of few beats between them: abnormal beats tend to be <strong>higher</strong> at sample 35. They still overlap a little.</p>
+</section>
+<section id="a-threshold" class="slide level2 center">
+<h2>A threshold</h2>
+<p>A rule: <strong>abnormal if the value at sample 35 is above a threshold T</strong>. Suppose T = 0:</p>
+<div id="b7322737" class="cell" data-fig-height="3.8" data-fig-width="8" data-execution_count="10">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="ENG3090_lec03_files/figure-revealjs/cell-11-output-1.png" width="653" height="341"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p>Every threshold makes two kinds of mistake: <strong>missed</strong> abnormal beats (red, left of T) and <strong>false alarms</strong> (normal beats right of T). Moving T trades one for the other. Where to put it, and how to judge the result, are the two questions of today.</p>
+</div>
+</section>
+<section id="two-kinds-of-error-one-table" class="slide level2 center">
+<h2>Two kinds of error, one table</h2>
+<p>Comparing the rule’s answers with the cardiologists’ labels gives four counts:</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: center;">reference: abnormal</th>
+<th style="text-align: center;">reference: normal</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>rule: abnormal</strong></td>
+<td style="text-align: center;">correct (TP)</td>
+<td style="text-align: center;">false alarm (FP)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>rule: normal</strong></td>
+<td style="text-align: center;">missed (FN)</td>
+<td style="text-align: center;">correct (TN)</td>
+</tr>
+</tbody>
+</table>
+<div class="fragment">
+<ul>
+<li><strong>sensitivity</strong> = TP / (TP + FN): the fraction of abnormal beats the rule catches</li>
+<li><strong>specificity</strong> = TN / (TN + FP): the fraction of normal beats the rule leaves alone</li>
+<li><strong>accuracy</strong> = (TP + TN) / all: the fraction of correct answers, both kinds together</li>
+</ul>
+<p>The standard vocabulary of every diagnostic test.</p>
+</div>
+</section>
+<section id="three-rules-the-same-data" class="slide level2 center">
+<h2>Three rules, the same data</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Rule</th>
+<th style="text-align: right;">TP</th>
+<th style="text-align: right;">FN</th>
+<th style="text-align: right;">FP</th>
+<th style="text-align: right;">TN</th>
+<th style="text-align: right;">Sens.</th>
+<th style="text-align: right;">Spec.</th>
+<th style="text-align: right;">Acc.</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">everything is normal</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2079</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2919</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">0.58</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">everything is abnormal</td>
+<td style="text-align: right;">2079</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2919</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.42</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">abnormal if sample 35 &gt; 0</td>
+<td style="text-align: right;">1593</td>
+<td style="text-align: right;">486</td>
+<td style="text-align: right;">184</td>
+<td style="text-align: right;">2735</td>
+<td style="text-align: right;">0.77</td>
+<td style="text-align: right;">0.94</td>
+<td style="text-align: right;">0.87</td>
+</tr>
+</tbody>
+</table>
+<div class="fragment">
+<p>A rule that never thinks anything is wrong is right 58% of the time, and useless: it misses every abnormal beat. <strong>Accuracy alone can hide this</strong>; sensitivity and specificity cannot.</p>
+</div>
+</section>
+<section id="the-application-decides" class="slide level2 center">
+<h2>The application decides</h2>
+<p>What should the rule be judged on?</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Application</th>
+<th style="text-align: left;">The error to avoid</th>
+<th style="text-align: left;">Criterion</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">screening a population</td>
+<td style="text-align: left;">missing a patient</td>
+<td style="text-align: left;"><span class="fragment">sensitivity at least 95%, then the best specificity</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">confirming before a risky treatment</td>
+<td style="text-align: left;">treating a healthy person</td>
+<td style="text-align: left;"><span class="fragment">specificity at least 99%, then the best sensitivity</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">a quick summary</td>
+<td style="text-align: left;">both equally</td>
+<td style="text-align: left;"><span class="fragment">accuracy</span></td>
+</tr>
+</tbody>
+</table>
+<div class="fragment">
+<p>The criterion is written in <strong>DEFINE</strong>, before any rule exists. It is the measure the pipeline will be judged on in <strong>VALIDATE</strong>. Today we use accuracy; confirmation comes back at the end; screening is the assignment.</p>
+</div>
+</section></section>
+<section>
+<section id="decompose" class="title-slide slide level1 center">
+<h1>DECOMPOSE</h1>
+
+</section>
+<section id="where-should-t-go" class="slide level2 center">
+<h2>Where should T go?</h2>
+<p>By eye, on the histogram? Different people would put it in different places, and it would have to be redone for every position and every new dataset.</p>
+<div class="fragment">
+<p>By trying many values and keeping the one with the best score on the labels? That is a search, not a method: it gives no reason for the value, and it fits whatever data it was tried on.</p>
+</div>
+<div class="fragment">
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Important</strong></p>
+</div>
+<div class="callout-content">
+<p>T must be <strong>calculated from the data</strong>, by a rule we can state, check and repeat. Calculating T becomes a <strong>step</strong> of the pipeline.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="the-pipeline" class="slide level2 center">
+<h2>The pipeline</h2>
+<ol type="1">
+<li><strong>Load</strong>: the file → the beats (4998 × 140) and the reference labels</li>
+<li><strong>Slice</strong>: the beats and a position <code>p</code> → one value per beat</li>
+<li><strong>Calculate the threshold</strong>: the values and the labels → <code>T</code>, and the direction (abnormal <em>above</em> or <em>below</em> <code>T</code>)</li>
+<li><strong>Classify</strong>: the values, <code>T</code> and the direction → one decision per beat</li>
+</ol>
+<p>To judge it, in VALIDATE:</p>
+<ol start="5" type="1">
+<li><strong>Count</strong>: the decisions and the cardiologists’ labels → TP, FN, FP, TN → sensitivity, specificity, accuracy, to be checked against the criterion written in DEFINE</li>
+</ol>
+<div class="fragment">
+<p><code>T</code> is no longer chosen: it is <strong>calculated</strong>. The only parameter left to choose is the position <code>p</code>.</p>
+</div>
+</section>
+<section id="a-rule-for-t" class="slide level2 center">
+<h2>A rule for T</h2>
+<p>Put T at the <strong>same distance</strong> from the two group means, measured in units of each group’s spread:</p>
+<p><span class="math display">\[\frac{T - \mu_{\text{normal}}}{\sigma_{\text{normal}}} = \frac{\mu_{\text{abnormal}} - T}{\sigma_{\text{abnormal}}}
+\quad\Rightarrow\quad
+T = \frac{\mu_{\text{abnormal}}\,\sigma_{\text{normal}} + \mu_{\text{normal}}\,\sigma_{\text{abnormal}}}{\sigma_{\text{normal}} + \sigma_{\text{abnormal}}}\]</span></p>
+<div id="19d74235" class="cell" data-fig-height="3.2" data-fig-width="8" data-execution_count="12">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="ENG3090_lec03_files/figure-revealjs/cell-13-output-1.png" width="645" height="296"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p>A wider group pushes T <strong>away</strong> from itself. The direction comes for free: abnormal <em>above</em> T if the abnormal mean is higher.</p>
+</div>
+</section></section>
+<section>
+<section id="specify-diagnose" class="title-slide slide level1 center">
+<h1>SPECIFY ⇄ DIAGNOSE</h1>
+
+</section>
+<section id="specify-calculate-the-threshold" class="slide level2 center">
+<h2>SPECIFY: calculate the threshold</h2>
+<div id="d7d3a0f0" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="" aria-label="1"></a><span class="co"># PROMPT: write calculate_threshold(values, is_abnormal). values is a 1D</span></span>
+<span id="cb10-2"><a href="" aria-label="2"></a><span class="co"># numpy array, is_abnormal a boolean array of the same length. Compute the</span></span>
+<span id="cb10-3"><a href="" aria-label="3"></a><span class="co"># mean and standard deviation of each group, and return two values:</span></span>
+<span id="cb10-4"><a href="" aria-label="4"></a><span class="co"># T = (mean_abn * std_norm + mean_norm * std_abn) / (std_norm + std_abn),</span></span>
+<span id="cb10-5"><a href="" aria-label="5"></a><span class="co"># as a float, and abnormal_above, True if the abnormal mean is higher.</span></span>
+<span id="cb10-6"><a href="" aria-label="6"></a></span>
+<span id="cb10-7"><a href="" aria-label="7"></a><span class="kw">def</span> calculate_threshold(values, is_abnormal):</span>
+<span id="cb10-8"><a href="" aria-label="8"></a>    v_norm, v_abn <span class="op">=</span> values[<span class="op">~</span>is_abnormal], values[is_abnormal]</span>
+<span id="cb10-9"><a href="" aria-label="9"></a>    mean_norm, std_norm <span class="op">=</span> v_norm.mean(), v_norm.std()</span>
+<span id="cb10-10"><a href="" aria-label="10"></a>    mean_abn, std_abn <span class="op">=</span> v_abn.mean(), v_abn.std()</span>
+<span id="cb10-11"><a href="" aria-label="11"></a>    T <span class="op">=</span> (mean_abn <span class="op">*</span> std_norm <span class="op">+</span> mean_norm <span class="op">*</span> std_abn) <span class="op">/</span> (std_norm <span class="op">+</span> std_abn)</span>
+<span id="cb10-12"><a href="" aria-label="12"></a>    <span class="cf">return</span> <span class="bu">float</span>(T), <span class="bu">bool</span>(mean_abn <span class="op">&gt;</span> mean_norm)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="fragment">
+<p>Every decision is in the prompt: the formula, the direction, the types of what comes back.</p>
+</div>
+</section>
+<section id="diagnose-digital-distributions" class="slide level2 center">
+<h2>DIAGNOSE: digital distributions</h2>
+<p>Two groups we build ourselves, so that the right T is known by hand:</p>
+<div id="ee552aa5" class="cell columns column-output-location" data-execution_count="14">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="" aria-label="1"></a><span class="co"># PROMPT: write two_groups(m_norm,</span></span>
+<span id="cb11-2"><a href="" aria-label="2"></a><span class="co"># s_norm, m_abn, s_abn, n) that draws</span></span>
+<span id="cb11-3"><a href="" aria-label="3"></a><span class="co"># n normal values from N(m_norm,</span></span>
+<span id="cb11-4"><a href="" aria-label="4"></a><span class="co"># s_norm) and n abnormal values from</span></span>
+<span id="cb11-5"><a href="" aria-label="5"></a><span class="co"># N(m_abn, s_abn), with a seeded</span></span>
+<span id="cb11-6"><a href="" aria-label="6"></a><span class="co"># random generator, and returns the</span></span>
+<span id="cb11-7"><a href="" aria-label="7"></a><span class="co"># values and is_abnormal. Then print</span></span>
+<span id="cb11-8"><a href="" aria-label="8"></a><span class="co"># calculate_threshold for the three</span></span>
+<span id="cb11-9"><a href="" aria-label="9"></a><span class="co"># cases below.</span></span>
+<span id="cb11-10"><a href="" aria-label="10"></a></span>
+<span id="cb11-11"><a href="" aria-label="11"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">0</span>)</span>
+<span id="cb11-12"><a href="" aria-label="12"></a><span class="kw">def</span> two_groups(m_norm, s_norm, m_abn, s_abn, n<span class="op">=</span><span class="dv">100_000</span>):</span>
+<span id="cb11-13"><a href="" aria-label="13"></a>    values <span class="op">=</span> np.concatenate([rng.normal(m_norm, s_norm, n),</span>
+<span id="cb11-14"><a href="" aria-label="14"></a>                             rng.normal(m_abn, s_abn, n)])</span>
+<span id="cb11-15"><a href="" aria-label="15"></a>    is_abn <span class="op">=</span> np.concatenate([np.zeros(n, <span class="bu">bool</span>), np.ones(n, <span class="bu">bool</span>)])</span>
+<span id="cb11-16"><a href="" aria-label="16"></a>    <span class="cf">return</span> values, is_abn</span>
+<span id="cb11-17"><a href="" aria-label="17"></a></span>
+<span id="cb11-18"><a href="" aria-label="18"></a><span class="co"># normal N(0, 1), abnormal N(4, 1): T = 2, above</span></span>
+<span id="cb11-19"><a href="" aria-label="19"></a><span class="bu">print</span>(calculate_threshold(<span class="op">*</span>two_groups(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">1</span>)))</span>
+<span id="cb11-20"><a href="" aria-label="20"></a><span class="co"># the same, swapped: T = 2, below</span></span>
+<span id="cb11-21"><a href="" aria-label="21"></a><span class="bu">print</span>(calculate_threshold(<span class="op">*</span>two_groups(<span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>)))</span>
+<span id="cb11-22"><a href="" aria-label="22"></a><span class="co"># abnormal wider, N(6, 2): T = (6*1 + 0*2) / 3 = 2</span></span>
+<span id="cb11-23"><a href="" aria-label="23"></a><span class="bu">print</span>(calculate_threshold(<span class="op">*</span>two_groups(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">6</span>, <span class="dv">2</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column fragment">
+<div class="cell-output cell-output-stdout">
+<pre><code>(1.997991487573338, True)
+(2.0014574368798246, False)
+(2.0050645530043876, True)</code></pre>
+</div>
+</div></div>
+<div class="fragment">
+<p>Each case is chosen to test one thing: the formula, the direction, the effect of the spread. Expected values worked out <strong>before</strong> running.</p>
+</div>
+</section>
+<section id="diagnose-how-well-can-we-separate" class="slide level2 center">
+<h2>DIAGNOSE: how well can we separate?</h2>
+<p>Digital groups that overlap more and more: how many beats does the rule get right?</p>
+<div id="43fbc164" class="cell columns column-output-location" data-fig-height="3.6" data-fig-width="5.5" data-execution_count="15">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="" aria-label="1"></a><span class="co"># PROMPT: for distances between the</span></span>
+<span id="cb13-2"><a href="" aria-label="2"></a><span class="co"># means from 0 to 5, build two groups</span></span>
+<span id="cb13-3"><a href="" aria-label="3"></a><span class="co"># N(0, 1) and N(d, 1), run</span></span>
+<span id="cb13-4"><a href="" aria-label="4"></a><span class="co"># calculate_threshold and classify,</span></span>
+<span id="cb13-5"><a href="" aria-label="5"></a><span class="co"># and plot the accuracy against d,</span></span>
+<span id="cb13-6"><a href="" aria-label="6"></a><span class="co"># with the theoretical curve Phi(d /</span></span>
+<span id="cb13-7"><a href="" aria-label="7"></a><span class="co"># 2).</span></span>
+<span id="cb13-8"><a href="" aria-label="8"></a></span>
+<span id="cb13-9"><a href="" aria-label="9"></a>distances <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">5</span>, <span class="dv">21</span>)</span>
+<span id="cb13-10"><a href="" aria-label="10"></a>got <span class="op">=</span> []</span>
+<span id="cb13-11"><a href="" aria-label="11"></a><span class="cf">for</span> d <span class="kw">in</span> distances:</span>
+<span id="cb13-12"><a href="" aria-label="12"></a>    v, is_abn <span class="op">=</span> two_groups(<span class="dv">0</span>, <span class="dv">1</span>, d, <span class="dv">1</span>)</span>
+<span id="cb13-13"><a href="" aria-label="13"></a>    T, above <span class="op">=</span> calculate_threshold(v, is_abn)</span>
+<span id="cb13-14"><a href="" aria-label="14"></a>    says <span class="op">=</span> v <span class="op">&gt;</span> T <span class="cf">if</span> above <span class="cf">else</span> v <span class="op">&lt;</span> T</span>
+<span id="cb13-15"><a href="" aria-label="15"></a>    got.append(np.mean(says <span class="op">==</span> is_abn))</span>
+<span id="cb13-16"><a href="" aria-label="16"></a></span>
+<span id="cb13-17"><a href="" aria-label="17"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb13-18"><a href="" aria-label="18"></a>ax.plot(distances, got, <span class="st">"o"</span>, label<span class="op">=</span><span class="st">"our steps"</span>)</span>
+<span id="cb13-19"><a href="" aria-label="19"></a>ax.plot(distances, norm.cdf(distances <span class="op">/</span> <span class="dv">2</span>),</span>
+<span id="cb13-20"><a href="" aria-label="20"></a>        label<span class="op">=</span><span class="st">"expected (theory)"</span>)</span>
+<span id="cb13-21"><a href="" aria-label="21"></a>ax.set_xlabel(<span class="st">"distance between the means (in σ)"</span>)</span>
+<span id="cb13-22"><a href="" aria-label="22"></a>ax.set_ylabel(<span class="st">"accuracy"</span>)</span>
+<span id="cb13-23"><a href="" aria-label="23"></a>ax.legend()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column fragment">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="ENG3090_lec03_files/figure-revealjs/cell-16-output-1.png" width="812" height="429"></p>
+</figure>
+</div>
+</div>
+</div></div>
+<div class="fragment">
+<p>Fully overlapping groups give 50%, a coin toss; well separated ones approach 100%. At sample 35 the real groups are about 2.4 spreads apart: the same curve predicts about 89%.</p>
+</div>
+</section>
+<section id="specify-diagnose-classify" class="slide level2 center">
+<h2>SPECIFY ⇄ DIAGNOSE: classify</h2>
+<div id="37f9ec4d" class="cell columns column-output-location" data-execution_count="16">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="" aria-label="1"></a><span class="co"># PROMPT: write classify(values, T,</span></span>
+<span id="cb14-2"><a href="" aria-label="2"></a><span class="co"># abnormal_above): return a boolean</span></span>
+<span id="cb14-3"><a href="" aria-label="3"></a><span class="co"># array, True (abnormal) where the</span></span>
+<span id="cb14-4"><a href="" aria-label="4"></a><span class="co"># value is above T if abnormal_above</span></span>
+<span id="cb14-5"><a href="" aria-label="5"></a><span class="co"># is True, below T otherwise. A value</span></span>
+<span id="cb14-6"><a href="" aria-label="6"></a><span class="co"># exactly equal to T is normal.</span></span>
+<span id="cb14-7"><a href="" aria-label="7"></a></span>
+<span id="cb14-8"><a href="" aria-label="8"></a><span class="kw">def</span> classify(values, T, abnormal_above):</span>
+<span id="cb14-9"><a href="" aria-label="9"></a>    <span class="cf">return</span> values <span class="op">&gt;</span> T <span class="cf">if</span> abnormal_above <span class="cf">else</span> values <span class="op">&lt;</span> T</span>
+<span id="cb14-10"><a href="" aria-label="10"></a></span>
+<span id="cb14-11"><a href="" aria-label="11"></a>v <span class="op">=</span> np.array([<span class="fl">0.2</span>, <span class="fl">0.8</span>, <span class="fl">0.5</span>])</span>
+<span id="cb14-12"><a href="" aria-label="12"></a><span class="bu">print</span>(classify(v, <span class="fl">0.5</span>, <span class="va">True</span>), <span class="st">"  expected [False  True False]"</span>)</span>
+<span id="cb14-13"><a href="" aria-label="13"></a><span class="bu">print</span>(classify(v, <span class="fl">0.5</span>, <span class="va">False</span>), <span class="st">"  expected [ True False False]"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column fragment">
+<div class="cell-output cell-output-stdout">
+<pre><code>[False  True False]   expected [False  True False]
+[ True False False]   expected [ True False False]</code></pre>
+</div>
+</div></div>
+<div class="fragment">
+<p>Three values: one below, one above, one <strong>exactly</strong> at T, in both directions.</p>
+</div>
+</section></section>
+<section>
+<section id="validate" class="title-slide slide level1 center">
+<h1>VALIDATE</h1>
+
+</section>
+<section id="sample-35-against-the-reference" class="slide level2 center">
+<h2>Sample 35, against the reference</h2>
+<div id="ff4507ae" class="cell columns column-output-location" data-execution_count="17">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="" aria-label="1"></a><span class="co"># PROMPT: run the pipeline at sample</span></span>
+<span id="cb16-2"><a href="" aria-label="2"></a><span class="co"># 35 (slice, calculate_threshold,</span></span>
+<span id="cb16-3"><a href="" aria-label="3"></a><span class="co"># classify). Count TP, FN, FP, TN</span></span>
+<span id="cb16-4"><a href="" aria-label="4"></a><span class="co"># against is_abnormal, print them as a</span></span>
+<span id="cb16-5"><a href="" aria-label="5"></a><span class="co"># 2x2 table, then sensitivity,</span></span>
+<span id="cb16-6"><a href="" aria-label="6"></a><span class="co"># specificity and accuracy.</span></span>
+<span id="cb16-7"><a href="" aria-label="7"></a></span>
+<span id="cb16-8"><a href="" aria-label="8"></a>is_abnormal <span class="op">=</span> labels <span class="op">==</span> <span class="dv">0</span></span>
+<span id="cb16-9"><a href="" aria-label="9"></a>values <span class="op">=</span> beats[:, <span class="dv">35</span>]                                  <span class="co"># slice</span></span>
+<span id="cb16-10"><a href="" aria-label="10"></a>T, above <span class="op">=</span> calculate_threshold(values, is_abnormal)    <span class="co"># threshold</span></span>
+<span id="cb16-11"><a href="" aria-label="11"></a>says <span class="op">=</span> classify(values, T, above)                      <span class="co"># classify</span></span>
+<span id="cb16-12"><a href="" aria-label="12"></a></span>
+<span id="cb16-13"><a href="" aria-label="13"></a>tp <span class="op">=</span> np.<span class="bu">sum</span>(says <span class="op">&amp;</span> is_abnormal)</span>
+<span id="cb16-14"><a href="" aria-label="14"></a>fn <span class="op">=</span> np.<span class="bu">sum</span>(<span class="op">~</span>says <span class="op">&amp;</span> is_abnormal)</span>
+<span id="cb16-15"><a href="" aria-label="15"></a>fp <span class="op">=</span> np.<span class="bu">sum</span>(says <span class="op">&amp;</span> <span class="op">~</span>is_abnormal)</span>
+<span id="cb16-16"><a href="" aria-label="16"></a>tn <span class="op">=</span> np.<span class="bu">sum</span>(<span class="op">~</span>says <span class="op">&amp;</span> <span class="op">~</span>is_abnormal)</span>
+<span id="cb16-17"><a href="" aria-label="17"></a><span class="bu">print</span>(<span class="ss">f"T = </span><span class="sc">{</span>T<span class="sc">:.2f}</span><span class="ss">, abnormal </span><span class="sc">{</span><span class="st">'above'</span> <span class="cf">if</span> above <span class="cf">else</span> <span class="st">'below'</span><span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb16-18"><a href="" aria-label="18"></a><span class="bu">print</span>(<span class="ss">f"                 ref abnormal  ref normal"</span>)</span>
+<span id="cb16-19"><a href="" aria-label="19"></a><span class="bu">print</span>(<span class="ss">f"rule abnormal    </span><span class="sc">{</span>tp<span class="sc">:12d}</span><span class="ss">  </span><span class="sc">{</span>fp<span class="sc">:10d}</span><span class="ss">"</span>)</span>
+<span id="cb16-20"><a href="" aria-label="20"></a><span class="bu">print</span>(<span class="ss">f"rule normal      </span><span class="sc">{</span>fn<span class="sc">:12d}</span><span class="ss">  </span><span class="sc">{</span>tn<span class="sc">:10d}</span><span class="ss">"</span>)</span>
+<span id="cb16-21"><a href="" aria-label="21"></a><span class="bu">print</span>(<span class="ss">f"sensitivity </span><span class="sc">{</span>tp <span class="op">/</span> (tp <span class="op">+</span> fn)<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb16-22"><a href="" aria-label="22"></a><span class="bu">print</span>(<span class="ss">f"specificity </span><span class="sc">{</span>tn <span class="op">/</span> (tn <span class="op">+</span> fp)<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb16-23"><a href="" aria-label="23"></a><span class="bu">print</span>(<span class="ss">f"accuracy    </span><span class="sc">{</span>(tp <span class="op">+</span> tn) <span class="op">/</span> values<span class="sc">.</span>size<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column fragment">
+<div class="cell-output cell-output-stdout">
+<pre><code>T = -0.20, abnormal above
+                 ref abnormal  ref normal
+rule abnormal            1803         349
+rule normal               276        2570
+sensitivity 0.867
+specificity 0.880
+accuracy    0.875</code></pre>
+</div>
+</div></div>
+<div class="fragment">
+<p>The table we drew in DEFINE, now filled in: about 87%, close to what the digital curve predicted.</p>
+</div>
+</section>
+<section id="the-position-a-search-parameter" class="slide level2 center">
+<h2>The position: a search parameter</h2>
+<p>T is calculated; <code>p</code> is still chosen. Run the whole pipeline at every position:</p>
+<div id="72dfd4cc" class="cell" data-fig-height="4" data-fig-width="10" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="" aria-label="1"></a><span class="co"># PROMPT: write pipeline_accuracy(beats, is_abnormal, p)</span></span>
+<span id="cb18-2"><a href="" aria-label="2"></a><span class="co"># that runs slice -&gt; calculate_threshold -&gt; classify at</span></span>
+<span id="cb18-3"><a href="" aria-label="3"></a><span class="co"># position p and returns the accuracy. Plot the accuracy</span></span>
+<span id="cb18-4"><a href="" aria-label="4"></a><span class="co"># for every position from 0 to 139.</span></span>
+<span id="cb18-5"><a href="" aria-label="5"></a></span>
+<span id="cb18-6"><a href="" aria-label="6"></a><span class="kw">def</span> pipeline_accuracy(beats, is_abnormal, p):</span>
+<span id="cb18-7"><a href="" aria-label="7"></a>    values <span class="op">=</span> beats[:, p]</span>
+<span id="cb18-8"><a href="" aria-label="8"></a>    T, above <span class="op">=</span> calculate_threshold(values, is_abnormal)</span>
+<span id="cb18-9"><a href="" aria-label="9"></a>    <span class="cf">return</span> np.mean(classify(values, T, above) <span class="op">==</span> is_abnormal)</span>
+<span id="cb18-10"><a href="" aria-label="10"></a></span>
+<span id="cb18-11"><a href="" aria-label="11"></a>acc <span class="op">=</span> [pipeline_accuracy(beats, is_abnormal, p) <span class="cf">for</span> p <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">140</span>)]</span>
+<span id="cb18-12"><a href="" aria-label="12"></a></span>
+<span id="cb18-13"><a href="" aria-label="13"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">4</span>))</span>
+<span id="cb18-14"><a href="" aria-label="14"></a>ax.plot(acc)</span>
+<span id="cb18-15"><a href="" aria-label="15"></a>ax.set_xlabel(<span class="st">"sample position p"</span>)</span>
+<span id="cb18-16"><a href="" aria-label="16"></a>ax.set_ylabel(<span class="st">"accuracy"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+
+</section>
+<section id="the-position-a-search-parameter-output" class="slide level2 output-location-slide center"><h2>The position: a search parameter</h2><div class="cell output-location-slide" data-fig-height="4" data-fig-width="10" data-execution_count="18">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="ENG3090_lec03_files/figure-revealjs/cell-19-output-1.png" width="812" height="356"></p>
+</figure>
+</div>
+</div>
+</div></section><section id="plateau-or-peak" class="slide level2 center">
+<h2>Plateau or peak?</h2>
+<div id="f54f108a" class="cell" data-fig-height="3.2" data-fig-width="10" data-execution_count="19">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="ENG3090_lec03_files/figure-revealjs/cell-20-output-1.png" width="812" height="296"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>A broad <strong>plateau</strong> around 25–37 (about 87%), and a narrow <strong>peak</strong> around 104 (about 93%) that falls to 63% a few samples away.</p>
+<div class="fragment">
+<p>If the beats were cut a little differently, the plateau would barely notice; the peak might vanish. Higher is not always better: <strong>robust</strong> is.</p>
+</div>
+</section>
+<section id="below-50" class="slide level2 center">
+<h2>Below 50%?</h2>
+<p>At some positions the accuracy falls <strong>below</strong> 50%, the floor of our digital test. A bug?</p>
+<div id="e99d6cc6" class="cell" data-fig-height="3" data-fig-width="7" data-execution_count="20">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="ENG3090_lec03_files/figure-revealjs/cell-21-output-1.png" width="571" height="282"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p>At sample 96 the two <strong>means</strong> are almost identical (0.60 and 0.60), so the direction is decided by a difference in the third decimal, and here the wrong way round: the abnormal group has a low tail that pulls its mean down, while its <strong>median</strong> is higher. The rule calls abnormal “below”, and gets most beats wrong.</p>
+</div>
+<div class="fragment">
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Important</strong></p>
+</div>
+<div class="callout-content">
+<p>Not a bug in the code: an <strong>assumption</strong> of the rule (roughly symmetric groups) that our digital Gaussians always satisfied. Digital data test only the cases we thought of.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="means-or-medians" class="slide level2 center">
+<h2>Means or medians?</h2>
+<p>A more robust rule: the <strong>median</strong> instead of the mean, and the <strong>interquartile range</strong> (the spread of the middle 50%) instead of the standard deviation. A long tail moves the mean, but hardly moves the median.</p>
+<div id="569840c7" class="cell" data-fig-height="3.2" data-fig-width="10" data-execution_count="21">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="ENG3090_lec03_files/figure-revealjs/cell-22-output-1.png" width="812" height="296"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p>Where the groups are well apart, the two rules agree (sample 35: 0.875 and 0.876). Where they are not, the robust rule never falls below 50% (lowest: 0.50, against 0.44).</p>
+</div>
+<div class="fragment">
+<p>The change is one sentence in the SPECIFY prompt, and one new digital test in DIAGNOSE: a skewed group, with a long tail, whose mean and median disagree.</p>
+</div>
+</section>
+<section id="chosen-on-reported-on" class="slide level2 center">
+<h2>Chosen on, reported on</h2>
+<p>So far every number came from the same 4998 beats we used to choose. What if we choose <code>p</code> on only 50 beats?</p>
+<div id="e02bf48b" class="cell columns column-output-location" data-execution_count="22">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="" aria-label="1"></a><span class="co"># PROMPT: split the beats at random</span></span>
+<span id="cb19-2"><a href="" aria-label="2"></a><span class="co"># (seed 3) into 50 to choose and the</span></span>
+<span id="cb19-3"><a href="" aria-label="3"></a><span class="co"># rest held back. Find the position</span></span>
+<span id="cb19-4"><a href="" aria-label="4"></a><span class="co"># with the best pipeline_accuracy on</span></span>
+<span id="cb19-5"><a href="" aria-label="5"></a><span class="co"># the 50; then calculate T on the 50</span></span>
+<span id="cb19-6"><a href="" aria-label="6"></a><span class="co"># and report the accuracy on the beats</span></span>
+<span id="cb19-7"><a href="" aria-label="7"></a><span class="co"># held back.</span></span>
+<span id="cb19-8"><a href="" aria-label="8"></a></span>
+<span id="cb19-9"><a href="" aria-label="9"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">3</span>)</span>
+<span id="cb19-10"><a href="" aria-label="10"></a>idx <span class="op">=</span> rng.permutation(<span class="bu">len</span>(labels))</span>
+<span id="cb19-11"><a href="" aria-label="11"></a>choose, rest <span class="op">=</span> idx[:<span class="dv">50</span>], idx[<span class="dv">50</span>:]   <span class="co"># 50 to choose, 4948 held back</span></span>
+<span id="cb19-12"><a href="" aria-label="12"></a></span>
+<span id="cb19-13"><a href="" aria-label="13"></a>acc50 <span class="op">=</span> [pipeline_accuracy(beats[choose], is_abnormal[choose], p)</span>
+<span id="cb19-14"><a href="" aria-label="14"></a>         <span class="cf">for</span> p <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">140</span>)]</span>
+<span id="cb19-15"><a href="" aria-label="15"></a>p50 <span class="op">=</span> <span class="bu">int</span>(np.argmax(acc50))</span>
+<span id="cb19-16"><a href="" aria-label="16"></a><span class="bu">print</span>(<span class="st">"chosen on 50 beats: p ="</span>, p50, <span class="st">" accuracy"</span>, <span class="bu">round</span>(acc50[p50], <span class="dv">3</span>))</span>
+<span id="cb19-17"><a href="" aria-label="17"></a></span>
+<span id="cb19-18"><a href="" aria-label="18"></a>v <span class="op">=</span> beats[:, p50]</span>
+<span id="cb19-19"><a href="" aria-label="19"></a>T50, above50 <span class="op">=</span> calculate_threshold(v[choose], is_abnormal[choose])</span>
+<span id="cb19-20"><a href="" aria-label="20"></a>says <span class="op">=</span> classify(v[rest], T50, above50)</span>
+<span id="cb19-21"><a href="" aria-label="21"></a><span class="bu">print</span>(<span class="st">"on the 4948 held back:   accuracy"</span>,</span>
+<span id="cb19-22"><a href="" aria-label="22"></a>      <span class="bu">round</span>(np.mean(says <span class="op">==</span> is_abnormal[rest]), <span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column fragment">
+<div class="cell-output cell-output-stdout">
+<pre><code>chosen on 50 beats: p = 3  accuracy 0.96
+on the 4948 held back:   accuracy 0.867</code></pre>
+</div>
+</div></div>
+<div class="fragment">
+<p>With 140 positions to choose from, the best one on 50 beats looks better than it is: part of its score is luck. Measured on data <strong>held back</strong>, the number is honest. In week 6 this becomes a method.</p>
+</div>
+</section>
+<section id="a-different-application-validate-what-we-have" class="slide level2 center">
+<h2>A different application: validate what we have</h2>
+<p>The criterion for <strong>confirmation</strong> (from DEFINE): specificity at least 99%. Does our pipeline meet it, at any position?</p>
+<div id="d082e1e2" class="cell" data-fig-height="3.2" data-fig-width="10" data-execution_count="23">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="ENG3090_lec03_files/figure-revealjs/cell-24-output-1.png" width="794" height="297"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p>No: the best position reaches 0.91. This is a <strong>VALIDATE conversation</strong>: the criterion written in DEFINE is checked, the pipeline fails it, and the answer is not to search harder but to go back to DECOMPOSE and change the step that decides where T goes.</p>
+</div>
+</section>
+<section id="a-different-application-a-different-step" class="slide level2 center">
+<h2>A different application, a different step</h2>
+<p>For confirmation, only the threshold step changes: put T where just 1% of the normal beats would raise a false alarm.</p>
+<div id="30781afb" class="cell" data-fig-height="3.6" data-fig-width="10" data-execution_count="24">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="" aria-label="1"></a><span class="co"># PROMPT: write threshold_for_confirmation(values, is_abnormal):</span></span>
+<span id="cb21-2"><a href="" aria-label="2"></a><span class="co"># T is the 99th percentile of the normal values if the abnormal</span></span>
+<span id="cb21-3"><a href="" aria-label="3"></a><span class="co"># median is higher (1st percentile otherwise); return T and the</span></span>
+<span id="cb21-4"><a href="" aria-label="4"></a><span class="co"># direction. Run the pipeline with it at every position and plot</span></span>
+<span id="cb21-5"><a href="" aria-label="5"></a><span class="co"># sensitivity and specificity against the position, with the values</span></span>
+<span id="cb21-6"><a href="" aria-label="6"></a><span class="co"># of the previous pipeline (sens_acc, spec_acc) dashed for comparison.</span></span>
+<span id="cb21-7"><a href="" aria-label="7"></a></span>
+<span id="cb21-8"><a href="" aria-label="8"></a><span class="kw">def</span> threshold_for_confirmation(values, is_abnormal):</span>
+<span id="cb21-9"><a href="" aria-label="9"></a>    above <span class="op">=</span> np.median(values[is_abnormal]) <span class="op">&gt;</span> np.median(values[<span class="op">~</span>is_abnormal])</span>
+<span id="cb21-10"><a href="" aria-label="10"></a>    q <span class="op">=</span> <span class="dv">99</span> <span class="cf">if</span> above <span class="cf">else</span> <span class="dv">1</span></span>
+<span id="cb21-11"><a href="" aria-label="11"></a>    <span class="cf">return</span> <span class="bu">float</span>(np.percentile(values[<span class="op">~</span>is_abnormal], q)), <span class="bu">bool</span>(above)</span>
+<span id="cb21-12"><a href="" aria-label="12"></a></span>
+<span id="cb21-13"><a href="" aria-label="13"></a>sens_c, spec_c <span class="op">=</span> [], []</span>
+<span id="cb21-14"><a href="" aria-label="14"></a><span class="cf">for</span> p <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">140</span>):</span>
+<span id="cb21-15"><a href="" aria-label="15"></a>    v <span class="op">=</span> beats[:, p]</span>
+<span id="cb21-16"><a href="" aria-label="16"></a>    T, above <span class="op">=</span> threshold_for_confirmation(v, is_abnormal)</span>
+<span id="cb21-17"><a href="" aria-label="17"></a>    says <span class="op">=</span> classify(v, T, above)</span>
+<span id="cb21-18"><a href="" aria-label="18"></a>    sens_c.append(np.<span class="bu">sum</span>(says <span class="op">&amp;</span> is_abnormal) <span class="op">/</span> is_abnormal.<span class="bu">sum</span>())</span>
+<span id="cb21-19"><a href="" aria-label="19"></a>    spec_c.append(np.<span class="bu">sum</span>(<span class="op">~</span>says <span class="op">&amp;</span> <span class="op">~</span>is_abnormal) <span class="op">/</span> (<span class="op">~</span>is_abnormal).<span class="bu">sum</span>())</span>
+<span id="cb21-20"><a href="" aria-label="20"></a></span>
+<span id="cb21-21"><a href="" aria-label="21"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="fl">3.6</span>))</span>
+<span id="cb21-22"><a href="" aria-label="22"></a>ax.plot(sens_c, color<span class="op">=</span><span class="st">"C0"</span>, label<span class="op">=</span><span class="st">"sensitivity"</span>)</span>
+<span id="cb21-23"><a href="" aria-label="23"></a>ax.plot(spec_c, color<span class="op">=</span><span class="st">"C1"</span>, label<span class="op">=</span><span class="st">"specificity"</span>)</span>
+<span id="cb21-24"><a href="" aria-label="24"></a>ax.plot(sens_acc, <span class="st">"--"</span>, color<span class="op">=</span><span class="st">"C0"</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, label<span class="op">=</span><span class="st">"sensitivity, previous step"</span>)</span>
+<span id="cb21-25"><a href="" aria-label="25"></a>ax.plot(spec_acc, <span class="st">"--"</span>, color<span class="op">=</span><span class="st">"C1"</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, label<span class="op">=</span><span class="st">"specificity, previous step"</span>)</span>
+<span id="cb21-26"><a href="" aria-label="26"></a>ax.set_xlabel(<span class="st">"sample position p"</span>)</span>
+<span id="cb21-27"><a href="" aria-label="27"></a>ax.legend(fontsize<span class="op">=</span><span class="dv">9</span>, loc<span class="op">=</span><span class="st">"lower right"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+
+</section>
+<section id="a-different-application-a-different-step-output" class="slide level2 output-location-slide center"><h2>A different application, a different step</h2><div class="cell output-location-slide" data-fig-height="3.6" data-fig-width="10" data-execution_count="24">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="ENG3090_lec03_files/figure-revealjs/cell-25-output-1.png" width="794" height="326"></p>
+</figure>
+</div>
+</div>
+</div></section><section id="confirmation-the-numbers" class="slide level2 center">
+<h2>Confirmation: the numbers</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Position</th>
+<th style="text-align: center;">Sensitivity</th>
+<th style="text-align: center;">Specificity</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">35</td>
+<td style="text-align: center;">0.02</td>
+<td style="text-align: center;">0.99</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">134</td>
+<td style="text-align: center;">0.80</td>
+<td style="text-align: center;">0.99</td>
+</tr>
+</tbody>
+</table>
+<div class="fragment">
+<p>Specificity stays at 99% everywhere, by construction: that is what the threshold step now guarantees. Sensitivity is what changes: at sample 35 the rule catches almost nothing; at sample 134 it catches 80% of abnormal beats.</p>
+</div>
+<div class="fragment">
+<p>Same data, same pipeline, one step changed: the best position depends on <strong>what the pipeline is for</strong>.</p>
+</div>
+</section>
+<section id="why-exactly-99" class="slide level2 center">
+<h2>Why exactly 99%?</h2>
+<p>T is the 99th percentile of the <strong>normal</strong> values: by definition, 99% of the normal values are at or below T. With the rule “abnormal if above T”:</p>
+<p><span class="math display">\[\text{FP} = \#\{\text{normal beats with } v &gt; T\} = 0.01\, N_{\text{normal}}
+\qquad
+\text{TN} = \#\{\text{normal beats with } v \le T\} = 0.99\, N_{\text{normal}}\]</span></p>
+<p><span class="math display">\[\text{specificity} = \frac{\text{TN}}{\text{TN} + \text{FP}} = \frac{0.99\, N_{\text{normal}}}{N_{\text{normal}}} = 0.99\]</span></p>
+<div class="fragment">
+<p>Nothing here depends on the position, nor on the abnormal beats: specificity is fixed by the step itself (up to ties between equal values). Sensitivity is not:</p>
+<p><span class="math display">\[\text{sensitivity} = \frac{\#\{\text{abnormal beats with } v &gt; T\}}{N_{\text{abnormal}}}\]</span></p>
+<p>depends on where the abnormal values sit with respect to T, and that changes with the position. (When abnormal is <em>below</em>, the same holds with the 1st percentile.)</p>
+</div>
+</section>
+<section id="one-idea-several-forms" class="slide level2 center">
+<h2>One idea, several forms</h2>
+<p>VALIDATE compares what the pipeline produces with a <strong>reference</strong>. The comparison depends on what the pipeline produces:</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">The pipeline produces</th>
+<th style="text-align: left;">The comparison</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">a category (normal or abnormal)</td>
+<td style="text-align: left;">the four counts (today)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">a number (a heart rate, a length)</td>
+<td style="text-align: left;">the difference: bias and spread</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">a count (cells in an image)</td>
+<td style="text-align: left;">the counting error, image by image</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">a mask (the pixels of an object)</td>
+<td style="text-align: left;">the four counts, pixel by pixel</td>
+</tr>
+</tbody>
+</table>
+</section></section>
+<section id="tutorial" class="title-slide slide level1 center" data-background-color="darkgreen">
+<h1>Tutorial</h1>
+<p><strong>How different is each beat from a typical normal beat?</strong></p>
+<p>The same data, the same criterion, the same table, but a different idea: instead of <strong>one</strong> sample, use the <strong>whole</strong> beat.</p>
+<ol type="1">
+<li><strong>DEFINE</strong>: the question, the criterion, the labels</li>
+<li><strong>DECOMPOSE</strong>: build a template (the average normal beat); measure how far each beat is from it; calculate a threshold on that distance; classify</li>
+<li><strong>SPECIFY ⇄ DIAGNOSE</strong> each step, with digital data</li>
+<li><strong>VALIDATE</strong>: against the reference labels; on beats held back; and against today’s one-sample rule</li>
+</ol>
+</section>
+
+<section id="assignment-2" class="title-slide slide level1 center" data-background-color="darkred">
+<h1>Assignment 2</h1>
+<p><strong>Screening athletes.</strong> Catch as many abnormal hearts as possible, and report how many healthy athletes would be referred by mistake.</p>
+<ul>
+<li>the same ECG beats as today</li>
+<li>a pipeline in between today’s two: the distance from the normal template, using only <strong>five</strong> points of the beat, with today’s rule for T</li>
+<li>five points chosen <strong>by you</strong>, against five points chosen <strong>at random</strong>, many times over</li>
+<li>everything chosen on part of the beats; performance reported on beats <strong>held back</strong></li>
+</ul>
+<p>Instructions, data and deadline on Moodle.</p>
+</section>
+
+<section id="take-home-message" class="title-slide slide level1 center">
+<h1>Take-home message</h1>
+<ul>
+<li>Plot everything yourself; ask the AI for the refined figure, and <strong>read</strong> what it writes; prefer a surgical edit to a regenerated cell</li>
+<li>The success criterion comes from the <strong>application</strong>, and is written in DEFINE; VALIDATE measures it</li>
+<li>A parameter chosen by eye or by trial is not a method: <strong>calculate</strong> it, as a step, and diagnose it with digital data</li>
+<li>Choose search parameters on <strong>plateaux</strong>, not peaks</li>
+<li>A rule always looks better on the data it was chosen on: judge it on data <strong>held back</strong></li>
+</ul>
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<p><img src="UoG_colour.png" class="slide-logo"></p>
+<div class="footer footer-default">
+<p>ENG3090 Biomedical Engineering Skills 3</p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="ENG3090_lec03_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="ENG3090_lec03_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="ENG3090_lec03_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="ENG3090_lec03_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="ENG3090_lec03_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="ENG3090_lec03_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="ENG3090_lec03_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="ENG3090_lec03_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="ENG3090_lec03_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="ENG3090_lec03_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: true,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'fade',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>
