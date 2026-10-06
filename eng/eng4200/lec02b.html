@@ -242,7 +242,7 @@ Massimo Vassalli
 <p>Regression in machine learning is the process of training an algorithm on pairs of labelled input and output data, obtaining an optimal regression hypothesis, and then using it to predict the output for unknown inputs. The output is a <strong>continuous</strong> value.</p>
 <p>Regression is a supervised learning task: the target values are known for a set of training data.</p>
 </div><div class="column" style="width:40%;">
-<div id="883fa1d1" class="cell" data-execution_count="1">
+<div id="aa5cf6a8" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -305,7 +305,7 @@ y = b + w\, x
 \]</span></p>
 <p>with parameters <span class="math inline">\(\boldsymbol{\theta} = [b, w]\)</span>: the intercept (or bias) <span class="math inline">\(b\)</span> and the slope (or weight) <span class="math inline">\(w\)</span>.</p>
 </div><div class="column fragment" style="width:55%;">
-<div id="9e10676b" class="cell" data-execution_count="2">
+<div id="2293fa7d" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -369,7 +369,7 @@ L(\theta, \mathcal{D}) = \frac{1}{n} \sum_{i=1}^n (y_i - f_\theta(\mathbf{x}_i))
 \]</span></p>
 <p>where <span class="math inline">\(y_i\)</span> are the observed target values, <span class="math inline">\(f_\theta(\mathbf{x}_i)\)</span> are the model predictions for the corresponding <span class="math inline">\(\mathbf{x}_i\)</span>, and <span class="math inline">\(n\)</span> is the number of samples. Minimising the MSE gives the parameter values <span class="math inline">\(\theta^*\)</span> that best fit the data according to this criterion.</p>
 </div><div class="column fragment">
-<div id="111ac3af" class="cell" data-execution_count="3">
+<div id="07a43ba5" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -412,7 +412,7 @@ L(\theta, \mathcal{D}) = \frac{1}{n} \sum_{i=1}^n (y_i - f_\theta(\mathbf{x}_i))
 <div class="micro">
 <p>The choice of loss function affects the sensitivity of the model to outliers and the optimisation process.</p>
 </div>
-<div id="440fd2c1" class="cell" data-execution_count="4">
+<div id="ab5c557c" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -448,7 +448,7 @@ L(\theta, \mathcal{D}) = \frac{1}{n} \sum_{i=1}^n (y_i - f_\theta(\mathbf{x}_i))
 <ul>
 <li><strong>algorithm</strong> <span class="math inline">\(A\)</span>, a procedure to search for <span class="math inline">\(\theta^*\)</span> that optimises the objective.</li>
 </ul>
-<div id="3a1520cb" class="cell" data-execution_count="5">
+<div id="d9ed1dc1" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -462,7 +462,7 @@ L(\theta, \mathcal{D}) = \frac{1}{n} \sum_{i=1}^n (y_i - f_\theta(\mathbf{x}_i))
 <section id="searching-for-the-minimum" class="slide level2 center">
 <h2>Searching for the minimum</h2>
 <p>For linear regression with the MSE, the loss is a <strong>convex</strong> function of the parameters (a parabola in 1D, a bowl in higher dimensions): there is a single, global minimum. For more complex models or losses, the landscape can have many <strong>local minima</strong>.</p>
-<div id="c795f791" class="cell" data-execution_count="6">
+<div id="af01beac" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -482,7 +482,7 @@ L(\theta, \mathcal{D}) = \frac{1}{n} \sum_{i=1}^n (y_i - f_\theta(\mathbf{x}_i))
 \]</span></p>
 <p>These are the <strong>normal equations</strong> of ordinary least squares (OLS).</p>
 <div class="fragment">
-<div id="c63914ff" class="cell" data-execution_count="7">
+<div id="9613815b" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="" aria-label="1"></a>Xt <span class="op">=</span> np.c_[np.ones_like(X), X]                  <span class="co"># X tilde: add the column of ones</span></span>
 <span id="cb1-2"><a href="" aria-label="2"></a>theta <span class="op">=</span> np.linalg.solve(Xt.T <span class="op">@</span> Xt, Xt.T <span class="op">@</span> y)    <span class="co"># normal equations</span></span>
 <span id="cb1-3"><a href="" aria-label="3"></a><span class="bu">print</span>(<span class="st">"normal equations:"</span>, theta.<span class="bu">round</span>(<span class="dv">3</span>))</span>
@@ -558,7 +558,7 @@ scikit-learn:     [17.706  1.373]</code></pre>
 <section id="the-learning-rate" class="slide level2 center">
 <h2>The learning rate</h2>
 <p>The learning rate <span class="math inline">\(\eta\)</span> is the most important setting of gradient descent. It is not learned from the data: it is a <strong>hyperparameter</strong> (Lecture 5a).</p>
-<div id="86b3d521" class="cell" data-execution_count="8">
+<div id="0a1d81d7" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -594,7 +594,7 @@ scikit-learn:     [17.706  1.373]</code></pre>
 <section id="diabetes-a-supervised-learning-task" class="title-slide slide level1 center">
 <h1>Diabetes: a supervised learning task</h1>
 <p>The <code>diabetes</code> dataset contains the targets, in terms of disease progression, so we can frame the analysis as supervised learning. We select the body mass index, the feature most correlated with the target (Lecture 2a).</p>
-<div id="d6e2aa7c" class="cell columns column-output-location" data-execution_count="9">
+<div id="cb674d8e" class="cell columns column-output-location" data-execution_count="9">
 <div class="column">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_diabetes</span>
 <span id="cb3-2"><a href="" aria-label="2"></a></span>
@@ -620,7 +620,7 @@ scikit-learn:     [17.706  1.373]</code></pre>
 <section id="train-fit-predict" class="slide level2 center">
 <h2>Train, fit, predict</h2>
 <p>The complete pipeline in a few lines: split the data, fit the model on the training set, and predict on the test set.</p>
-<div id="bc374cfb" class="cell columns column-output-location" data-execution_count="10">
+<div id="e5c12e9b" class="cell columns column-output-location" data-execution_count="10">
 <div class="column">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
 <span id="cb4-2"><a href="" aria-label="2"></a></span>
@@ -668,7 +668,7 @@ R^2 = 1 - \frac{\sum_{i=1}^{n} (y_i - \hat{y}_i)^2}{\sum_{i=1}^{n} (y_i - \bar{y
 <div class="micro">
 <p><span class="math inline">\(R^2 = 1\)</span> for perfect predictions, <span class="math inline">\(R^2 = 0\)</span> for a model no better than the mean, and <span class="math inline">\(R^2 &lt; 0\)</span> if the model is worse than the mean (possible on the test set). It is the fraction of the variance of <span class="math inline">\(y\)</span> explained by the model.</p>
 </div>
-<div id="9267df30" class="cell" data-execution_count="11">
+<div id="46fb70d0" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_squared_error, r2_score</span>
 <span id="cb6-2"><a href="" aria-label="2"></a></span>
 <span id="cb6-3"><a href="" aria-label="3"></a><span class="cf">for</span> name, Xs, ys <span class="kw">in</span> [(<span class="st">"train"</span>, X_train, y_train), (<span class="st">"test"</span>, X_test, y_test)]:</span>
@@ -699,7 +699,7 @@ test   MSE =  4181.4   RMSE =  64.7   R2 = 0.16</code></pre>
 <section id="checking-the-residuals" class="slide level2 center">
 <h2>Checking the residuals</h2>
 <p>The residuals <span class="math inline">\(y_i - \hat{y}_i\)</span> are a direct way to check the assumptions of the regression model.</p>
-<div id="98de9c3b" class="cell columns column-output-location" data-execution_count="12">
+<div id="88c2766d" class="cell columns column-output-location" data-execution_count="12">
 <div class="column">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="" aria-label="1"></a>res_train <span class="op">=</span> y_train <span class="op">-</span> model.predict(X_train)</span>
 <span id="cb8-2"><a href="" aria-label="2"></a>res_test <span class="op">=</span> y_test <span class="op">-</span> model.predict(X_test)</span>
@@ -729,7 +729,7 @@ test   MSE =  4181.4   RMSE =  64.7   R2 = 0.16</code></pre>
 <p>The same problem solved with our own gradient descent. We standardise BMI first, so that a simple learning rate works well.</p>
 <div class="columns">
 <div class="column" style="width:55%;">
-<div id="60c3d617" class="cell" data-execution_count="13">
+<div id="fb90ad8e" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="" aria-label="1"></a>x <span class="op">=</span> (X_train[:, <span class="dv">0</span>] <span class="op">-</span> X_train.mean()) <span class="op">/</span> X_train.std()</span>
 <span id="cb9-2"><a href="" aria-label="2"></a>b, w, eta <span class="op">=</span> <span class="fl">0.0</span>, <span class="fl">0.0</span>, <span class="fl">0.1</span></span>
 <span id="cb9-3"><a href="" aria-label="3"></a>history <span class="op">=</span> []</span>
@@ -751,7 +751,7 @@ OLS: b = 151.92, w = 49.45</code></pre>
 </div>
 </div>
 </div><div class="column" style="width:45%;">
-<div id="4b58aba3" class="cell" data-execution_count="14">
+<div id="4888beaf" class="cell" data-execution_count="14">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -765,7 +765,7 @@ OLS: b = 151.92, w = 49.45</code></pre>
 <section id="using-all-the-features" class="slide level2 center">
 <h2>Using all the features</h2>
 <p>The multivariate model uses the same code: only <code>X</code> changes, from one column to ten.</p>
-<div id="b8dc0c1e" class="cell columns column-output-location" data-execution_count="15">
+<div id="a933f479" class="cell columns column-output-location" data-execution_count="15">
 <div class="column">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="" aria-label="1"></a>Xa <span class="op">=</span> diabetes.data               <span class="co"># shape (442, 10)</span></span>
 <span id="cb11-2"><a href="" aria-label="2"></a>Xa_train, Xa_test, y_train, y_test <span class="op">=</span> train_test_split(</span>
