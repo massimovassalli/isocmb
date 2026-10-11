@@ -1,0 +1,1503 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="ENG3090_lec04_files/libs/clipboard/clipboard.min.js"></script>
+<script src="ENG3090_lec04_files/libs/quarto-html/tabby.min.js"></script>
+<script src="ENG3090_lec04_files/libs/quarto-html/popper.min.js"></script>
+<script src="ENG3090_lec04_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="ENG3090_lec04_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="ENG3090_lec04_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="ENG3090_lec04_files/libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.10.19">
+
+  <meta name="author" content="Massimo Vassalli">
+  <title>Biomedical Engineering Skills 3</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="ENG3090_lec04_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="ENG3090_lec04_files/libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="ENG3090_lec04_files/libs/revealjs/dist/theme/quarto-80dff5e1bd85f07590cb32f8b62003d5.css">
+  <link href="ENG3090_lec04_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="ENG3090_lec04_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="ENG3090_lec04_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="ENG3090_lec04_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Biomedical Engineering Skills 3</h1>
+  <p class="subtitle">Week 4: images are arrays</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Massimo Vassalli
+</div>
+        <p class="quarto-title-affiliation">
+            massimo.vassalli@glasgow.ac.uk
+          </p>
+    </div>
+</div>
+
+</section>
+<section>
+<section id="where-we-are" class="title-slide slide level1 center">
+<h1>Where we are</h1>
+<p>DEFINE → DECOMPOSE → SPECIFY ⇄ DIAGNOSE → VALIDATE</p>
+<p>Weeks 2 and 3: signals, one dimension. Weeks 4 to 6: <strong>images</strong>, and one pipeline built over three weeks: this week the image itself and how to prepare it; next week, which pixels are objects; then, measuring the objects.</p>
+<div class="fragment">
+<p>By the end of today you should be able to:</p>
+<ol type="1">
+<li>read an image file into an array and say what every number means: shape, (row, column), channels, type, range, pixel size</li>
+<li>recognise the failures images bring: values that wrap round, ranges that change silently, saturation, displays that mislead, files that lose data</li>
+<li>pre-process an image (smoothing, uneven illumination), each as a step with a rule</li>
+<li>diagnose an image step with digital images built on purpose, the expected values worked out by hand</li>
+<li>turn “the image looks better” into numbers, measured on points picked by hand</li>
+</ol>
+</div>
+</section>
+<section id="today-slides-and-a-notebook" class="slide level2 center">
+<h2>Today: slides and a notebook</h2>
+<p>Two threads, side by side:</p>
+<ul>
+<li><strong>the slides</strong>: what an image is, and the tools, shown on a microscopy image (<code>cells.tif</code>) and a photo (<code>beans.jpg</code>)</li>
+<li><strong>the notebook</strong> <code>ENG3090_lec04_inclass.ipynb</code>: one problem, from DEFINE to VALIDATE, on a third image (<code>seeds.png</code>)</li>
+</ul>
+<div class="fragment">
+<blockquote>
+<p>Remove the uneven background of <code>seeds.png</code>, keeping the seeds as they are, so that next week one threshold can find them all.</p>
+</blockquote>
+<p>The orange mark means: switch to the notebook; the notebook says where to come back. <span class="notebook">▶ notebook, part N</span></p>
+</div>
+</section>
+<section id="the-toolbox-so-far" class="slide level2 center">
+<h2>The toolbox so far</h2>
+<p>The same needs come back with every new kind of data; the library changes, the need does not.</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Need</th>
+<th style="text-align: left;">Signals (weeks 2–3)</th>
+<th style="text-align: left;">Images (from today)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">read</td>
+<td style="text-align: left;"><code>np.loadtxt</code>, <code>np.load</code></td>
+<td style="text-align: left;"><code>io.imread</code>, <code>tifffile.imread</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">look</td>
+<td style="text-align: left;"><code>ax.plot</code></td>
+<td style="text-align: left;"><code>ax.imshow</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">smooth</td>
+<td style="text-align: left;"><code>signal.savgol_filter</code>, <code>medfilt</code></td>
+<td style="text-align: left;"><code>filters.gaussian</code>, <code>ndimage.median_filter</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">detect</td>
+<td style="text-align: left;"><code>signal.find_peaks</code></td>
+<td style="text-align: left;">thresholds, objects (weeks 5–6)</td>
+</tr>
+</tbody>
+</table>
+</section></section>
+<section>
+<section id="images-are-arrays" class="title-slide slide level1 center">
+<h1>Images are arrays</h1>
+
+</section>
+<section id="an-image-is-a-table-of-numbers" class="slide level2 center">
+<h2>An image is a table of numbers</h2>
+<div id="5a3f3abd" class="cell" data-fig-height="3.8" data-fig-width="10" data-execution_count="2">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="ENG3090_lec04_files/figure-revealjs/cell-3-output-1.png" width="836" height="355"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Each <strong>pixel</strong> is one number: here, how much fluorescence reached the detector from that point of the cell. What the numbers mean (light? a concentration? a height?) depends on the instrument.</p>
+</section>
+<section id="libraries-for-images" class="slide level2 center">
+<h2>Libraries for images</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Library</th>
+<th style="text-align: left;">What it is for</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>numpy</strong></td>
+<td style="text-align: left;">the array itself: every library here takes and returns numpy arrays</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>scipy.ndimage</strong></td>
+<td style="text-align: left;">the basics in n dimensions: filters, morphology, labels</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>scikit-image</strong> (<code>skimage</code>)</td>
+<td style="text-align: left;">the toolbox of this course: tested algorithms, with examples</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>tifffile</strong>, <strong>bioio</strong>, <strong>pydicom</strong></td>
+<td style="text-align: left;">reading files: (OME-)TIFF, microscope formats, DICOM</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><a href="https://napari.org"><strong>napari</strong></a>, <a href="https://fiji.sc"><strong>Fiji</strong></a></td>
+<td style="text-align: left;">viewers: look at an image, a stack, a mask</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>OpenCV</strong>, <strong>cellpose</strong>, <strong>StarDist</strong></td>
+<td style="text-align: left;">computer vision; deep-learning models that segment cells</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>scikit-learn</strong></td>
+<td style="text-align: left;">machine learning on numbers measured from images (Y4)</td>
+</tr>
+</tbody>
+</table>
+<div class="fragment">
+<p>Not to remember: to know where a function you meet (in your code or the AI’s) comes from, and where to look for one you need.</p>
+</div>
+</section>
+<section id="scikit-image" class="slide level2 center">
+<h2>scikit-image</h2>
+<p><a href="https://scikit-image.org/">scikit-image</a> is organised by <strong>what you want to do</strong>:</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Submodule</th>
+<th style="text-align: left;">For example</th>
+<th style="text-align: left;">When</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>io</code></td>
+<td style="text-align: left;">read, save</td>
+<td style="text-align: left;">today</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>filters</code></td>
+<td style="text-align: left;">smoothing, thresholds</td>
+<td style="text-align: left;">today, week 5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>restoration</code></td>
+<td style="text-align: left;">denoising, <code>rolling_ball</code></td>
+<td style="text-align: left;">today</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>morphology</code></td>
+<td style="text-align: left;">opening, closing</td>
+<td style="text-align: left;">week 5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>segmentation</code></td>
+<td style="text-align: left;">watershed, borders</td>
+<td style="text-align: left;">weeks 5–6</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>measure</code></td>
+<td style="text-align: left;"><code>label</code>, <code>regionprops</code></td>
+<td style="text-align: left;">week 6</td>
+</tr>
+</tbody>
+</table>
+<p>Also <code>color</code>, <code>exposure</code>, <code>transform</code>, <code>feature</code>, <code>util</code>: colour spaces, contrast, resizing, blobs, type conversions.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="" aria-label="1"></a><span class="im">from</span> skimage <span class="im">import</span> io, filters, morphology    <span class="co"># import the submodules you need</span></span>
+<span id="cb1-2"><a href="" aria-label="2"></a>filters.gaussian(image, sigma<span class="op">=</span><span class="dv">2</span>)               <span class="co"># and you always see where a function comes from</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="reading-an-image" class="slide level2 center">
+<h2>Reading an image</h2>
+<div id="904fa401" class="cell columns column-output-location" data-execution_count="3">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="" aria-label="1"></a><span class="im">from</span> skimage <span class="im">import</span> io</span>
+<span id="cb2-2"><a href="" aria-label="2"></a><span class="im">import</span> tifffile</span>
+<span id="cb2-3"><a href="" aria-label="3"></a></span>
+<span id="cb2-4"><a href="" aria-label="4"></a>photo <span class="op">=</span> io.imread(<span class="st">"data/beans.jpg"</span>)      <span class="co"># most formats</span></span>
+<span id="cb2-5"><a href="" aria-label="5"></a>cells <span class="op">=</span> tifffile.imread(<span class="st">"data/cells.tif"</span>)  <span class="co"># microscopy TIFF</span></span>
+<span id="cb2-6"><a href="" aria-label="6"></a></span>
+<span id="cb2-7"><a href="" aria-label="7"></a><span class="bu">print</span>(cells.shape)        <span class="co"># (rows, columns)</span></span>
+<span id="cb2-8"><a href="" aria-label="8"></a><span class="bu">print</span>(cells.dtype)        <span class="co"># one type for all</span></span>
+<span id="cb2-9"><a href="" aria-label="9"></a><span class="bu">print</span>(cells.<span class="bu">min</span>(), cells.<span class="bu">max</span>())</span>
+<span id="cb2-10"><a href="" aria-label="10"></a></span>
+<span id="cb2-11"><a href="" aria-label="11"></a><span class="bu">print</span>(cells[<span class="dv">1300</span>, <span class="dv">1765</span>])        <span class="co"># one pixel: [row, column]</span></span>
+<span id="cb2-12"><a href="" aria-label="12"></a><span class="bu">print</span>(cells[<span class="dv">1300</span>, <span class="dv">1758</span>:<span class="dv">1766</span>])   <span class="co"># part of a row</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column fragment">
+<div class="cell-output cell-output-stdout">
+<pre><code>(2316, 2316)
+int16
+133 32767
+5690
+[2655 1632 1595 1903 2435 3256 4495 5690]</code></pre>
+</div>
+</div></div>
+<div class="fragment">
+<p>The same numpy array as weeks 2 and 3, now with two dimensions. Everything you know (slicing, masks, <code>axis</code>, <code>mean</code>) works on images. <code>skimage.io.imread</code> reads the common formats; <code>tifffile</code> reads microscopy TIFFs, and their metadata.</p>
+</div>
+</section>
+<section id="when-the-file-will-not-open" class="slide level2 center">
+<h2>When the file will not open</h2>
+<p>On a computer without the <code>imagecodecs</code> package, reading <code>cells.tif</code> stops with:</p>
+<pre><code>ValueError: &lt;COMPRESSION.LZW: 5&gt; requires the 'imagecodecs' package</code></pre>
+<div class="fragment">
+<p>The file is fine: it is compressed (without loss), and the package that decompresses it is missing. A <strong>data / environment</strong> failure, found by reading the message, fixed in the environment (the <code>.venv</code> you set up in week 1):</p>
+<pre><code>python -m pip install imagecodecs</code></pre>
+</div>
+</section>
+<section id="rows-and-columns-x-and-y" class="slide level2 center">
+<h2>Rows and columns, x and y</h2>
+<div id="1ccf469a" class="cell" data-fig-height="3.6" data-fig-width="10" data-execution_count="4">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="ENG3090_lec04_files/figure-revealjs/cell-5-output-1.png" width="859" height="336"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Arrays: <code>image[row, column]</code>, origin top left, rows going <strong>down</strong>. Plots: <code>ax.plot(x, y)</code> = (column, row). Swapping them raises no error.</p>
+<p><span class="notebook">▶ notebook, part 1: Look</span></p>
+</section>
+<section id="colour-a-third-dimension" class="slide level2 center">
+<h2>Colour: a third dimension</h2>
+<div id="9df34a8b" class="cell columns column-output-location" data-fig-height="4.6" data-fig-width="6" data-execution_count="5">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="" aria-label="1"></a>photo <span class="op">=</span> io.imread(<span class="st">"data/beans.jpg"</span>)</span>
+<span id="cb6-2"><a href="" aria-label="2"></a><span class="bu">print</span>(photo.shape, photo.dtype)   <span class="co"># rows, columns, channels</span></span>
+<span id="cb6-3"><a href="" aria-label="3"></a></span>
+<span id="cb6-4"><a href="" aria-label="4"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">2</span>)</span>
+<span id="cb6-5"><a href="" aria-label="5"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].imshow(photo)</span>
+<span id="cb6-6"><a href="" aria-label="6"></a><span class="cf">for</span> ax, k, name <span class="kw">in</span> <span class="bu">zip</span>(axes.flat[<span class="dv">1</span>:], <span class="bu">range</span>(<span class="dv">3</span>),</span>
+<span id="cb6-7"><a href="" aria-label="7"></a>                       [<span class="st">"red"</span>, <span class="st">"green"</span>, <span class="st">"blue"</span>]):</span>
+<span id="cb6-8"><a href="" aria-label="8"></a>    ax.imshow(photo[:, :, k], cmap<span class="op">=</span><span class="st">"gray"</span>)</span>
+<span id="cb6-9"><a href="" aria-label="9"></a>    ax.set_title(name)</span>
+<span id="cb6-10"><a href="" aria-label="10"></a><span class="cf">for</span> ax <span class="kw">in</span> axes.flat:</span>
+<span id="cb6-11"><a href="" aria-label="11"></a>    ax.axis(<span class="st">"off"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column fragment">
+<div class="cell-output cell-output-stdout">
+<pre><code>(1932, 2576, 3) uint8</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="ENG3090_lec04_files/figure-revealjs/cell-6-output-2.png" width="649" height="409"></p>
+</figure>
+</div>
+</div>
+</div></div>
+<div class="fragment micro">
+<p>Pine nuts against the wooden board: 1.2 times brighter in the red channel, 1.7 times in the <strong>blue</strong>. Choosing a channel is a decision, and part of the method.</p>
+</div>
+<div class="fragment micro">
+<p>Two more things you will meet. PNG and TIFF can carry a fourth channel, <strong>alpha</strong> (transparency): shape (rows, columns, 4), and <code>photo[:, :, :3]</code> keeps the colours. And RGB is only one <strong>colour space</strong>: HSV (hue, saturation, value) or Lab separate the colour from the brightness, which helps when objects differ in colour but not in brightness (<code>skimage.color.rgb2hsv</code>, <code>rgb2lab</code>).</p>
+</div>
+</section>
+<section id="more-dimensions" class="slide level2 center">
+<h2>More dimensions</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Data</th>
+<th style="text-align: left;">Shape</th>
+<th style="text-align: left;">Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">one greyscale image</td>
+<td style="text-align: left;">(rows, columns)</td>
+<td style="text-align: left;"><code>cells.tif</code>: (2316, 2316)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">a colour image</td>
+<td style="text-align: left;">(rows, columns, 3)</td>
+<td style="text-align: left;"><code>beans.jpg</code>: RGB</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">a z-stack</td>
+<td style="text-align: left;">(planes, rows, columns)</td>
+<td style="text-align: left;">confocal sections through a cell</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">a time-lapse</td>
+<td style="text-align: left;">(times, rows, columns)</td>
+<td style="text-align: left;">cells migrating</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">all of them</td>
+<td style="text-align: left;">(t, z, channels, rows, columns)</td>
+<td style="text-align: left;">a microscope’s own file</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="multi-page-files" class="slide level2 center">
+<h2>Multi-page files</h2>
+<p>A <strong>multi-page</strong> TIFF stores several images in one file; reading it gives a 3D array:</p>
+<div id="884021fe" class="cell columns column-output-location" data-execution_count="6">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="" aria-label="1"></a>pages <span class="op">=</span> np.stack([cells[k <span class="op">*</span> <span class="dv">400</span>:k <span class="op">*</span> <span class="dv">400</span> <span class="op">+</span> <span class="dv">300</span>, <span class="dv">1500</span>:<span class="dv">1800</span>] <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">5</span>)])</span>
+<span id="cb8-2"><a href="" aria-label="2"></a>tifffile.imwrite(<span class="st">"stack.tif"</span>, pages)       <span class="co"># five pages</span></span>
+<span id="cb8-3"><a href="" aria-label="3"></a>stack <span class="op">=</span> tifffile.imread(<span class="st">"stack.tif"</span>)</span>
+<span id="cb8-4"><a href="" aria-label="4"></a><span class="bu">print</span>(stack.shape)                        <span class="co"># (pages, rows, cols)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column fragment">
+<div class="cell-output cell-output-stdout">
+<pre><code>(5, 300, 300)</code></pre>
+</div>
+</div></div>
+<div class="fragment">
+<p>Which axis is which is <strong>not</strong> in the array: it is in the file’s metadata, or in your DEFINE.</p>
+</div>
+</section>
+<section id="how-many-grey-levels" class="slide level2 center">
+<h2>How many grey levels?</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Bits</th>
+<th style="text-align: right;">Levels</th>
+<th style="text-align: left;">Range</th>
+<th style="text-align: left;">Typical source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">8</td>
+<td style="text-align: right;">256</td>
+<td style="text-align: left;">0 – 255</td>
+<td style="text-align: left;">phones, screens, figures</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">12</td>
+<td style="text-align: right;">4096</td>
+<td style="text-align: left;">0 – 4095</td>
+<td style="text-align: left;">scientific cameras</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">16</td>
+<td style="text-align: right;">65536</td>
+<td style="text-align: left;">0 – 65535</td>
+<td style="text-align: left;">microscopes, medical</td>
+</tr>
+</tbody>
+</table>
+<div class="fragment">
+<p>More levels, finer differences: a dim structure next to a bright one can still be measured. And the dtype must hold the range:</p>
+<div id="9a495329" class="cell columns column-output-location" data-execution_count="8">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="" aria-label="1"></a><span class="cf">for</span> t <span class="kw">in</span> [np.uint8, np.uint16, np.int16]:</span>
+<span id="cb10-2"><a href="" aria-label="2"></a>    info <span class="op">=</span> np.iinfo(t)</span>
+<span id="cb10-3"><a href="" aria-label="3"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>t<span class="sc">.</span><span class="va">__name__</span><span class="sc">:7s}</span><span class="ss"> </span><span class="sc">{</span>info<span class="sc">.</span><span class="bu">min</span><span class="sc">:7d}</span><span class="ss"> to </span><span class="sc">{</span>info<span class="sc">.</span><span class="bu">max</span><span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column fragment">
+<div class="cell-output cell-output-stdout">
+<pre><code>uint8         0 to 255
+uint16        0 to 65535
+int16    -32768 to 32767</code></pre>
+</div>
+</div></div>
+</div>
+</section>
+<section id="a-real-microscopy-image" class="slide level2 center">
+<h2>A real microscopy image</h2>
+<div id="6032c891" class="cell columns column-output-location" data-execution_count="9">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="" aria-label="1"></a><span class="bu">print</span>(cells.dtype, cells.<span class="bu">min</span>(), cells.<span class="bu">max</span>())</span>
+<span id="cb12-2"><a href="" aria-label="2"></a><span class="bu">print</span>(<span class="st">"at the maximum:"</span>, np.<span class="bu">sum</span>(cells <span class="op">==</span> <span class="dv">32767</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column fragment">
+<div class="cell-output cell-output-stdout">
+<pre><code>int16 133 32767
+at the maximum: 9741</code></pre>
+</div>
+</div></div>
+<ul>
+<li><strong>int16</strong>: <em>signed</em> 16-bit integers, half of the range wasted on negative values that never occur</li>
+<li>9741 pixels at exactly 32767, the largest int16: the detector was <strong>saturated</strong> there, and the true values are lost</li>
+</ul>
+</section>
+<section id="the-numbers-that-are-not-pixels" class="slide level2 center">
+<h2>The numbers that are not pixels</h2>
+<p>The file also carries <strong>metadata</strong>:</p>
+<div id="f4a7a9d6" class="cell columns column-output-location" data-execution_count="10">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="" aria-label="1"></a><span class="im">import</span> re</span>
+<span id="cb14-2"><a href="" aria-label="2"></a></span>
+<span id="cb14-3"><a href="" aria-label="3"></a><span class="cf">with</span> tifffile.TiffFile(<span class="st">"data/cells.tif"</span>) <span class="im">as</span> tif:</span>
+<span id="cb14-4"><a href="" aria-label="4"></a>    ome <span class="op">=</span> tif.ome_metadata          <span class="co"># an XML text</span></span>
+<span id="cb14-5"><a href="" aria-label="5"></a><span class="cf">for</span> key <span class="kw">in</span> [<span class="st">"PhysicalSizeX"</span>, <span class="st">"LensNA"</span>]:</span>
+<span id="cb14-6"><a href="" aria-label="6"></a>    value <span class="op">=</span> re.search(key <span class="op">+</span> <span class="vs">r'="</span><span class="kw">(</span><span class="pp">[^"]</span><span class="op">+</span><span class="kw">)</span><span class="vs">"'</span>, ome).group(<span class="dv">1</span>)</span>
+<span id="cb14-7"><a href="" aria-label="7"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>key<span class="sc">:14s}</span><span class="ss"> </span><span class="sc">{</span>value<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column fragment">
+<div class="cell-output cell-output-stdout">
+<pre><code>PhysicalSizeX  0.0915943436960275
+LensNA         1.3</code></pre>
+</div>
+</div></div>
+<div class="fragment">
+<p>The <strong>pixel size</strong> (µm) turns pixels into lengths: 2316 × 0.0916 ≈ 212 µm. A PNG, a JPEG or a screenshot does not keep it: once lost, every measurement is in pixels.</p>
+</div>
+</section>
+<section id="where-metadata-live" class="slide level2 center">
+<h2>Where metadata live</h2>
+<div class="micro">
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Format</th>
+<th style="text-align: left;">Metadata</th>
+<th style="text-align: left;">What you find there</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">OME-TIFF</td>
+<td style="text-align: left;">an <strong>XML</strong> document inside the TIFF (<code>ome_metadata</code>)</td>
+<td style="text-align: left;">pixel size, objective, channels, z and t steps: a standard for microscopy</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ImageJ TIFF</td>
+<td style="text-align: left;"><code>key=value</code> text in the TIFF description</td>
+<td style="text-align: left;">pixel size, number of slices and frames</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>.czi</code>, <code>.lif</code>, <code>.nd2</code></td>
+<td style="text-align: left;">the instrument’s own format</td>
+<td style="text-align: left;">everything the microscope knew; read with <code>bioio</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">DICOM (<code>.dcm</code>)</td>
+<td style="text-align: left;">standard <strong>tags</strong></td>
+<td style="text-align: left;">pixel spacing, slice thickness, patient and scanner data</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HDF5 (<code>.h5</code>, Imaris <code>.ims</code>)</td>
+<td style="text-align: left;"><strong>attributes</strong> attached to each dataset</td>
+<td style="text-align: left;">whatever the writer stored: units, scales, settings</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">JPEG, some TIFFs</td>
+<td style="text-align: left;"><strong>EXIF</strong></td>
+<td style="text-align: left;">camera, exposure, date, GPS; usually <strong>not</strong> a pixel size</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">PNG</td>
+<td style="text-align: left;">a few text fields, dots per inch</td>
+<td style="text-align: left;">rarely anything useful for measuring</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">BMP, raw <code>.npy</code></td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">the numbers only: keep the pixel size yourself</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fragment">
+<p>Rule: read the metadata once, check it against what you know (a pixel size of 0.09 µm at 40× is plausible), and write the values you use into DEFINE.</p>
+</div>
+</section>
+<section id="lossless-and-lossy-files" class="slide level2 center">
+<h2>Lossless and lossy files</h2>
+<div id="1505c530" class="cell columns column-output-location" data-execution_count="11">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="" aria-label="1"></a>crop8 <span class="op">=</span> (cells[<span class="dv">1000</span>:<span class="dv">1600</span>, <span class="dv">1400</span>:<span class="dv">2000</span>] <span class="op">//</span> <span class="dv">128</span>).astype(np.uint8)</span>
+<span id="cb16-2"><a href="" aria-label="2"></a>io.imsave(<span class="st">"copy.png"</span>, crop8)</span>
+<span id="cb16-3"><a href="" aria-label="3"></a>io.imsave(<span class="st">"copy.jpg"</span>, crop8, quality<span class="op">=</span><span class="dv">90</span>)</span>
+<span id="cb16-4"><a href="" aria-label="4"></a></span>
+<span id="cb16-5"><a href="" aria-label="5"></a><span class="cf">for</span> name <span class="kw">in</span> [<span class="st">"copy.png"</span>, <span class="st">"copy.jpg"</span>]:</span>
+<span id="cb16-6"><a href="" aria-label="6"></a>    back <span class="op">=</span> io.imread(name)</span>
+<span id="cb16-7"><a href="" aria-label="7"></a>    changed <span class="op">=</span> np.mean(back <span class="op">!=</span> crop8)</span>
+<span id="cb16-8"><a href="" aria-label="8"></a>    worst <span class="op">=</span> np.<span class="bu">abs</span>(back.astype(<span class="bu">int</span>) <span class="op">-</span> crop8).<span class="bu">max</span>()</span>
+<span id="cb16-9"><a href="" aria-label="9"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>name<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span><span class="dv">100</span> <span class="op">*</span> changed<span class="sc">:.0f}</span><span class="ss">% of pixels "</span></span>
+<span id="cb16-10"><a href="" aria-label="10"></a>          <span class="ss">f"changed, by up to </span><span class="sc">{</span>worst<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column fragment">
+<div class="cell-output cell-output-stdout">
+<pre><code>copy.png: 0% of pixels changed, by up to 0
+copy.jpg: 78% of pixels changed, by up to 18</code></pre>
+</div>
+</div></div>
+<div class="fragment">
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Format</th>
+<th style="text-align: left;">Loss</th>
+<th style="text-align: left;">Use</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">PNG, TIFF / OME-TIFF</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">figures; microscopy (any depth, pages, metadata)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">JPEG</td>
+<td style="text-align: left;"><strong>lossy</strong></td>
+<td style="text-align: left;">photos, never data (<code>beans.jpg</code> already is one)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>.czi</code>, <code>.lif</code>, <code>.nd2</code>, DICOM</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">instrument files: <code>bioio</code>, <code>pydicom</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="the-display-lies" class="slide level2 center">
+<h2>The display lies</h2>
+<div id="108b36f2" class="cell" data-fig-height="5.2" data-fig-width="11" data-execution_count="13">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="ENG3090_lec04_files/figure-revealjs/cell-14-output-1.png" width="1046" height="489"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><code>imshow</code> maps the values between <code>vmin</code> (blue line: black) and <code>vmax</code> (red line: white) onto the grey scale; everything outside is clipped. Same data, three mappings. A non-linear display (a logarithm) must be stated in the legend.</p>
+</section>
+<section id="colormaps" class="slide level2 center">
+<h2>Colormaps</h2>
+<p>The second choice of the display: which colour stands for which value (<code>cmap</code>).</p>
+<div id="ef701e13" class="cell" data-fig-height="3.2" data-fig-width="11" data-execution_count="14">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="ENG3090_lec04_files/figure-revealjs/cell-15-output-1.png" width="1046" height="285"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><code>gray</code>, <code>magma</code>, <code>viridis</code>: equal steps in value look like equal steps in colour. <code>jet</code> invents edges (yellow, cyan bands) where the data have none: avoid it. Always add a colour bar.</p>
+</section>
+<section id="a-colormap-that-checks-the-data" class="slide level2 center">
+<h2>A colormap that checks the data</h2>
+<p>Grey where values are fine; <strong>blue</strong> below the range, <strong>red</strong> above it:</p>
+<div id="8b88fe8d" class="cell columns column-output-location" data-fig-height="3.4" data-fig-width="6" data-execution_count="15">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="" aria-label="1"></a>check <span class="op">=</span> plt.get_cmap(<span class="st">"gray"</span>).copy()</span>
+<span id="cb18-2"><a href="" aria-label="2"></a>check.set_under(<span class="st">"blue"</span>)         <span class="co"># below vmin</span></span>
+<span id="cb18-3"><a href="" aria-label="3"></a>check.set_over(<span class="st">"red"</span>)           <span class="co"># above vmax</span></span>
+<span id="cb18-4"><a href="" aria-label="4"></a></span>
+<span id="cb18-5"><a href="" aria-label="5"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb18-6"><a href="" aria-label="6"></a>axes[<span class="dv">0</span>].imshow(cells, cmap<span class="op">=</span>check,</span>
+<span id="cb18-7"><a href="" aria-label="7"></a>               vmin<span class="op">=</span>cells.<span class="bu">min</span>() <span class="op">+</span> <span class="dv">1</span>, vmax<span class="op">=</span><span class="dv">32766</span>)</span>
+<span id="cb18-8"><a href="" aria-label="8"></a>axes[<span class="dv">1</span>].imshow(cells, cmap<span class="op">=</span>check,</span>
+<span id="cb18-9"><a href="" aria-label="9"></a>               vmin<span class="op">=</span><span class="dv">300</span>, vmax<span class="op">=</span><span class="dv">32766</span>)  <span class="co"># vmin above the noise</span></span>
+<span id="cb18-10"><a href="" aria-label="10"></a>axes[<span class="dv">1</span>].set_xlim(<span class="dv">1450</span>, <span class="dv">1950</span>)    <span class="co"># zoom on cell 2</span></span>
+<span id="cb18-11"><a href="" aria-label="11"></a>axes[<span class="dv">1</span>].set_ylim(<span class="dv">1500</span>, <span class="dv">1000</span>)    <span class="co"># rows go down</span></span>
+<span id="cb18-12"><a href="" aria-label="12"></a><span class="cf">for</span> ax <span class="kw">in</span> axes:</span>
+<span id="cb18-13"><a href="" aria-label="13"></a>    ax.axis(<span class="st">"off"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column fragment">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="ENG3090_lec04_files/figure-revealjs/cell-16-output-1.png" width="763" height="357"></p>
+</figure>
+</div>
+</div>
+</div></div>
+<div class="fragment">
+<p>Red: saturated, the <strong>brightest fibres</strong> of cell 2, exactly where we would measure. Blue (right, <code>vmin=300</code>): the background noise, below 300; raising <code>vmin</code> keeps the grey scale for the cell. Microscopes show this same map live while you set <strong>gain</strong> and <strong>offset</strong>: saturation is fixed there, not in Python.</p>
+</div>
+<p><span class="notebook">▶ notebook, part 2: Explore</span></p>
+</section>
+<section id="what-numpy-wont-tell-you-images-edition" class="slide level2 center">
+<h2>What numpy won’t tell you, images edition</h2>
+<p>The week 2 overflow, now in an image: brighten the photo by 100.</p>
+<div id="70f0dfc7" class="cell columns column-output-location" data-fig-height="2.6" data-fig-width="6" data-execution_count="16">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="" aria-label="1"></a>photo <span class="op">=</span> io.imread(<span class="st">"data/beans.jpg"</span>)   <span class="co"># uint8, as read</span></span>
+<span id="cb19-2"><a href="" aria-label="2"></a>brighter <span class="op">=</span> photo <span class="op">+</span> <span class="dv">100</span>            <span class="co"># uint8 + int</span></span>
+<span id="cb19-3"><a href="" aria-label="3"></a><span class="bu">print</span>(brighter.dtype)</span>
+<span id="cb19-4"><a href="" aria-label="4"></a><span class="bu">print</span>(photo[<span class="dv">1000</span>, <span class="dv">1000</span>], <span class="st">"-&gt;"</span>, brighter[<span class="dv">1000</span>, <span class="dv">1000</span>])</span>
+<span id="cb19-5"><a href="" aria-label="5"></a></span>
+<span id="cb19-6"><a href="" aria-label="6"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb19-7"><a href="" aria-label="7"></a>axes[<span class="dv">0</span>].imshow(photo)</span>
+<span id="cb19-8"><a href="" aria-label="8"></a>axes[<span class="dv">1</span>].imshow(brighter)</span>
+<span id="cb19-9"><a href="" aria-label="9"></a><span class="cf">for</span> ax <span class="kw">in</span> axes:</span>
+<span id="cb19-10"><a href="" aria-label="10"></a>    ax.axis(<span class="st">"off"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column fragment">
+<div class="cell-output cell-output-stdout">
+<pre><code>uint8
+[181 132  74] -&gt; [ 25 232 174]</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="ENG3090_lec04_files/figure-revealjs/cell-17-output-2.png" width="763" height="273"></p>
+</figure>
+</div>
+</div>
+</div></div>
+<div class="fragment">
+<p>181 + 100 = 281 does not fit in 8 bits: it wraps round to 25, and the colours go wrong. No error, no warning. Convert first: <code>photo.astype(float) + 100</code>.</p>
+</div>
+</section></section>
+<section>
+<section id="pre-processing" class="title-slide slide level1 center">
+<h1>Pre-processing</h1>
+<p>Before objects can be found and measured, the image often needs preparing:</p>
+<ul>
+<li><strong>noise</strong>: random variation from pixel to pixel</li>
+<li><strong>uneven illumination</strong>: the same object brighter on one side of the field</li>
+</ul>
+<div class="fragment">
+<p>Each correction <strong>changes the data</strong>: a step with a rule and a diagnosis, like any other. Its parameters (sizes) are in pixels, and should be decided in µm.</p>
+</div>
+</section>
+<section id="neighbourhood-filters" class="slide level2 center">
+<h2>Neighbourhood filters</h2>
+<p>A new value for each pixel, computed from a small <strong>window</strong> of pixels around it; the window slides over the whole image.</p>
+<div id="c59d7ec1" class="cell" data-fig-height="3.6" data-fig-width="11" data-execution_count="17">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="ENG3090_lec04_files/figure-revealjs/cell-18-output-1.png" width="1023" height="348"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The orange window holds 8 pixels at 10 and the spike at 100: its <strong>mean</strong> is (8 × 10 + 100) / 9 = 20, its <strong>median</strong> 10. The <strong>mean</strong> spreads the spike and softens the edge; the <strong>median</strong> removes the spike and keeps the edge sharp.</p>
+</section>
+<section id="neighbourhood-filters-the-named-functions" class="slide level2 center">
+<h2>Neighbourhood filters: the named functions</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Filter</th>
+<th style="text-align: left;">The rule in each window</th>
+<th style="text-align: left;">Function</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">mean (“box”)</td>
+<td style="text-align: left;">the average</td>
+<td style="text-align: left;"><code>ndimage.uniform_filter(image, size=3)</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Gaussian</td>
+<td style="text-align: left;">an average weighted more at the centre</td>
+<td style="text-align: left;"><code>filters.gaussian(image, sigma=1.5)</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">median</td>
+<td style="text-align: left;">the middle value</td>
+<td style="text-align: left;"><code>ndimage.median_filter(image, size=3)</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">minimum, maximum</td>
+<td style="text-align: left;">the darkest, the brightest</td>
+<td style="text-align: left;"><code>ndimage.minimum_filter</code>, <code>maximum_filter</code></td>
+</tr>
+</tbody>
+</table>
+<div class="fragment">
+<p>The window size (<code>size</code>, <code>sigma</code>) is the decision: in pixels, chosen in µm, against the size of what you want to keep. (A weighted average computed this way is called a <em>convolution</em>, and the weights a <em>kernel</em>: words you will meet in the documentation and in the AI’s code.)</p>
+</div>
+</section>
+<section id="smoothing-gaussian-and-median" class="slide level2 center">
+<h2>Smoothing: Gaussian and median</h2>
+<div id="7a7efc68" class="cell" data-fig-height="3.2" data-fig-width="11" data-execution_count="18">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="ENG3090_lec04_files/figure-revealjs/cell-19-output-1.png" width="1046" height="285"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="" aria-label="1"></a>filters.gaussian(image, sigma<span class="op">=</span><span class="fl">1.5</span>, preserve_range<span class="op">=</span><span class="va">True</span>)   <span class="co"># weighted average: smooths noise</span></span>
+<span id="cb21-2"><a href="" aria-label="2"></a>ndimage.median_filter(image, size<span class="op">=</span><span class="dv">5</span>)                       <span class="co"># median: removes isolated spikes</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Both look cleaner, and both <strong>blur</strong> the thin fibres. Keep <code>sigma</code> and <code>size</code> well below the size of what you want to keep.</p>
+</section>
+<section id="a-neighbourhood-filter-for-the-background" class="slide level2 center">
+<h2>A neighbourhood filter for the background</h2>
+<p>Make the window much <strong>larger than any object</strong>: the objects disappear, and what is left is the slow change underneath. A profile along a row, with objects on an uneven background:</p>
+<div id="0981789c" class="cell" data-fig-height="3.2" data-fig-width="10" data-execution_count="19">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="ENG3090_lec04_files/figure-revealjs/cell-20-output-1.png" width="798" height="296"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The large window gives a smooth curve, but it averages the objects in: it sits <strong>above</strong> the background, more where objects are dense (on the right). How much above? Next: try it, and predict it.</p>
+<p><span class="notebook">▶ notebook, part 3: First attempt</span></p>
+</section>
+<section id="what-scikit-image-wont-tell-you" class="slide level2 center">
+<h2>What scikit-image won’t tell you</h2>
+<p>What happened in the notebook, here on our microscopy image:</p>
+<div id="e330bae9" class="cell columns column-output-location" data-execution_count="20">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="" aria-label="1"></a><span class="im">from</span> skimage <span class="im">import</span> filters</span>
+<span id="cb22-2"><a href="" aria-label="2"></a></span>
+<span id="cb22-3"><a href="" aria-label="3"></a>smooth <span class="op">=</span> filters.gaussian(cells, sigma<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb22-4"><a href="" aria-label="4"></a><span class="bu">print</span>(cells.dtype, cells.<span class="bu">max</span>())</span>
+<span id="cb22-5"><a href="" aria-label="5"></a><span class="bu">print</span>(smooth.dtype, smooth.<span class="bu">max</span>().<span class="bu">round</span>(<span class="dv">3</span>))</span>
+<span id="cb22-6"><a href="" aria-label="6"></a></span>
+<span id="cb22-7"><a href="" aria-label="7"></a>smooth <span class="op">=</span> filters.gaussian(cells, sigma<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb22-8"><a href="" aria-label="8"></a>                          preserve_range<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb22-9"><a href="" aria-label="9"></a><span class="bu">print</span>(smooth.dtype, smooth.<span class="bu">max</span>().<span class="bu">round</span>(<span class="dv">0</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column fragment">
+<div class="cell-output cell-output-stdout">
+<pre><code>int16 32767
+float64 0.999
+float64 32750.0</code></pre>
+</div>
+</div></div>
+<div class="fragment">
+<p>Integer images become floats in 0–1 unless <code>preserve_range=True</code>. Also: results come as (row, column); filters invent pixels beyond the border (<code>mode=</code>); every size is in pixels. <strong>Print shape, dtype and range after every step.</strong></p>
+</div>
+</section>
+<section id="local-or-global" class="slide level2 center">
+<h2>Local or global?</h2>
+<p>The same row as before, three estimates of the background:</p>
+<div id="bed3906b" class="cell" data-fig-height="3.4" data-fig-width="10" data-execution_count="21">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="ENG3090_lec04_files/figure-revealjs/cell-22-output-1.png" width="798" height="311"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The <strong>median</strong> ignores the objects where they are sparse (left), not where they fill half the window (right). The <strong>global</strong> curve stays on the background everywhere: it sees the whole row at once, treats the objects as outliers, and is too smooth to follow them.</p>
+</section>
+<section id="local-or-global-what-each-estimate-sees" class="slide level2 center">
+<h2>Local or global: what each estimate sees</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;"><strong>local</strong>: a window around each pixel</th>
+<th style="text-align: left;"><strong>global</strong>: one smooth surface for the whole field</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">what it sees</td>
+<td style="text-align: left;">the objects inside the window: the mean averages them in, the median ignores them only if they fill less than half of it</td>
+<td style="text-align: left;">every background pixel at once; the objects are outliers, refitted out</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">which changes it can follow</td>
+<td style="text-align: left;">anything slower than the window: the window must be <strong>larger</strong> than the objects and <strong>smaller</strong> than the changes of the light</td>
+<td style="text-align: left;">only the slowest (a tilt, a bowl): never the objects’ detail</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">fails when</td>
+<td style="text-align: left;">objects are dense, or as large as the window</td>
+<td style="text-align: left;">the light itself has fine structure (a dark corner, dust)</td>
+</tr>
+</tbody>
+</table>
+<div class="fragment micro">
+<p>And then how to <strong>combine</strong> image and estimate. The common tools <strong>subtract</strong> (Fiji’s <em>Process › Subtract Background</em>, scikit-image’s <code>rolling_ball</code> examples: <code>image - background</code>), which assumes the light adds. Any estimate can also divide; our seeds said the light <strong>multiplies</strong>. Two decisions, then: how to <strong>estimate</strong> (local or global), and how to <strong>combine</strong> (subtract or divide).</p>
+</div>
+</section>
+<section id="estimating-the-illumination" class="slide level2 center">
+<h2>Estimating the illumination</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Method</th>
+<th style="text-align: left;">Local or global</th>
+<th style="text-align: left;">Idea</th>
+<th style="text-align: left;">Where to find it</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">a large blur</td>
+<td style="text-align: left;">local</td>
+<td style="text-align: left;">average the neighbourhood</td>
+<td style="text-align: left;"><code>filters.gaussian</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">a large median</td>
+<td style="text-align: left;">local</td>
+<td style="text-align: left;">the middle value of the neighbourhood</td>
+<td style="text-align: left;"><code>ndimage.median_filter</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">“rolling ball”</td>
+<td style="text-align: left;">local</td>
+<td style="text-align: left;">the floor under the objects</td>
+<td style="text-align: left;"><code>restoration.rolling_ball</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">a fitted smooth surface</td>
+<td style="text-align: left;">global</td>
+<td style="text-align: left;">refit without what stands out</td>
+<td style="text-align: left;"><code>np.linalg.lstsq</code> (least squares)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">a flat-field image</td>
+<td style="text-align: left;">measured</td>
+<td style="text-align: left;">photograph an empty field</td>
+<td style="text-align: left;">divide by it: the best, when you can</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="where-to-look-for-an-algorithm" class="slide level2 center">
+<h2>Where to look for an algorithm</h2>
+<p>You know what the step must do (“remove uneven background”). Where do candidate methods come from?</p>
+<ol type="1">
+<li><strong>Name the problem</strong>: the words experts use are the search keys: <em>background subtraction</em>, <em>flat-field correction</em>, <em>rolling ball</em>, <em>shading correction</em></li>
+<li><strong>The gallery</strong>: scikit-image’s <a href="https://scikit-image.org/docs/stable/auto_examples/">examples gallery</a> is organised by task, each example a short script with figures; the <a href="https://scikit-image.org/docs/stable/api/api.html">API reference</a> lists every function by submodule</li>
+<li><strong><a href="https://fiji.sc">Fiji</a>’s menus</strong> are a catalogue of standard methods with their names (<em>Process › Subtract Background</em> is the rolling ball)</li>
+<li><strong>Ask the AI for options, not for code</strong>: “list three ways to correct uneven illumination in a microscopy image, with the assumption each one makes and when it fails”</li>
+<li><strong>Reviews and textbooks</strong> for the reasons behind the methods</li>
+</ol>
+<div class="fragment">
+<p>Each source gives <strong>candidates</strong>. Which one becomes the step is decided by your criterion, on digital and real data.</p>
+</div>
+<p><span class="notebook">▶ notebook, part 4: Second attempt, VALIDATE</span></p>
+</section></section>
+<section id="tutorial" class="title-slide slide level1 center" data-background-color="darkgreen">
+<h1>Tutorial</h1>
+<p><strong>An 8-bit copy of <code>cells.tif</code></strong>, for a figure.</p>
+<ol type="1">
+<li><strong>DEFINE</strong>: the mapping, the limits, the criterion</li>
+<li><strong>DECOMPOSE</strong>: limits; convert; save and show, with a scale bar</li>
+<li><strong>SPECIFY ⇄ DIAGNOSE</strong> with digital values worked out by hand</li>
+<li><strong>VALIDATE</strong>: limits from one cell, checked on the other</li>
+</ol>
+<p>Bring: <code>lec04_src/data/cells.tif</code>, and <code>imagecodecs</code> in your <code>.venv</code>.</p>
+</section>
+
+<section id="assignment-3" class="title-slide slide level1 center" data-background-color="darkred">
+<h1>Assignment 3</h1>
+<p><strong>Clean the image, keep the fibres.</strong> A confocal image from a camera with faulty pixels, stuck black or white. Remove them without damaging the fibres.</p>
+<p>A good result, measured against the clean image (given):</p>
+<ul>
+<li><strong>fibres preserved</strong>: a small average difference on the fibre pixels (brighter than 100)</li>
+<li><strong>noise removed</strong>: a small average difference on all the other pixels</li>
+<li>both <strong>better than doing nothing</strong> (about 6.4 grey levels each)</li>
+</ul>
+<p>Your method, your digital data, your evidence. Instructions, data and deadline on Moodle.</p>
+</section>
+
+<section id="take-home-message" class="title-slide slide level1 center">
+<h1>Take-home message</h1>
+<ul>
+<li>An image is an array: shape, (row, column), channels, dtype, range, pixel size. Print them.</li>
+<li>8 bits wrap round, libraries rescale, detectors saturate, JPEG changes data, displays are choices</li>
+<li>Every filter is a step with a rule; sizes in pixels, decided in µm</li>
+<li>Light multiplies: correct illumination by <strong>dividing</strong></li>
+<li>Digital images in the <strong>same representation</strong> as the real ones</li>
+<li>Methods are <strong>candidates</strong>: the criterion, in numbers, chooses</li>
+</ul>
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<p><img src="UoG_colour.png" class="slide-logo"></p>
+<div class="footer footer-default">
+<p>ENG3090 Biomedical Engineering Skills 3</p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="ENG3090_lec04_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="ENG3090_lec04_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="ENG3090_lec04_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="ENG3090_lec04_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="ENG3090_lec04_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="ENG3090_lec04_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="ENG3090_lec04_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="ENG3090_lec04_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="ENG3090_lec04_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="ENG3090_lec04_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: true,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'fade',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>
