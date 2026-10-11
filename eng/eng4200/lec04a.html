@@ -1,0 +1,1847 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="lec04a_files/libs/clipboard/clipboard.min.js"></script>
+<script src="lec04a_files/libs/quarto-html/tabby.min.js"></script>
+<script src="lec04a_files/libs/quarto-html/popper.min.js"></script>
+<script src="lec04a_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="lec04a_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="lec04a_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="lec04a_files/libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.10.19">
+
+  <meta name="author" content="Jiabao Xu">
+  <meta name="author" content="Massimo Vassalli">
+  <title>Evaluation metrics</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="lec04a_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="lec04a_files/libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="lec04a_files/libs/revealjs/dist/theme/quarto-a66d5f97dc36661424f13b5665fec6ea.css">
+  <link href="lec04a_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="lec04a_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="lec04a_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="lec04a_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Evaluation metrics</h1>
+  <p class="subtitle">Introduction to Artificial Intelligence and Machine Learning 4</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Jiabao Xu
+</div>
+        <p class="quarto-title-affiliation">
+            Jiabao.Xu@glasgow.ac.uk
+          </p>
+    </div>
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Massimo Vassalli
+</div>
+        <p class="quarto-title-affiliation">
+            massimo.vassalli@glasgow.ac.uk
+          </p>
+    </div>
+</div>
+
+</section>
+<section>
+<section id="how-good-is-a-model" class="title-slide slide level1 center">
+<h1>How good is a model?</h1>
+<p>We have already evaluated our models with a few numbers: MSE, RMSE and <span class="math inline">\(R^2\)</span> for linear regression (2b), accuracy and the confusion matrix for logistic regression (3a). Today we build the full toolbox:</p>
+<ul>
+<li>a <strong>baseline</strong> to compare every score with</li>
+<li><strong>regression</strong> metrics, and what each one rewards</li>
+<li><strong>classification</strong> metrics built from the confusion matrix, for two or more classes</li>
+<li>the <strong>decision threshold</strong>, ROC and precision-recall curves</li>
+<li><strong>probabilities</strong> as predictions: log-loss, Brier score, calibration</li>
+<li><strong>imbalanced</strong> data, the <strong>cost</strong> of errors, and how <strong>sure</strong> we can be of a score</li>
+</ul>
+<p>Next lecture (4b) uses these metrics to compare models and choose their settings.</p>
+</section>
+<section id="loss-and-metric" class="slide level2 center">
+<h2>Loss and metric</h2>
+<p>The <strong>loss</strong> and the <strong>metric</strong> are both measures of error, but they have different jobs.</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Loss (strategy <span class="math inline">\(L\)</span>)</th>
+<th style="text-align: left;">Evaluation metric</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Purpose</strong></td>
+<td style="text-align: left;">drives the learning</td>
+<td style="text-align: left;">judges the result</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Used on</strong></td>
+<td style="text-align: left;">training data, by the algorithm</td>
+<td style="text-align: left;">validation and test data, by us</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Requirements</strong></td>
+<td style="text-align: left;">smooth, ideally convex, easy to optimise</td>
+<td style="text-align: left;">meaningful for the <strong>task</strong>, easy to interpret</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Examples</strong></td>
+<td style="text-align: left;">MSE, log-loss</td>
+<td style="text-align: left;">MAE, RMSE, accuracy, recall, AUROC, cost</td>
+</tr>
+</tbody>
+</table>
+<div class="fragment">
+<p>Sometimes they coincide (MSE can be both), often they do not: logistic regression minimises the log-loss, but a screening test is judged by how many malignant cases it finds. What you <strong>optimise</strong> shapes the model; what you <strong>measure</strong> decides whether it is good enough for the problem.</p>
+</div>
+</section>
+<section id="point-and-probabilistic-predictions" class="slide level2 center">
+<h2>Point and probabilistic predictions</h2>
+<p>A model can return two kinds of output, and they are evaluated differently:</p>
+<ul>
+<li>a <strong>point prediction</strong>: one value, <span class="math inline">\(\hat y_i\)</span> (a number in regression, a class in classification). Metrics compare <span class="math inline">\(\hat y_i\)</span> with <span class="math inline">\(y_i\)</span>: MSE, MAE, accuracy, precision, recall.</li>
+<li>a <strong>probabilistic prediction</strong>: how likely each outcome is, e.g.&nbsp;<span class="math inline">\(\hat p_i = P(y_i = 1 \mid \mathbf{x}_i)\)</span> in logistic regression. Metrics judge the probabilities themselves: log-loss, Brier score, calibration, and curves over all thresholds (ROC, PR).</li>
+</ul>
+<div class="fragment">
+<p>For a classifier the two are connected by the <strong>threshold</strong> <span class="math inline">\(t\)</span>: <span class="math inline">\(\hat y_i = 1\)</span> if <span class="math inline">\(\hat p_i \ge t\)</span>. Point metrics depend on <span class="math inline">\(t\)</span>; probabilistic metrics do not.</p>
+</div>
+</section></section>
+<section id="always-start-from-a-baseline" class="title-slide slide level1 center">
+<h1>Always start from a baseline</h1>
+<div class="micro">
+<p>A score means little on its own. Is an accuracy of 0.9 good? It depends on how easy the problem is. A <strong>baseline</strong> is the score of a model that ignores the features:</p>
+<ul>
+<li>classification: always predict the <strong>most frequent class</strong> (<code>DummyClassifier</code>)</li>
+<li>regression: always predict the <strong>mean</strong> of the training targets (<code>DummyRegressor</code>)</li>
+</ul>
+</div>
+<div id="7868452c" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_breast_cancer, load_diabetes</span>
+<span id="cb1-2"><a href="" aria-label="2"></a><span class="im">from</span> sklearn.dummy <span class="im">import</span> DummyClassifier, DummyRegressor</span>
+<span id="cb1-3"><a href="" aria-label="3"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb1-4"><a href="" aria-label="4"></a></span>
+<span id="cb1-5"><a href="" aria-label="5"></a>cancer <span class="op">=</span> load_breast_cancer()</span>
+<span id="cb1-6"><a href="" aria-label="6"></a>X, y <span class="op">=</span> cancer.data, <span class="dv">1</span> <span class="op">-</span> cancer.target          <span class="co"># 1 = malignant, as in 3a</span></span>
+<span id="cb1-7"><a href="" aria-label="7"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(</span>
+<span id="cb1-8"><a href="" aria-label="8"></a>    X, y, test_size<span class="op">=</span><span class="fl">0.25</span>, stratify<span class="op">=</span>y, random_state<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb1-9"><a href="" aria-label="9"></a></span>
+<span id="cb1-10"><a href="" aria-label="10"></a>diabetes <span class="op">=</span> load_diabetes()</span>
+<span id="cb1-11"><a href="" aria-label="11"></a>Xd, yd <span class="op">=</span> diabetes.data, diabetes.target</span>
+<span id="cb1-12"><a href="" aria-label="12"></a>Xd_train, Xd_test, yd_train, yd_test <span class="op">=</span> train_test_split(</span>
+<span id="cb1-13"><a href="" aria-label="13"></a>    Xd, yd, test_size<span class="op">=</span><span class="fl">0.25</span>, random_state<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb1-14"><a href="" aria-label="14"></a></span>
+<span id="cb1-15"><a href="" aria-label="15"></a>dummy_c <span class="op">=</span> DummyClassifier().fit(X_train, y_train)      <span class="co"># most frequent class</span></span>
+<span id="cb1-16"><a href="" aria-label="16"></a>dummy_r <span class="op">=</span> DummyRegressor().fit(Xd_train, yd_train)     <span class="co"># training mean</span></span>
+<span id="cb1-17"><a href="" aria-label="17"></a><span class="bu">print</span>(<span class="ss">f"breast cancer, majority class: accuracy = </span><span class="sc">{</span>dummy_c<span class="sc">.</span>score(X_test, y_test)<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb1-18"><a href="" aria-label="18"></a><span class="bu">print</span>(<span class="ss">f"diabetes, mean predictor     : R2 = </span><span class="sc">{</span>dummy_r<span class="sc">.</span>score(Xd_test, yd_test)<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell fragment" data-execution_count="2">
+<div class="cell-output cell-output-stdout">
+<pre><code>breast cancer, majority class: accuracy = 0.629
+diabetes, mean predictor     : R2 = -0.000</code></pre>
+</div>
+</div>
+<div class="fragment micro">
+<p>The majority class gives the 0.63 we met in 3a. The mean predictor gives <span class="math inline">\(R^2 \approx 0\)</span> by construction, slightly <strong>negative</strong> on the test set because it uses the mean of the <em>training</em> targets. Report every score next to its baseline.</p>
+</div>
+</section>
+
+<section>
+<section id="regression-metrics" class="title-slide slide level1 center">
+<h1>Regression metrics</h1>
+<p>From 2b, for a test set of <span class="math inline">\(n\)</span> samples:</p>
+<p><span class="math display">\[
+\text{MSE} = \frac{1}{n}\sum_{i=1}^{n}(y_i - \hat{y}_i)^2, \qquad
+\text{RMSE} = \sqrt{\text{MSE}}, \qquad
+R^2 = 1 - \frac{\sum_{i}(y_i - \hat{y}_i)^2}{\sum_{i}(y_i - \bar{y})^2}
+\]</span></p>
+<p>Two more, based on absolute errors:</p>
+<p><span class="math display">\[
+\text{MAE} = \frac{1}{n}\sum_{i=1}^{n}|y_i - \hat{y}_i|, \qquad
+\text{MedAE} = \operatorname{median}_i\,|y_i - \hat{y}_i|
+\]</span></p>
+<p>RMSE, MAE and MedAE are in the <strong>units of <span class="math inline">\(y\)</span></strong>, so they can be read as a typical error; <span class="math inline">\(R^2\)</span> has no units and compares the model with the mean predictor.</p>
+</section>
+<section id="mae-or-rmse" class="slide level2 center">
+<h2>MAE or RMSE?</h2>
+<p>Squaring makes large errors count much more than small ones. RMSE and MAE can therefore <strong>disagree</strong> on which model is better. Two models, ten test samples each:</p>
+<div id="ddf2ad58" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="" aria-label="1"></a>err_A <span class="op">=</span> np.array([<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">30</span>])   <span class="co"># accurate, one big miss</span></span>
+<span id="cb3-2"><a href="" aria-label="2"></a>err_B <span class="op">=</span> np.array([<span class="dv">6</span>, <span class="dv">6</span>, <span class="dv">6</span>, <span class="dv">6</span>, <span class="dv">6</span>, <span class="dv">6</span>, <span class="dv">6</span>, <span class="dv">6</span>, <span class="dv">6</span>, <span class="dv">6</span>])    <span class="co"># always a bit off</span></span>
+<span id="cb3-3"><a href="" aria-label="3"></a></span>
+<span id="cb3-4"><a href="" aria-label="4"></a><span class="cf">for</span> name, e <span class="kw">in</span> [(<span class="st">"A"</span>, err_A), (<span class="st">"B"</span>, err_B)]:</span>
+<span id="cb3-5"><a href="" aria-label="5"></a>    <span class="bu">print</span>(<span class="ss">f"model </span><span class="sc">{</span>name<span class="sc">}</span><span class="ss">:  MAE = </span><span class="sc">{</span>np<span class="sc">.</span>mean(np.<span class="bu">abs</span>(e))<span class="sc">:4.1f}</span><span class="ss">   "</span></span>
+<span id="cb3-6"><a href="" aria-label="6"></a>          <span class="ss">f"RMSE = </span><span class="sc">{</span>np<span class="sc">.</span>sqrt(np.mean(e<span class="op">**</span><span class="dv">2</span>))<span class="sc">:4.1f}</span><span class="ss">   MedAE = </span><span class="sc">{</span>np<span class="sc">.</span>median(np.<span class="bu">abs</span>(e))<span class="sc">:4.1f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell fragment" data-execution_count="3">
+<div class="cell-output cell-output-stdout">
+<pre><code>model A:  MAE =  4.8   RMSE =  9.7   MedAE =  2.0
+model B:  MAE =  6.0   RMSE =  6.0   MedAE =  6.0</code></pre>
+</div>
+</div>
+<div class="fragment">
+<p>MAE prefers A, RMSE prefers B. Neither is wrong: they answer different questions.</p>
+<ul>
+<li><strong>RMSE</strong> when large errors are disproportionately bad (a bridge load, a drug dose)</li>
+<li><strong>MAE</strong> when every unit of error costs the same, or when a few outliers in the data should not dominate</li>
+<li><strong>MedAE</strong> to describe the typical error, ignoring the worst cases entirely</li>
+</ul>
+<p>This mirrors the choice of the loss in 2b: MSE is the mean of a Gaussian, MAE its median, Huber a compromise.</p>
+</div>
+</section>
+<section id="relative-errors-mape" class="slide level2 center">
+<h2>Relative errors: MAPE</h2>
+<p>Sometimes an error of 5 matters more on a small value than on a large one. The <strong>mean absolute percentage error</strong> measures relative errors:</p>
+<p><span class="math display">\[
+\text{MAPE} = \frac{1}{n}\sum_{i=1}^{n}\frac{|y_i - \hat{y}_i|}{|y_i|}
+\]</span></p>
+<div id="26227479" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_absolute_percentage_error</span>
+<span id="cb5-2"><a href="" aria-label="2"></a></span>
+<span id="cb5-3"><a href="" aria-label="3"></a>y_true <span class="op">=</span> np.array([<span class="fl">1.0</span>, <span class="fl">10.0</span>, <span class="fl">100.0</span>])</span>
+<span id="cb5-4"><a href="" aria-label="4"></a>y_pred <span class="op">=</span> y_true <span class="op">+</span> <span class="dv">5</span>                       <span class="co"># the same absolute error everywhere</span></span>
+<span id="cb5-5"><a href="" aria-label="5"></a><span class="bu">print</span>(<span class="st">"absolute errors  :"</span>, np.<span class="bu">abs</span>(y_true <span class="op">-</span> y_pred))</span>
+<span id="cb5-6"><a href="" aria-label="6"></a><span class="bu">print</span>(<span class="st">"relative errors  :"</span>, np.<span class="bu">abs</span>(y_true <span class="op">-</span> y_pred) <span class="op">/</span> np.<span class="bu">abs</span>(y_true))</span>
+<span id="cb5-7"><a href="" aria-label="7"></a><span class="bu">print</span>(<span class="ss">f"MAPE = </span><span class="sc">{</span>mean_absolute_percentage_error(y_true, y_pred)<span class="sc">:.2f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell fragment" data-execution_count="4">
+<div class="cell-output cell-output-stdout">
+<pre><code>absolute errors  : [5. 5. 5.]
+relative errors  : [5.   0.5  0.05]
+MAPE = 1.85</code></pre>
+</div>
+</div>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Warning</strong></p>
+</div>
+<div class="callout-content">
+<p>MAPE explodes when some <span class="math inline">\(y_i\)</span> are close to zero, and is undefined when <span class="math inline">\(y_i = 0\)</span>. scikit-learn returns it as a <strong>fraction</strong>, not a percentage. Use it only for targets that stay well away from zero, when relative errors are what matters.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="diabetes-all-metrics-together" class="slide level2 center">
+<h2>Diabetes: all metrics together</h2>
+<p>The multivariate model of 2b, compared with two baselines (mean and median predictor):</p>
+<div id="deb7f462" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
+<span id="cb7-2"><a href="" aria-label="2"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> (mean_absolute_error, median_absolute_error,</span>
+<span id="cb7-3"><a href="" aria-label="3"></a>                             r2_score, root_mean_squared_error)</span>
+<span id="cb7-4"><a href="" aria-label="4"></a></span>
+<span id="cb7-5"><a href="" aria-label="5"></a>models <span class="op">=</span> {<span class="st">"mean"</span>:   DummyRegressor(strategy<span class="op">=</span><span class="st">"mean"</span>),</span>
+<span id="cb7-6"><a href="" aria-label="6"></a>          <span class="st">"median"</span>: DummyRegressor(strategy<span class="op">=</span><span class="st">"median"</span>),</span>
+<span id="cb7-7"><a href="" aria-label="7"></a>          <span class="st">"linear"</span>: LinearRegression()}</span>
+<span id="cb7-8"><a href="" aria-label="8"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="st">''</span><span class="sc">:7s}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'RMSE'</span><span class="sc">:&gt;6s}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'MAE'</span><span class="sc">:&gt;6s}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'MedAE'</span><span class="sc">:&gt;6s}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'MAPE'</span><span class="sc">:&gt;6s}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'R2'</span><span class="sc">:&gt;6s}</span><span class="ss">"</span>)</span>
+<span id="cb7-9"><a href="" aria-label="9"></a><span class="cf">for</span> name, est <span class="kw">in</span> models.items():</span>
+<span id="cb7-10"><a href="" aria-label="10"></a>    yp <span class="op">=</span> est.fit(Xd_train, yd_train).predict(Xd_test)</span>
+<span id="cb7-11"><a href="" aria-label="11"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>name<span class="sc">:7s}</span><span class="ss"> </span><span class="sc">{</span>root_mean_squared_error(yd_test, yp)<span class="sc">:6.1f}</span><span class="ss"> "</span></span>
+<span id="cb7-12"><a href="" aria-label="12"></a>          <span class="ss">f"</span><span class="sc">{</span>mean_absolute_error(yd_test, yp)<span class="sc">:6.1f}</span><span class="ss"> </span><span class="sc">{</span>median_absolute_error(yd_test, yp)<span class="sc">:6.1f}</span><span class="ss"> "</span></span>
+<span id="cb7-13"><a href="" aria-label="13"></a>          <span class="ss">f"</span><span class="sc">{</span>mean_absolute_percentage_error(yd_test, yp)<span class="sc">:6.2f}</span><span class="ss"> </span><span class="sc">{</span>r2_score(yd_test, yp)<span class="sc">:6.2f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell fragment" data-execution_count="5">
+<div class="cell-output cell-output-stdout">
+<pre><code>          RMSE    MAE  MedAE   MAPE     R2
+mean      70.5   58.3   50.9   0.53  -0.00
+median    71.8   58.3   51.0   0.48  -0.04
+linear    56.4   45.1   40.5   0.38   0.36</code></pre>
+</div>
+</div>
+<div class="fragment">
+<p>The model reduces the typical error from about 58 to about 45 units of disease progression (MAE), roughly 38% in relative terms (MAPE). The median predictor has a lower MAPE than the mean predictor but a worse RMSE: again, the metric decides the winner. Disease progression ranges from 25 to 346, so MAPE is usable here.</p>
+</div>
+</section>
+<section id="looking-at-the-errors" class="slide level2 center">
+<h2>Looking at the errors</h2>
+<div class="micro">
+<p>A single number hides <em>where</em> the model is wrong. scikit-learn’s <code>PredictionErrorDisplay</code> draws the two standard plots:</p>
+</div>
+<div id="45c7010c" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> PredictionErrorDisplay</span>
+<span id="cb9-2"><a href="" aria-label="2"></a></span>
+<span id="cb9-3"><a href="" aria-label="3"></a>lin <span class="op">=</span> LinearRegression().fit(Xd_train, yd_train)</span>
+<span id="cb9-4"><a href="" aria-label="4"></a>yd_pred <span class="op">=</span> lin.predict(Xd_test)</span>
+<span id="cb9-5"><a href="" aria-label="5"></a>fig, axs <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">3</span>))</span>
+<span id="cb9-6"><a href="" aria-label="6"></a>PredictionErrorDisplay.from_predictions(yd_test, yd_pred, kind<span class="op">=</span><span class="st">"actual_vs_predicted"</span>, ax<span class="op">=</span>axs[<span class="dv">0</span>])</span>
+<span id="cb9-7"><a href="" aria-label="7"></a>PredictionErrorDisplay.from_predictions(yd_test, yd_pred, kind<span class="op">=</span><span class="st">"residual_vs_predicted"</span>, ax<span class="op">=</span>axs[<span class="dv">1</span>])</span>
+<span id="cb9-8"><a href="" aria-label="8"></a>axs[<span class="dv">0</span>].set_title(<span class="st">"actual vs predicted"</span>)</span>
+<span id="cb9-9"><a href="" aria-label="9"></a>axs[<span class="dv">1</span>].set_title(<span class="st">"residuals vs predicted"</span>)</span>
+<span id="cb9-10"><a href="" aria-label="10"></a>plt.tight_layout()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell fragment" data-execution_count="6">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec04a_files/figure-revealjs/cell-7-output-1.png" width="758" height="278"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="fragment micro">
+<p>Points far from the diagonal (left) or from zero (right) are the large errors that RMSE emphasises. The model compresses the predictions: it overestimates low progressions and underestimates high ones, a pattern no single metric reveals.</p>
+</div>
+</section>
+<section id="regression-metrics-at-a-glance" class="slide level2 center">
+<h2>Regression metrics at a glance</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Metric</th>
+<th style="text-align: left;">Units</th>
+<th style="text-align: left;">Large errors</th>
+<th style="text-align: left;">scikit-learn</th>
+<th style="text-align: left;"><code>scoring</code> (4b)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">MSE</td>
+<td style="text-align: left;"><span class="math inline">\(y^2\)</span></td>
+<td style="text-align: left;">strongly penalised</td>
+<td style="text-align: left;"><code>mean_squared_error</code></td>
+<td style="text-align: left;"><code>"neg_mean_squared_error"</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">RMSE</td>
+<td style="text-align: left;"><span class="math inline">\(y\)</span></td>
+<td style="text-align: left;">strongly penalised</td>
+<td style="text-align: left;"><code>root_mean_squared_error</code></td>
+<td style="text-align: left;"><code>"neg_root_mean_squared_error"</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">MAE</td>
+<td style="text-align: left;"><span class="math inline">\(y\)</span></td>
+<td style="text-align: left;">linear</td>
+<td style="text-align: left;"><code>mean_absolute_error</code></td>
+<td style="text-align: left;"><code>"neg_mean_absolute_error"</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MedAE</td>
+<td style="text-align: left;"><span class="math inline">\(y\)</span></td>
+<td style="text-align: left;">ignored</td>
+<td style="text-align: left;"><code>median_absolute_error</code></td>
+<td style="text-align: left;"><code>"neg_median_absolute_error"</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">MAPE</td>
+<td style="text-align: left;">fraction</td>
+<td style="text-align: left;">relative</td>
+<td style="text-align: left;"><code>mean_absolute_percentage_error</code></td>
+<td style="text-align: left;"><code>"neg_mean_absolute_percentage_error"</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(R^2\)</span></td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">strongly penalised</td>
+<td style="text-align: left;"><code>r2_score</code></td>
+<td style="text-align: left;"><code>"r2"</code></td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p>In scikit-learn a <strong>score</strong> is always “higher is better”. Error metrics are therefore used with a minus sign (<code>neg_...</code>) when models are compared automatically, as we will do in 4b.</p>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="classification-metrics" class="title-slide slide level1 center">
+<h1>Classification metrics</h1>
+<p>Back to breast cancer and the pipeline of 3a, a <code>StandardScaler</code> followed by a <code>LogisticRegression</code> on all 30 features. We call it the <strong>full model</strong> (<code>model</code> in the code). The <strong>positive</strong> class (<span class="math inline">\(y = 1\)</span>) is <em>malignant</em>, the class we want to detect.</p>
+<div id="caa7cb51" class="cell columns column-output-location" data-execution_count="7">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
+<span id="cb10-2"><a href="" aria-label="2"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> ConfusionMatrixDisplay</span>
+<span id="cb10-3"><a href="" aria-label="3"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> make_pipeline</span>
+<span id="cb10-4"><a href="" aria-label="4"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb10-5"><a href="" aria-label="5"></a></span>
+<span id="cb10-6"><a href="" aria-label="6"></a>model <span class="op">=</span> make_pipeline(StandardScaler(), LogisticRegression())</span>
+<span id="cb10-7"><a href="" aria-label="7"></a>model.fit(X_train, y_train)</span>
+<span id="cb10-8"><a href="" aria-label="8"></a>y_pred <span class="op">=</span> model.predict(X_test)</span>
+<span id="cb10-9"><a href="" aria-label="9"></a>p_test <span class="op">=</span> model.predict_proba(X_test)[:, <span class="dv">1</span>]</span>
+<span id="cb10-10"><a href="" aria-label="10"></a></span>
+<span id="cb10-11"><a href="" aria-label="11"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">4</span>, <span class="fl">3.5</span>))</span>
+<span id="cb10-12"><a href="" aria-label="12"></a>_ <span class="op">=</span> ConfusionMatrixDisplay.from_predictions(</span>
+<span id="cb10-13"><a href="" aria-label="13"></a>    y_test, y_pred, display_labels<span class="op">=</span>[<span class="st">"benign"</span>, <span class="st">"malignant"</span>],</span>
+<span id="cb10-14"><a href="" aria-label="14"></a>    ax<span class="op">=</span>ax, colorbar<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column fragment">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec04a_files/figure-revealjs/cell-8-output-1.png" width="373" height="319"></p>
+</figure>
+</div>
+</div>
+</div></div>
+<div class="fragment micro">
+<p>Rows are the true classes, columns the predictions:</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: center;">predicted 0</th>
+<th style="text-align: center;">predicted 1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>true 0</strong></td>
+<td style="text-align: center;">TN</td>
+<td style="text-align: center;">FP</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>true 1</strong></td>
+<td style="text-align: center;">FN</td>
+<td style="text-align: center;">TP</td>
+</tr>
+</tbody>
+</table>
+<p>Every classification metric of this section is a combination of these four numbers.</p>
+</div>
+</section>
+<section id="accuracy-is-not-enough" class="slide level2 center">
+<h2>Accuracy is not enough</h2>
+<p>Three classifiers decide whether a news article is about politics (positive) or not, on a test set of 100 articles, <strong>5</strong> of them political:</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: center;">C1</th>
+<th style="text-align: center;">C2</th>
+<th style="text-align: center;">C3</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">TP</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FN</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FP</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TN</td>
+<td style="text-align: center;">95</td>
+<td style="text-align: center;">91</td>
+<td style="text-align: center;">95</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>accuracy</strong></td>
+<td style="text-align: center;">0.95</td>
+<td style="text-align: center;">0.95</td>
+<td style="text-align: center;">0.96</td>
+</tr>
+</tbody>
+</table>
+<div class="fragment">
+<p>C1 never predicts “politics”: it is the majority-class baseline, and it still scores 0.95. C3 has the <strong>highest</strong> accuracy, but finds only one of the five political articles. C2 finds four of them, at the price of four false alarms. Accuracy cannot tell these behaviours apart, because positives are rare and TN dominates the count.</p>
+</div>
+<div class="micro">
+<p>Example adapted from Zollanvari, <a href="https://doi.org/10.1007/978-3-031-33342-2">Machine Learning with Python</a>.</p>
+</div>
+</section>
+<section id="precision-and-recall" class="slide level2 center">
+<h2>Precision and recall</h2>
+<p>Two questions about the <strong>positive</strong> class, each answered by one row or one column of the confusion matrix:</p>
+<div class="columns">
+<div class="column">
+<p><strong>Precision</strong>: of the samples <em>predicted</em> positive, how many are really positive? <span class="math display">\[
+\text{precision} = \frac{TP}{TP + FP}
+\]</span> How much can I trust an alarm?</p>
+</div><div class="column">
+<p><strong>Recall</strong> (sensitivity, true positive rate): of the samples that <em>are</em> positive, how many did we find? <span class="math display">\[
+\text{recall} = \frac{TP}{TP + FN}
+\]</span> How many cases do I miss?</p>
+</div></div>
+<div class="fragment">
+<p>For the negative class, the analogue of recall is the <strong>specificity</strong> (true negative rate), <span class="math inline">\(TN/(TN+FP)\)</span>. In medicine, sensitivity and specificity are the standard pair; in information retrieval and machine learning, precision and recall.</p>
+</div>
+</section>
+<section id="precision-and-recall-the-news-example" class="slide level2 center">
+<h2>Precision and recall: the news example</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: center;">C1</th>
+<th style="text-align: center;">C2</th>
+<th style="text-align: center;">C3</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">accuracy</td>
+<td style="text-align: center;">0.95</td>
+<td style="text-align: center;">0.95</td>
+<td style="text-align: center;">0.96</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">precision</td>
+<td style="text-align: center;">0/0</td>
+<td style="text-align: center;">4/8 = 0.50</td>
+<td style="text-align: center;">1/1 = 1.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">recall</td>
+<td style="text-align: center;">0/5 = 0.00</td>
+<td style="text-align: center;">4/5 = 0.80</td>
+<td style="text-align: center;">1/5 = 0.20</td>
+</tr>
+</tbody>
+</table>
+<div class="fragment">
+<p>Now the three behaviours are visible: C1 is useless, C3 is <strong>precise</strong> but misses most positives, C2 finds most positives but half of its alarms are false. Which is better depends on the application: a politics filter for a news app may prefer C3, a fact-checker who must not miss anything prefers C2.</p>
+</div>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p>Precision is undefined when nothing is predicted positive (C1). scikit-learn then returns 0 with a warning; the argument <code>zero_division</code> controls this.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="the-f-score" class="slide level2 center">
+<h2>The F-score</h2>
+<p>To compare models with a <strong>single</strong> number that accounts for both, the <span class="math inline">\(F_1\)</span> score is the <strong>harmonic mean</strong> of precision (<span class="math inline">\(P\)</span>) and recall (<span class="math inline">\(R\)</span>):</p>
+<p><span class="math display">\[
+F_1 = \frac{2}{\frac{1}{P} + \frac{1}{R}} = \frac{2PR}{P + R} = \frac{2\,TP}{2\,TP + FP + FN}
+\]</span></p>
+<p>The harmonic mean is dominated by the smaller of the two: a model cannot hide a poor recall behind an excellent precision. For C2, <span class="math inline">\(F_1 = 0.62\)</span>; for C3, <span class="math inline">\(F_1 = 0.33\)</span>.</p>
+<div class="fragment">
+<p>When one of the two matters more, the <span class="math inline">\(F_\beta\)</span> score weights recall <span class="math inline">\(\beta\)</span> times as much as precision:</p>
+<p><span class="math display">\[
+F_\beta = \frac{(1 + \beta^2)\,P R}{\beta^2 P + R}
+\]</span></p>
+<p><span class="math inline">\(\beta = 2\)</span> favours recall (screening, safety), <span class="math inline">\(\beta = 0.5\)</span> favours precision (spam filters, recommendations). Note that TN never appears: F-scores focus on the positive class.</p>
+</div>
+</section>
+<section id="in-scikit-learn" class="slide level2 center">
+<h2>In scikit-learn</h2>
+<div id="270032e8" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> classification_report</span>
+<span id="cb11-2"><a href="" aria-label="2"></a></span>
+<span id="cb11-3"><a href="" aria-label="3"></a><span class="bu">print</span>(classification_report(y_test, y_pred, target_names<span class="op">=</span>[<span class="st">"benign"</span>, <span class="st">"malignant"</span>], digits<span class="op">=</span><span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell fragment" data-execution_count="8">
+<div class="cell-output cell-output-stdout">
+<pre><code>              precision    recall  f1-score   support
+
+      benign      0.978     1.000     0.989        90
+   malignant      1.000     0.962     0.981        53
+
+    accuracy                          0.986       143
+   macro avg      0.989     0.981     0.985       143
+weighted avg      0.986     0.986     0.986       143
+</code></pre>
+</div>
+</div>
+<div class="fragment">
+<p>One line per class, each treated in turn as the positive one; <code>support</code> is the number of true samples of the class. For <em>malignant</em>, precision is 1.0 (no false alarms) and recall 0.96 (two missed cases), as in the confusion matrix. The last two lines average over the classes: next slide.</p>
+</div>
+</section>
+<section id="more-than-two-classes" class="slide level2 center">
+<h2>More than two classes</h2>
+<div class="micro">
+<p>The <strong>wine</strong> dataset: 178 wines from three cultivars, 13 chemical features. To make the problem harder (and the errors visible), we use only two features, alcohol and magnesium.</p>
+</div>
+<div id="bf08acd4" class="cell columns column-output-location" data-execution_count="9">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_wine</span>
+<span id="cb13-2"><a href="" aria-label="2"></a></span>
+<span id="cb13-3"><a href="" aria-label="3"></a>wine <span class="op">=</span> load_wine()</span>
+<span id="cb13-4"><a href="" aria-label="4"></a>Xw, yw <span class="op">=</span> wine.data[:, [<span class="dv">0</span>, <span class="dv">4</span>]], wine.target              <span class="co"># alcohol, magnesium</span></span>
+<span id="cb13-5"><a href="" aria-label="5"></a>Xw_train, Xw_test, yw_train, yw_test <span class="op">=</span> train_test_split(</span>
+<span id="cb13-6"><a href="" aria-label="6"></a>    Xw, yw, test_size<span class="op">=</span><span class="fl">0.3</span>, stratify<span class="op">=</span>yw, random_state<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb13-7"><a href="" aria-label="7"></a>wine_model <span class="op">=</span> make_pipeline(StandardScaler(), LogisticRegression()).fit(Xw_train, yw_train)</span>
+<span id="cb13-8"><a href="" aria-label="8"></a>yw_pred <span class="op">=</span> wine_model.predict(Xw_test)</span>
+<span id="cb13-9"><a href="" aria-label="9"></a></span>
+<span id="cb13-10"><a href="" aria-label="10"></a>fig, axs <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">3.5</span>))</span>
+<span id="cb13-11"><a href="" aria-label="11"></a>ConfusionMatrixDisplay.from_predictions(yw_test, yw_pred, ax<span class="op">=</span>axs[<span class="dv">0</span>], colorbar<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb13-12"><a href="" aria-label="12"></a>ConfusionMatrixDisplay.from_predictions(yw_test, yw_pred, normalize<span class="op">=</span><span class="st">"true"</span>,</span>
+<span id="cb13-13"><a href="" aria-label="13"></a>                                        values_format<span class="op">=</span><span class="st">".2f"</span>, ax<span class="op">=</span>axs[<span class="dv">1</span>], colorbar<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb13-14"><a href="" aria-label="14"></a>axs[<span class="dv">0</span>].set_title(<span class="st">"counts"</span>)</span>
+<span id="cb13-15"><a href="" aria-label="15"></a>axs[<span class="dv">1</span>].set_title(<span class="st">"normalised by row (recall per class)"</span>)</span>
+<span id="cb13-16"><a href="" aria-label="16"></a>plt.tight_layout()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column fragment">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec04a_files/figure-revealjs/cell-10-output-1.png" width="695" height="326"></p>
+</figure>
+</div>
+</div>
+</div></div>
+<div class="fragment micro">
+<p>With <span class="math inline">\(c\)</span> classes the confusion matrix is <span class="math inline">\(c \times c\)</span>. Normalising each row by its total gives the recall of each class on the diagonal: class 1 is recognised well, while class 2 is found only once in five times, mixed up with both other cultivars.</p>
+</div>
+</section>
+<section id="averaging-over-classes" class="slide level2 center">
+<h2>Averaging over classes</h2>
+<p>With <span class="math inline">\(c\)</span> classes, precision, recall and <span class="math inline">\(F_1\)</span> are first computed <strong>per class</strong>, treating class <span class="math inline">\(k\)</span> as positive and all the others as negative (one-vs-rest). This gives <span class="math inline">\(c\)</span> values, e.g.&nbsp;<span class="math inline">\(F_{1,k}\)</span> for <span class="math inline">\(k = 1, \dots, c\)</span>, and <span class="math inline">\(n_k\)</span> test samples (the support) in each class. They are combined in three ways:</p>
+<div class="micro">
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Average</th>
+<th style="text-align: left;">Definition</th>
+<th style="text-align: left;">Every class counts…</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>macro</strong></td>
+<td style="text-align: left;"><span class="math inline">\(\displaystyle F_1^{\text{macro}} = \frac{1}{c}\sum_{k=1}^{c} F_{1,k}\)</span></td>
+<td style="text-align: left;">the same, however rare</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>weighted</strong></td>
+<td style="text-align: left;"><span class="math inline">\(\displaystyle F_1^{\text{weighted}} = \sum_{k=1}^{c} \frac{n_k}{n}\, F_{1,k}\)</span></td>
+<td style="text-align: left;">in proportion to its size</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>micro</strong></td>
+<td style="text-align: left;">pool the counts first: <span class="math inline">\(\displaystyle P^{\text{micro}} = \frac{\sum_k TP_k}{\sum_k (TP_k + FP_k)}\)</span>, same for recall and <span class="math inline">\(F_1\)</span></td>
+<td style="text-align: left;">through its samples, one by one</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fragment micro">
+<p>Why micro equals accuracy: in a single-label problem, every wrong prediction is a false positive for the predicted class <em>and</em> a false negative for the true class. So <span class="math inline">\(\sum_k FP_k = \sum_k FN_k\)</span> = number of errors, and micro precision, micro recall and micro <span class="math inline">\(F_1\)</span> all reduce to (correct predictions) / <span class="math inline">\(n\)</span>.</p>
+</div>
+</section>
+<section id="averaging-on-wine" class="slide level2 center">
+<h2>Averaging on wine</h2>
+<div id="9634e026" class="cell columns column-output-location" data-execution_count="10">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> accuracy_score, f1_score</span>
+<span id="cb14-2"><a href="" aria-label="2"></a></span>
+<span id="cb14-3"><a href="" aria-label="3"></a><span class="bu">print</span>(classification_report(yw_test, yw_pred, digits<span class="op">=</span><span class="dv">3</span>))</span>
+<span id="cb14-4"><a href="" aria-label="4"></a></span>
+<span id="cb14-5"><a href="" aria-label="5"></a>f1_k <span class="op">=</span> f1_score(yw_test, yw_pred, average<span class="op">=</span><span class="va">None</span>)     <span class="co"># one value per class</span></span>
+<span id="cb14-6"><a href="" aria-label="6"></a>n_k <span class="op">=</span> np.bincount(yw_test)                          <span class="co"># support</span></span>
+<span id="cb14-7"><a href="" aria-label="7"></a><span class="bu">print</span>(<span class="st">"macro    by hand:"</span>, <span class="bu">round</span>(f1_k.mean(), <span class="dv">3</span>))</span>
+<span id="cb14-8"><a href="" aria-label="8"></a><span class="bu">print</span>(<span class="st">"weighted by hand:"</span>, <span class="bu">round</span>(np.<span class="bu">sum</span>(n_k <span class="op">/</span> n_k.<span class="bu">sum</span>() <span class="op">*</span> f1_k), <span class="dv">3</span>))</span>
+<span id="cb14-9"><a href="" aria-label="9"></a><span class="bu">print</span>(<span class="st">"accuracy        :"</span>, <span class="bu">round</span>(accuracy_score(yw_test, yw_pred), <span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column fragment">
+<div class="cell-output cell-output-stdout">
+<pre><code>              precision    recall  f1-score   support
+
+           0      0.647     0.611     0.629        18
+           1      0.704     0.905     0.792        21
+           2      0.300     0.200     0.240        15
+
+    accuracy                          0.611        54
+   macro avg      0.550     0.572     0.553        54
+weighted avg      0.573     0.611     0.584        54
+
+macro    by hand: 0.553
+weighted by hand: 0.584
+accuracy        : 0.611</code></pre>
+</div>
+</div></div>
+<div class="fragment micro">
+<p>Class 2 has a poor <span class="math inline">\(F_1\)</span> (0.24). The <strong>macro</strong> average gives it a full third of the weight and drops to 0.55; the <strong>weighted</strong> average gives it 15/54 of the weight (0.58); the <strong>micro</strong> average equals the accuracy (0.61, the <code>accuracy</code> line of the report). The gap between macro and the others signals that some class is handled badly.</p>
+<ul>
+<li>macro: every class matters equally (a rare fault type, a rare disease)</li>
+<li>weighted or micro: what matters is the overall rate of correct predictions</li>
+</ul>
+</div>
+</section></section>
+<section>
+<section id="the-decision-threshold" class="title-slide slide level1 center">
+<h1>The decision threshold</h1>
+<p>In 3a we saw that the threshold <span class="math inline">\(t = 0.5\)</span> is a <strong>choice</strong>. To see what moving it does, we need a model that makes mistakes: the <strong>full model</strong> of the classification section (scaler and logistic regression on all 30 features) is almost perfect on this split, with only two errors. We add a deliberately weak model, the same pipeline on a single feature, <code>mean texture</code>: the <strong>texture-only model</strong> (<code>weak</code> in the code).</p>
+<div id="4c2eef70" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="" aria-label="1"></a>names <span class="op">=</span> <span class="bu">list</span>(cancer.feature_names)</span>
+<span id="cb16-2"><a href="" aria-label="2"></a>j <span class="op">=</span> names.index(<span class="st">"mean texture"</span>)</span>
+<span id="cb16-3"><a href="" aria-label="3"></a>weak <span class="op">=</span> make_pipeline(StandardScaler(), LogisticRegression()).fit(X_train[:, [j]], y_train)</span>
+<span id="cb16-4"><a href="" aria-label="4"></a>p_weak <span class="op">=</span> weak.predict_proba(X_test[:, [j]])[:, <span class="dv">1</span>]</span>
+<span id="cb16-5"><a href="" aria-label="5"></a><span class="bu">print</span>(<span class="ss">f"full model   : accuracy = </span><span class="sc">{</span>model<span class="sc">.</span>score(X_test, y_test)<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb16-6"><a href="" aria-label="6"></a><span class="bu">print</span>(<span class="ss">f"texture only : accuracy = </span><span class="sc">{</span>weak<span class="sc">.</span>score(X_test[:, [j]], y_test)<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb16-7"><a href="" aria-label="7"></a><span class="bu">print</span>(<span class="ss">f"baseline     : accuracy = </span><span class="sc">{</span>dummy_c<span class="sc">.</span>score(X_test, y_test)<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell fragment" data-execution_count="11">
+<div class="cell-output cell-output-stdout">
+<pre><code>full model   : accuracy = 0.986
+texture only : accuracy = 0.720
+baseline     : accuracy = 0.629</code></pre>
+</div>
+</div>
+<div class="fragment">
+<p>Texture alone is informative (better than the baseline) but far from enough. We use it to study the threshold, and compare the two models along the way.</p>
+</div>
+</section>
+<section id="moving-the-threshold" class="slide level2 center">
+<h2>Moving the threshold</h2>
+<p>For each threshold <span class="math inline">\(t\)</span>, predict <span class="math inline">\(\hat y_i = 1\)</span> if <span class="math inline">\(\hat p_i \ge t\)</span>, and compute precision and recall:</p>
+<div id="270b1661" class="cell columns column-output-location" data-execution_count="12">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> precision_score, recall_score</span>
+<span id="cb18-2"><a href="" aria-label="2"></a></span>
+<span id="cb18-3"><a href="" aria-label="3"></a>ts <span class="op">=</span> np.linspace(<span class="fl">0.05</span>, <span class="fl">0.95</span>, <span class="dv">91</span>)</span>
+<span id="cb18-4"><a href="" aria-label="4"></a>prec <span class="op">=</span> [precision_score(y_test, p_weak <span class="op">&gt;=</span> t, zero_division<span class="op">=</span>np.nan) <span class="cf">for</span> t <span class="kw">in</span> ts]</span>
+<span id="cb18-5"><a href="" aria-label="5"></a>rec <span class="op">=</span> [recall_score(y_test, p_weak <span class="op">&gt;=</span> t) <span class="cf">for</span> t <span class="kw">in</span> ts]</span>
+<span id="cb18-6"><a href="" aria-label="6"></a></span>
+<span id="cb18-7"><a href="" aria-label="7"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">4</span>))</span>
+<span id="cb18-8"><a href="" aria-label="8"></a>ax.plot(ts, prec, label<span class="op">=</span><span class="st">"precision"</span>)</span>
+<span id="cb18-9"><a href="" aria-label="9"></a>ax.plot(ts, rec, label<span class="op">=</span><span class="st">"recall"</span>)</span>
+<span id="cb18-10"><a href="" aria-label="10"></a>ax.axvline(<span class="fl">0.5</span>, color<span class="op">=</span><span class="st">"k"</span>, linestyle<span class="op">=</span><span class="st">"--"</span>, linewidth<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb18-11"><a href="" aria-label="11"></a>ax.set_xlabel(<span class="st">"threshold $t$"</span>)</span>
+<span id="cb18-12"><a href="" aria-label="12"></a>ax.set_ylabel(<span class="st">"score (texture-only model)"</span>)</span>
+<span id="cb18-13"><a href="" aria-label="13"></a>_ <span class="op">=</span> ax.legend()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column fragment">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec04a_files/figure-revealjs/cell-13-output-1.png" width="514" height="356"></p>
+</figure>
+</div>
+</div>
+</div></div>
+<div class="fragment">
+<p>A <strong>low</strong> threshold flags almost everything: recall close to 1, poor precision. A <strong>high</strong> threshold flags only the most certain cases: higher precision, many missed cases. Precision and recall are traded against each other by the threshold, not by the model. Above <span class="math inline">\(t \approx 0.9\)</span> nothing is flagged and precision is undefined; just below, it is computed on very few samples and becomes erratic.</p>
+</div>
+</section>
+<section id="the-roc-curve" class="slide level2 center">
+<h2>The ROC curve</h2>
+<div class="micro">
+<p>The <strong>receiver operating characteristic</strong> curve summarises all thresholds at once. For each <span class="math inline">\(t\)</span> it plots</p>
+</div>
+<p><span class="math display">\[
+\text{TPR} = \frac{TP}{TP+FN} \;(\text{recall}) \quad\text{against}\quad \text{FPR} = \frac{FP}{FP+TN} = 1 - \text{specificity}
+\]</span></p>
+<div id="c9616170" class="cell columns column-output-location" data-execution_count="13">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> RocCurveDisplay</span>
+<span id="cb19-2"><a href="" aria-label="2"></a></span>
+<span id="cb19-3"><a href="" aria-label="3"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="fl">5.5</span>, <span class="dv">5</span>))</span>
+<span id="cb19-4"><a href="" aria-label="4"></a>RocCurveDisplay.from_predictions(y_test, p_test, name<span class="op">=</span><span class="st">"full model"</span>, ax<span class="op">=</span>ax)</span>
+<span id="cb19-5"><a href="" aria-label="5"></a>RocCurveDisplay.from_predictions(y_test, p_weak, name<span class="op">=</span><span class="st">"texture only"</span>, ax<span class="op">=</span>ax)</span>
+<span id="cb19-6"><a href="" aria-label="6"></a>ax.plot([<span class="dv">0</span>, <span class="dv">1</span>], [<span class="dv">0</span>, <span class="dv">1</span>], <span class="st">"k--"</span>, linewidth<span class="op">=</span><span class="dv">1</span>, label<span class="op">=</span><span class="st">"random guess"</span>)</span>
+<span id="cb19-7"><a href="" aria-label="7"></a>_ <span class="op">=</span> ax.legend(loc<span class="op">=</span><span class="st">"lower right"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column fragment">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec04a_files/figure-revealjs/cell-14-output-1.png" width="445" height="431"></p>
+</figure>
+</div>
+</div>
+</div></div>
+<div class="fragment micro">
+<p>Each point of a curve is one threshold: <span class="math inline">\(t = 1\)</span> at the bottom left (nothing flagged), <span class="math inline">\(t = 0\)</span> at the top right (everything flagged). A perfect classifier passes through the top-left corner; a random one follows the diagonal.</p>
+</div>
+</section>
+<section id="the-area-under-the-roc-curve" class="slide level2 center">
+<h2>The area under the ROC curve</h2>
+<p>The <strong>AUROC</strong> (or ROC AUC) condenses the curve into one number between 0.5 (random) and 1 (perfect).</p>
+<div id="e66f4fab" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> roc_auc_score</span>
+<span id="cb20-2"><a href="" aria-label="2"></a></span>
+<span id="cb20-3"><a href="" aria-label="3"></a><span class="bu">print</span>(<span class="ss">f"AUROC full model  : </span><span class="sc">{</span>roc_auc_score(y_test, p_test)<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb20-4"><a href="" aria-label="4"></a><span class="bu">print</span>(<span class="ss">f"AUROC texture only: </span><span class="sc">{</span>roc_auc_score(y_test, p_weak)<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell fragment" data-execution_count="14">
+<div class="cell-output cell-output-stdout">
+<pre><code>AUROC full model  : 0.996
+AUROC texture only: 0.815</code></pre>
+</div>
+</div>
+<div class="fragment">
+<p>It has a direct interpretation: the AUROC is the probability that a randomly chosen <strong>positive</strong> sample receives a higher score <span class="math inline">\(\hat p\)</span> than a randomly chosen <strong>negative</strong> one. It measures how well the model <strong>ranks</strong> the samples, independently of the threshold and of the class proportions.</p>
+</div>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p><code>roc_auc_score</code> needs the probabilities (or scores), not the predicted classes: with <code>y_pred</code> you would get the AUROC of a single point.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="the-precision-recall-curve" class="slide level2 center">
+<h2>The precision-recall curve</h2>
+<p>The <strong>PR curve</strong> plots precision against recall for every threshold. Its area is summarised by the <strong>average precision</strong> (AP).</p>
+<div id="8099aef1" class="cell columns column-output-location" data-execution_count="15">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> PrecisionRecallDisplay</span>
+<span id="cb22-2"><a href="" aria-label="2"></a></span>
+<span id="cb22-3"><a href="" aria-label="3"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="fl">5.5</span>, <span class="dv">5</span>))</span>
+<span id="cb22-4"><a href="" aria-label="4"></a>PrecisionRecallDisplay.from_predictions(y_test, p_test, name<span class="op">=</span><span class="st">"full model"</span>, ax<span class="op">=</span>ax)</span>
+<span id="cb22-5"><a href="" aria-label="5"></a>PrecisionRecallDisplay.from_predictions(y_test, p_weak, name<span class="op">=</span><span class="st">"texture only"</span>, ax<span class="op">=</span>ax)</span>
+<span id="cb22-6"><a href="" aria-label="6"></a>ax.axhline(y_test.mean(), color<span class="op">=</span><span class="st">"k"</span>, linestyle<span class="op">=</span><span class="st">"--"</span>, linewidth<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb22-7"><a href="" aria-label="7"></a>           label<span class="op">=</span><span class="ss">f"random guess (</span><span class="sc">{</span>y_test<span class="sc">.</span>mean()<span class="sc">:.2f}</span><span class="ss">)"</span>)</span>
+<span id="cb22-8"><a href="" aria-label="8"></a>_ <span class="op">=</span> ax.legend(loc<span class="op">=</span><span class="st">"lower left"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column fragment">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec04a_files/figure-revealjs/cell-16-output-1.png" width="445" height="431"></p>
+</figure>
+</div>
+</div>
+</div></div>
+<div class="fragment">
+<p>A random classifier has a precision equal to the fraction of positives, whatever the recall: the baseline of the PR curve <strong>depends on the class proportions</strong>, unlike the diagonal of the ROC curve. This makes PR curves the better tool when positives are rare (next section).</p>
+</div>
+</section></section>
+<section>
+<section id="probabilities-as-predictions" class="title-slide slide level1 center">
+<h1>Probabilities as predictions</h1>
+<p>Logistic regression returns probabilities. Are they <strong>good</strong> probabilities? Two metrics evaluate <span class="math inline">\(\hat p_i\)</span> directly, without a threshold:</p>
+<p><span class="math display">\[
+\text{log-loss} = -\frac{1}{n}\sum_{i=1}^{n}\Big[y_i\ln\hat p_i + (1 - y_i)\ln(1 - \hat p_i)\Big], \qquad
+\text{Brier} = \frac{1}{n}\sum_{i=1}^{n}(\hat p_i - y_i)^2
+\]</span></p>
+<ul>
+<li>the <strong>log-loss</strong> is the loss minimised by logistic regression (3a), now used as a metric on the test set; confident mistakes are punished very hard</li>
+<li>the <strong>Brier score</strong> is the MSE of the probabilities: between 0 (perfect) and 1, gentler with confident mistakes</li>
+</ul>
+<div id="a4e74f71" class="cell" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> brier_score_loss, log_loss</span>
+<span id="cb23-2"><a href="" aria-label="2"></a></span>
+<span id="cb23-3"><a href="" aria-label="3"></a><span class="cf">for</span> name, p <span class="kw">in</span> [(<span class="st">"full model  "</span>, p_test), (<span class="st">"texture only"</span>, p_weak)]:</span>
+<span id="cb23-4"><a href="" aria-label="4"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>name<span class="sc">}</span><span class="ss">: log-loss = </span><span class="sc">{</span>log_loss(y_test, p)<span class="sc">:.3f}</span><span class="ss">   Brier = </span><span class="sc">{</span>brier_score_loss(y_test, p)<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell fragment" data-execution_count="16">
+<div class="cell-output cell-output-stdout">
+<pre><code>full model  : log-loss = 0.076   Brier = 0.023
+texture only: log-loss = 0.541   Brier = 0.181</code></pre>
+</div>
+</div>
+</section>
+<section id="calibration" class="slide level2 center">
+<h2>Calibration</h2>
+<div class="micro">
+<p>A model is <strong>calibrated</strong> if, among the samples predicted with <span class="math inline">\(\hat p \approx 0.8\)</span>, about 80% are really positive. A <strong>calibration curve</strong> groups the test samples by predicted probability and plots the observed fraction of positives in each group.</p>
+</div>
+<div id="093488c7" class="cell columns column-output-location" data-execution_count="17">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.calibration <span class="im">import</span> CalibrationDisplay</span>
+<span id="cb25-2"><a href="" aria-label="2"></a></span>
+<span id="cb25-3"><a href="" aria-label="3"></a>shrunk <span class="op">=</span> make_pipeline(StandardScaler(), LogisticRegression(C<span class="op">=</span><span class="fl">0.001</span>))</span>
+<span id="cb25-4"><a href="" aria-label="4"></a>shrunk.fit(X_train, y_train)</span>
+<span id="cb25-5"><a href="" aria-label="5"></a></span>
+<span id="cb25-6"><a href="" aria-label="6"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="fl">5.5</span>, <span class="dv">5</span>))</span>
+<span id="cb25-7"><a href="" aria-label="7"></a>CalibrationDisplay.from_estimator(model, X_test, y_test, n_bins<span class="op">=</span><span class="dv">5</span>,</span>
+<span id="cb25-8"><a href="" aria-label="8"></a>                                  name<span class="op">=</span><span class="st">"C = 1 (default)"</span>, ax<span class="op">=</span>ax)</span>
+<span id="cb25-9"><a href="" aria-label="9"></a>CalibrationDisplay.from_estimator(shrunk, X_test, y_test, n_bins<span class="op">=</span><span class="dv">5</span>,</span>
+<span id="cb25-10"><a href="" aria-label="10"></a>                                  name<span class="op">=</span><span class="st">"C = 0.001"</span>, ax<span class="op">=</span>ax)</span>
+<span id="cb25-11"><a href="" aria-label="11"></a>_ <span class="op">=</span> ax.legend(loc<span class="op">=</span><span class="st">"upper left"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column fragment">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec04a_files/figure-revealjs/cell-18-output-1.png" width="477" height="429"></p>
+</figure>
+</div>
+</div>
+</div></div>
+<div class="fragment micro">
+<p>With a very small <code>C</code> (3a: smaller weights), the probabilities are squeezed towards the middle: the model is <strong>under-confident</strong>. Its curve is steeper than the diagonal: samples predicted around 0.3 are almost never malignant, those around 0.7 almost always. It still separates the classes well, but its probabilities cannot be taken at face value. The default model puts almost every sample near 0 or 1, so its middle bins contain only a handful of samples.</p>
+</div>
+</section>
+<section id="ranking-and-calibration" class="slide level2 center">
+<h2>Ranking and calibration</h2>
+<div id="8974a13d" class="cell" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="" aria-label="1"></a>p_shrunk <span class="op">=</span> shrunk.predict_proba(X_test)[:, <span class="dv">1</span>]</span>
+<span id="cb26-2"><a href="" aria-label="2"></a><span class="cf">for</span> name, p <span class="kw">in</span> [(<span class="st">"C = 1    "</span>, p_test), (<span class="st">"C = 0.001"</span>, p_shrunk)]:</span>
+<span id="cb26-3"><a href="" aria-label="3"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>name<span class="sc">}</span><span class="ss">: accuracy = </span><span class="sc">{</span>accuracy_score(y_test, p <span class="op">&gt;=</span> <span class="fl">0.5</span>)<span class="sc">:.3f}</span><span class="ss">   "</span></span>
+<span id="cb26-4"><a href="" aria-label="4"></a>          <span class="ss">f"AUROC = </span><span class="sc">{</span>roc_auc_score(y_test, p)<span class="sc">:.3f}</span><span class="ss">   "</span></span>
+<span id="cb26-5"><a href="" aria-label="5"></a>          <span class="ss">f"log-loss = </span><span class="sc">{</span>log_loss(y_test, p)<span class="sc">:.3f}</span><span class="ss">   Brier = </span><span class="sc">{</span>brier_score_loss(y_test, p)<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell fragment" data-execution_count="18">
+<div class="cell-output cell-output-stdout">
+<pre><code>C = 1    : accuracy = 0.986   AUROC = 0.996   log-loss = 0.076   Brier = 0.023
+C = 0.001: accuracy = 0.909   AUROC = 0.979   log-loss = 0.380   Brier = 0.108</code></pre>
+</div>
+</div>
+<div class="fragment">
+<p>The two models <strong>rank</strong> the samples almost equally well (similar AUROC), but the probabilities of the second one are much worse (log-loss and Brier). Ranking and calibration are different qualities:</p>
+<ul>
+<li>if only the decision matters, ranking metrics and the threshold are enough</li>
+<li>if the probability itself is used (risk scores, expected costs, combining models), check calibration too</li>
+</ul>
+</div>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p>Calibration curves need many samples per bin: with 143 test samples they are rough. The neural networks of CW3 also return probabilities, and the same checks apply.</p>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="imbalanced-data" class="title-slide slide level1 center">
+<h1>Imbalanced data</h1>
+<p>In many real problems the positive class is <strong>rare</strong>: faults in a production line, fraudulent transactions, a disease in a screening programme. We build such a case from breast cancer: we keep all benign samples, only 40 malignant ones (about 10%), and two weak features, as in a screening test based on a few cheap measurements.</p>
+<div id="42cd9e39" class="cell" data-execution_count="19">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="" aria-label="1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">0</span>)</span>
+<span id="cb28-2"><a href="" aria-label="2"></a>benign <span class="op">=</span> np.where(y <span class="op">==</span> <span class="dv">0</span>)[<span class="dv">0</span>]</span>
+<span id="cb28-3"><a href="" aria-label="3"></a>malignant <span class="op">=</span> rng.choice(np.where(y <span class="op">==</span> <span class="dv">1</span>)[<span class="dv">0</span>], size<span class="op">=</span><span class="dv">40</span>, replace<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb28-4"><a href="" aria-label="4"></a>keep <span class="op">=</span> np.concatenate([benign, malignant])</span>
+<span id="cb28-5"><a href="" aria-label="5"></a>cols <span class="op">=</span> [names.index(<span class="st">"mean texture"</span>), names.index(<span class="st">"mean smoothness"</span>)]</span>
+<span id="cb28-6"><a href="" aria-label="6"></a></span>
+<span id="cb28-7"><a href="" aria-label="7"></a>Xi, yi <span class="op">=</span> X[keep][:, cols], y[keep]</span>
+<span id="cb28-8"><a href="" aria-label="8"></a>Xi_train, Xi_test, yi_train, yi_test <span class="op">=</span> train_test_split(</span>
+<span id="cb28-9"><a href="" aria-label="9"></a>    Xi, yi, test_size<span class="op">=</span><span class="fl">0.3</span>, stratify<span class="op">=</span>yi, random_state<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb28-10"><a href="" aria-label="10"></a><span class="bu">print</span>(<span class="ss">f"positives: </span><span class="sc">{</span>yi<span class="sc">.</span>mean()<span class="sc">:.1%}</span><span class="ss"> of </span><span class="sc">{</span><span class="bu">len</span>(yi)<span class="sc">}</span><span class="ss"> samples; "</span></span>
+<span id="cb28-11"><a href="" aria-label="11"></a>      <span class="ss">f"</span><span class="sc">{</span>yi_test<span class="sc">.</span><span class="bu">sum</span>()<span class="sc">}</span><span class="ss"> of </span><span class="sc">{</span><span class="bu">len</span>(yi_test)<span class="sc">}</span><span class="ss"> in the test set"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell fragment" data-execution_count="19">
+<div class="cell-output cell-output-stdout">
+<pre><code>positives: 10.1% of 397 samples; 12 of 120 in the test set</code></pre>
+</div>
+</div>
+</section>
+<section id="high-accuracy-useless-model" class="slide level2 center">
+<h2>High accuracy, useless model</h2>
+<div id="f7a7649c" class="cell columns column-output-location" data-execution_count="20">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="" aria-label="1"></a>imb <span class="op">=</span> make_pipeline(StandardScaler(), LogisticRegression())</span>
+<span id="cb30-2"><a href="" aria-label="2"></a>imb.fit(Xi_train, yi_train)</span>
+<span id="cb30-3"><a href="" aria-label="3"></a>yi_pred <span class="op">=</span> imb.predict(Xi_test)</span>
+<span id="cb30-4"><a href="" aria-label="4"></a></span>
+<span id="cb30-5"><a href="" aria-label="5"></a><span class="bu">print</span>(<span class="ss">f"baseline accuracy: </span><span class="sc">{</span><span class="dv">1</span> <span class="op">-</span> yi_test<span class="sc">.</span>mean()<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb30-6"><a href="" aria-label="6"></a><span class="bu">print</span>(<span class="ss">f"model accuracy   : </span><span class="sc">{</span>accuracy_score(yi_test, yi_pred)<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb30-7"><a href="" aria-label="7"></a><span class="bu">print</span>(<span class="ss">f"recall           : </span><span class="sc">{</span>recall_score(yi_test, yi_pred)<span class="sc">:.2f}</span><span class="ss">"</span>)</span>
+<span id="cb30-8"><a href="" aria-label="8"></a></span>
+<span id="cb30-9"><a href="" aria-label="9"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="fl">4.5</span>, <span class="dv">4</span>))</span>
+<span id="cb30-10"><a href="" aria-label="10"></a>_ <span class="op">=</span> ConfusionMatrixDisplay.from_predictions(</span>
+<span id="cb30-11"><a href="" aria-label="11"></a>    yi_test, yi_pred, display_labels<span class="op">=</span>[<span class="st">"benign"</span>, <span class="st">"malignant"</span>],</span>
+<span id="cb30-12"><a href="" aria-label="12"></a>    ax<span class="op">=</span>ax, colorbar<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column fragment">
+<div class="cell-output cell-output-stdout">
+<pre><code>baseline accuracy: 0.900
+model accuracy   : 0.883
+recall           : 0.00</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec04a_files/figure-revealjs/cell-21-output-2.png" width="410" height="356"></p>
+</figure>
+</div>
+</div>
+</div></div>
+<div class="fragment">
+<p>An accuracy of 0.88 sounds good, but it is <strong>below</strong> the baseline of 0.90: the model finds none of the 12 malignant cases, and raises two false alarms. Minimising the log-loss on data that are 90% benign pushes the model towards predicting “benign”: the errors on the few positives weigh little in the total. (With all 30 features the model would still find most cases: it is rare positives <em>and</em> weak features together that make the problem hard, the usual situation in screening.)</p>
+</div>
+</section>
+<section id="re-weighting-the-classes" class="slide level2 center">
+<h2>Re-weighting the classes</h2>
+<p><code>class_weight="balanced"</code> multiplies the loss of each sample by <span class="math inline">\(n / (c\, n_k)\)</span>, where <span class="math inline">\(n_k\)</span> is the number of samples of its class: errors on the rare class count more.</p>
+<div id="b63b6060" class="cell" data-execution_count="21">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> confusion_matrix</span>
+<span id="cb32-2"><a href="" aria-label="2"></a></span>
+<span id="cb32-3"><a href="" aria-label="3"></a>bal <span class="op">=</span> make_pipeline(StandardScaler(), LogisticRegression(class_weight<span class="op">=</span><span class="st">"balanced"</span>))</span>
+<span id="cb32-4"><a href="" aria-label="4"></a>bal.fit(Xi_train, yi_train)</span>
+<span id="cb32-5"><a href="" aria-label="5"></a><span class="cf">for</span> name, est <span class="kw">in</span> [(<span class="st">"unweighted"</span>, imb), (<span class="st">"balanced  "</span>, bal)]:</span>
+<span id="cb32-6"><a href="" aria-label="6"></a>    yp <span class="op">=</span> est.predict(Xi_test)</span>
+<span id="cb32-7"><a href="" aria-label="7"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>name<span class="sc">}</span><span class="ss">: accuracy = </span><span class="sc">{</span>accuracy_score(yi_test, yp)<span class="sc">:.2f}</span><span class="ss">   "</span></span>
+<span id="cb32-8"><a href="" aria-label="8"></a>          <span class="ss">f"precision = </span><span class="sc">{</span>precision_score(yi_test, yp)<span class="sc">:.2f}</span><span class="ss">   recall = </span><span class="sc">{</span>recall_score(yi_test, yp)<span class="sc">:.2f}</span><span class="ss">   "</span></span>
+<span id="cb32-9"><a href="" aria-label="9"></a>          <span class="ss">f"F1 = </span><span class="sc">{</span>f1_score(yi_test, yp)<span class="sc">:.2f}</span><span class="ss">   [TN FP FN TP] = </span><span class="sc">{</span>confusion_matrix(yi_test, yp)<span class="sc">.</span>ravel()<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell fragment" data-execution_count="21">
+<div class="cell-output cell-output-stdout">
+<pre><code>unweighted: accuracy = 0.88   precision = 0.00   recall = 0.00   F1 = 0.00   [TN FP FN TP] = [106   2  12   0]
+balanced  : accuracy = 0.67   precision = 0.21   recall = 0.83   F1 = 0.33   [TN FP FN TP] = [70 38  2 10]</code></pre>
+</div>
+</div>
+<div class="fragment">
+<p>The balanced model finds 10 of the 12 cases, at the price of many false alarms: the accuracy <strong>drops</strong>, the recall and the <span class="math inline">\(F_1\)</span> rise. Which model is better is not a question for the accuracy. Re-weighting has an effect similar to lowering the threshold: both move the model along the same trade-off.</p>
+</div>
+</section>
+<section id="roc-or-pr-when-positives-are-rare" class="slide level2 center">
+<h2>ROC or PR when positives are rare?</h2>
+<p>The texture-only model of the threshold section, evaluated on the same test set in two populations: as it is (37% positives), and as if each benign sample counted <span class="math inline">\(k\)</span> times, so that positives are only 10%. The <code>sample_weight</code> argument of the metrics does exactly this.</p>
+<div id="24677d02" class="cell" data-execution_count="22">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> average_precision_score</span>
+<span id="cb34-2"><a href="" aria-label="2"></a></span>
+<span id="cb34-3"><a href="" aria-label="3"></a>n_pos, n_neg <span class="op">=</span> y_test.<span class="bu">sum</span>(), (y_test <span class="op">==</span> <span class="dv">0</span>).<span class="bu">sum</span>()</span>
+<span id="cb34-4"><a href="" aria-label="4"></a>k <span class="op">=</span> <span class="dv">9</span> <span class="op">*</span> n_pos <span class="op">/</span> n_neg                      <span class="co"># benign weight giving 10% positives</span></span>
+<span id="cb34-5"><a href="" aria-label="5"></a><span class="cf">for</span> name, w <span class="kw">in</span> [(<span class="st">"37% positives"</span>, np.ones(<span class="bu">len</span>(y_test))),</span>
+<span id="cb34-6"><a href="" aria-label="6"></a>                (<span class="st">"10% positives"</span>, np.where(y_test <span class="op">==</span> <span class="dv">0</span>, k, <span class="fl">1.0</span>))]:</span>
+<span id="cb34-7"><a href="" aria-label="7"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>name<span class="sc">}</span><span class="ss">: AUROC = </span><span class="sc">{</span>roc_auc_score(y_test, p_weak, sample_weight<span class="op">=</span>w)<span class="sc">:.3f}</span><span class="ss">   "</span></span>
+<span id="cb34-8"><a href="" aria-label="8"></a>          <span class="ss">f"AP = </span><span class="sc">{</span>average_precision_score(y_test, p_weak, sample_weight<span class="op">=</span>w)<span class="sc">:.3f}</span><span class="ss">   "</span></span>
+<span id="cb34-9"><a href="" aria-label="9"></a>          <span class="ss">f"(random AP = </span><span class="sc">{</span>np<span class="sc">.</span>average(y_test, weights<span class="op">=</span>w)<span class="sc">:.2f}</span><span class="ss">)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell fragment" data-execution_count="22">
+<div class="cell-output cell-output-stdout">
+<pre><code>37% positives: AUROC = 0.815   AP = 0.672   (random AP = 0.37)
+10% positives: AUROC = 0.815   AP = 0.300   (random AP = 0.10)</code></pre>
+</div>
+</div>
+<div class="fragment">
+<p>Same model, same ranking ability: the AUROC does not change at all, because TPR and FPR are each computed within one class. But with rare positives most alarms are false, and the average precision collapses. The ROC curve answers “how well does the model rank?”; the PR curve answers “how useful are its alarms in <em>this</em> population?”. With imbalanced data, look at both, and report AP next to its random baseline.</p>
+</div>
+</section></section>
+<section id="the-cost-of-errors" class="title-slide slide level1 center">
+<h1>The cost of errors</h1>
+<div class="micro">
+<p>When the consequences of the two errors are known, we can put a price on them. With a cost <span class="math inline">\(c_{FN}\)</span> for a missed case and <span class="math inline">\(c_{FP}\)</span> for a false alarm, the <strong>expected cost</strong> per sample is</p>
+<p><span class="math display">\[
+\text{cost}(t) = \frac{c_{FP}\,FP(t) + c_{FN}\,FN(t)}{n}
+\]</span></p>
+<p>and the best threshold is the one that minimises it. Here a missed malignancy costs 10 times a false alarm:</p>
+</div>
+<div id="7c2ba298" class="cell columns column-output-location" data-execution_count="23">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="" aria-label="1"></a>c_fp, c_fn <span class="op">=</span> <span class="dv">1</span>, <span class="dv">10</span></span>
+<span id="cb36-2"><a href="" aria-label="2"></a>cost <span class="op">=</span> []</span>
+<span id="cb36-3"><a href="" aria-label="3"></a><span class="cf">for</span> t <span class="kw">in</span> ts:</span>
+<span id="cb36-4"><a href="" aria-label="4"></a>    tn, fp, fn, tp <span class="op">=</span> confusion_matrix(y_test, p_weak <span class="op">&gt;=</span> t).ravel()</span>
+<span id="cb36-5"><a href="" aria-label="5"></a>    cost.append((c_fp <span class="op">*</span> fp <span class="op">+</span> c_fn <span class="op">*</span> fn) <span class="op">/</span> <span class="bu">len</span>(y_test))</span>
+<span id="cb36-6"><a href="" aria-label="6"></a></span>
+<span id="cb36-7"><a href="" aria-label="7"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">3</span>))</span>
+<span id="cb36-8"><a href="" aria-label="8"></a>ax.plot(ts, cost)</span>
+<span id="cb36-9"><a href="" aria-label="9"></a>ax.axvline(<span class="fl">0.5</span>, color<span class="op">=</span><span class="st">"k"</span>, linestyle<span class="op">=</span><span class="st">"--"</span>, linewidth<span class="op">=</span><span class="dv">1</span>, label<span class="op">=</span><span class="st">"t = 0.5"</span>)</span>
+<span id="cb36-10"><a href="" aria-label="10"></a>ax.axvline(ts[np.argmin(cost)], color<span class="op">=</span><span class="st">"r"</span>, linestyle<span class="op">=</span><span class="st">":"</span>, label<span class="op">=</span><span class="st">"minimum cost"</span>)</span>
+<span id="cb36-11"><a href="" aria-label="11"></a>ax.set_xlabel(<span class="st">"threshold $t$"</span>)</span>
+<span id="cb36-12"><a href="" aria-label="12"></a>ax.set_ylabel(<span class="st">"expected cost per sample"</span>)</span>
+<span id="cb36-13"><a href="" aria-label="13"></a>_ <span class="op">=</span> ax.legend()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column fragment">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec04a_files/figure-revealjs/cell-24-output-1.png" width="515" height="282"></p>
+</figure>
+</div>
+</div>
+</div></div>
+<div class="fragment micro">
+<p>When missing a case is expensive, the best threshold moves well below 0.5.</p>
+</div>
+<div class="micro">
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Warning</strong></p>
+</div>
+<div class="callout-content">
+<p>Here we chose the threshold on the <strong>test</strong> set, only to illustrate the idea. In practice the threshold is a setting like <code>C</code>: it must be chosen on <strong>validation</strong> data, and the test set used only once, at the end (4b). scikit-learn’s <code>TunedThresholdClassifierCV</code> does this automatically.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section>
+<section id="how-sure-are-we-of-a-score" class="title-slide slide level1 center">
+<h1>How sure are we of a score?</h1>
+<p>The test set is a <strong>sample</strong>: with different test samples, the same model would get a different score. How much could it change? We cannot collect new data, but we can <strong>resample</strong> the test set with replacement, many times, and recompute the score each time. This is the <strong>bootstrap</strong>.</p>
+<div id="591b6b42" class="cell columns column-output-location" data-execution_count="24">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="" aria-label="1"></a>B, n_te <span class="op">=</span> <span class="dv">2000</span>, <span class="bu">len</span>(y_test)</span>
+<span id="cb37-2"><a href="" aria-label="2"></a>boot_acc, boot_rec <span class="op">=</span> [], []</span>
+<span id="cb37-3"><a href="" aria-label="3"></a><span class="cf">for</span> b <span class="kw">in</span> <span class="bu">range</span>(B):</span>
+<span id="cb37-4"><a href="" aria-label="4"></a>    i <span class="op">=</span> rng.integers(<span class="dv">0</span>, n_te, n_te)          <span class="co"># n_te indices, with replacement</span></span>
+<span id="cb37-5"><a href="" aria-label="5"></a>    boot_acc.append(accuracy_score(y_test[i], y_pred[i]))</span>
+<span id="cb37-6"><a href="" aria-label="6"></a>    boot_rec.append(recall_score(y_test[i], y_pred[i]))</span>
+<span id="cb37-7"><a href="" aria-label="7"></a></span>
+<span id="cb37-8"><a href="" aria-label="8"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">4</span>))</span>
+<span id="cb37-9"><a href="" aria-label="9"></a>bins <span class="op">=</span> np.linspace(<span class="fl">0.85</span>, <span class="fl">1.0</span>, <span class="dv">31</span>)</span>
+<span id="cb37-10"><a href="" aria-label="10"></a>ax.hist(boot_acc, bins<span class="op">=</span>bins, alpha<span class="op">=</span><span class="fl">0.6</span>, label<span class="op">=</span><span class="st">"accuracy"</span>)</span>
+<span id="cb37-11"><a href="" aria-label="11"></a>ax.hist(boot_rec, bins<span class="op">=</span>bins, alpha<span class="op">=</span><span class="fl">0.6</span>, label<span class="op">=</span><span class="st">"recall"</span>)</span>
+<span id="cb37-12"><a href="" aria-label="12"></a>ax.set_xlabel(<span class="st">"score on a bootstrap test set"</span>)</span>
+<span id="cb37-13"><a href="" aria-label="13"></a>_ <span class="op">=</span> ax.legend(loc<span class="op">=</span><span class="st">"upper left"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column fragment">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec04a_files/figure-revealjs/cell-25-output-1.png" width="500" height="360"></p>
+</figure>
+</div>
+</div>
+</div></div>
+</section>
+<section id="confidence-intervals" class="slide level2 center">
+<h2>Confidence intervals</h2>
+<p>The central 95% of the bootstrap scores gives an approximate <strong>95% confidence interval</strong>:</p>
+<div id="871a183b" class="cell" data-execution_count="25">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="" aria-label="1"></a><span class="cf">for</span> name, s <span class="kw">in</span> [(<span class="st">"accuracy"</span>, boot_acc), (<span class="st">"recall  "</span>, boot_rec)]:</span>
+<span id="cb38-2"><a href="" aria-label="2"></a>    lo, hi <span class="op">=</span> np.percentile(s, [<span class="fl">2.5</span>, <span class="fl">97.5</span>])</span>
+<span id="cb38-3"><a href="" aria-label="3"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>name<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>np<span class="sc">.</span>mean(s)<span class="sc">:.3f}</span><span class="ss">   95% interval [</span><span class="sc">{</span>lo<span class="sc">:.3f}</span><span class="ss">, </span><span class="sc">{</span>hi<span class="sc">:.3f}</span><span class="ss">]"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell fragment" data-execution_count="25">
+<div class="cell-output cell-output-stdout">
+<pre><code>accuracy: 0.986   95% interval [0.965, 1.000]
+recall  : 0.962   95% interval [0.903, 1.000]</code></pre>
+</div>
+</div>
+<div class="fragment">
+<ul>
+<li>The recall is less certain than the accuracy: it is computed on the 53 malignant samples only, not on all 143.</li>
+<li>Metrics computed on few samples (a rare class, a small test set) come with <strong>wide</strong> intervals: a difference of a few points between two models may be noise.</li>
+<li>The bootstrap only resamples the <em>test</em> set: the model is fixed. In 4b we will also repeat the <strong>training</strong> on different splits (cross-validation); in 7a the same resampling idea will <strong>build</strong> models (bagging).</li>
+</ul>
+</div>
+</section></section>
+<section>
+<section id="choosing-a-metric" class="title-slide slide level1 center">
+<h1>Choosing a metric</h1>
+<p>There is no best metric, only metrics that match the question.</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Situation</th>
+<th style="text-align: left;">Metrics to report</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">regression, errors cost in proportion</td>
+<td style="text-align: left;">MAE (+ RMSE, <span class="math inline">\(R^2\)</span>)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">regression, large errors dangerous</td>
+<td style="text-align: left;">RMSE</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">regression, relative errors matter, <span class="math inline">\(y\)</span> far from 0</td>
+<td style="text-align: left;">MAPE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">classification, balanced classes, equal costs</td>
+<td style="text-align: left;">accuracy, confusion matrix</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">rare positive class</td>
+<td style="text-align: left;">precision, recall, <span class="math inline">\(F_1\)</span> or <span class="math inline">\(F_\beta\)</span>, AP (+ confusion matrix)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ranking or screening at a threshold to be chosen</td>
+<td style="text-align: left;">AUROC, PR curve</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">known costs of the two errors</td>
+<td style="text-align: left;">expected cost, and the threshold that minimises it</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">probabilities used as such</td>
+<td style="text-align: left;">log-loss, Brier score, calibration curve</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">more than two classes</td>
+<td style="text-align: left;">per-class metrics, macro or weighted averages</td>
+</tr>
+</tbody>
+</table>
+<p>Always: a <strong>baseline</strong>, the <strong>confusion matrix</strong> for classifiers, and an idea of the <strong>uncertainty</strong>.</p>
+</section>
+<section id="metrics-as-scoring-arguments" class="slide level2 center">
+<h2>Metrics as <code>scoring</code> arguments</h2>
+<p>In 4b, scikit-learn will compare models automatically using a metric passed by name:</p>
+<div id="e11b9a0c" class="cell" data-execution_count="26">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> get_scorer, get_scorer_names</span>
+<span id="cb40-2"><a href="" aria-label="2"></a></span>
+<span id="cb40-3"><a href="" aria-label="3"></a><span class="bu">print</span>(<span class="bu">len</span>(get_scorer_names()), <span class="st">"scorers available, e.g.:"</span>)</span>
+<span id="cb40-4"><a href="" aria-label="4"></a><span class="cf">for</span> s <span class="kw">in</span> [<span class="st">"accuracy"</span>, <span class="st">"recall"</span>, <span class="st">"f1"</span>, <span class="st">"roc_auc"</span>, <span class="st">"average_precision"</span>, <span class="st">"neg_log_loss"</span>]:</span>
+<span id="cb40-5"><a href="" aria-label="5"></a>    <span class="bu">print</span>(<span class="ss">f"  breast cancer  </span><span class="sc">{</span>s<span class="sc">:25s}</span><span class="ss"> </span><span class="sc">{</span>get_scorer(s)(model, X_test, y_test)<span class="sc">:8.3f}</span><span class="ss">"</span>)</span>
+<span id="cb40-6"><a href="" aria-label="6"></a><span class="cf">for</span> s <span class="kw">in</span> [<span class="st">"neg_mean_absolute_error"</span>, <span class="st">"r2"</span>]:</span>
+<span id="cb40-7"><a href="" aria-label="7"></a>    <span class="bu">print</span>(<span class="ss">f"  diabetes       </span><span class="sc">{</span>s<span class="sc">:25s}</span><span class="ss"> </span><span class="sc">{</span>get_scorer(s)(lin, Xd_test, yd_test)<span class="sc">:8.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell fragment" data-execution_count="26">
+<div class="cell-output cell-output-stdout">
+<pre><code>56 scorers available, e.g.:
+  breast cancer  accuracy                     0.986
+  breast cancer  recall                       0.962
+  breast cancer  f1                           0.981
+  breast cancer  roc_auc                      0.996
+  breast cancer  average_precision            0.994
+  breast cancer  neg_log_loss                -0.076
+  diabetes       neg_mean_absolute_error    -45.121
+  diabetes       r2                           0.359</code></pre>
+</div>
+</div>
+<div class="fragment">
+<p>All are “higher is better”: the log-loss and the absolute error appear with a minus sign. Choosing the <code>scoring</code> argument is choosing what “best model” means, so it is a modelling decision to justify, not a default to accept.</p>
+</div>
+</section>
+<section id="what-to-look-for" class="slide level2 center">
+<h2>What to look for</h2>
+<p>When you evaluate a model, check:</p>
+<ul>
+<li>the score of a <strong>baseline</strong> (majority class, mean predictor) on the same test set</li>
+<li>for regression: an error metric in the units of <span class="math inline">\(y\)</span> (MAE or RMSE, chosen deliberately), <span class="math inline">\(R^2\)</span>, and the plot of the errors</li>
+<li>for classification: which class is <strong>positive</strong>, the <strong>confusion matrix</strong>, precision and recall (per class and averaged, if <span class="math inline">\(c &gt; 2\)</span>)</li>
+<li>whether the classes are <strong>imbalanced</strong>: then accuracy is not enough, and the PR curve is more informative than the ROC curve</li>
+<li>whether the <strong>threshold</strong> 0.5 suits the costs of the problem</li>
+<li>whether the <strong>probabilities</strong> are used as such: then check calibration</li>
+<li>how many samples each number is based on, and how <strong>uncertain</strong> it is</li>
+</ul>
+</section></section>
+<section id="suggested-readings-and-activities" class="title-slide slide level1 center" data-background-color="darkgreen">
+<h1>Suggested readings and activities</h1>
+<p>Suggested <strong>readings</strong>:</p>
+<ul>
+<li>Model evaluation for classification and regression is treated in <a href="https://doi.org/10.1007/978-3-031-33342-2">Machine Learning with Python</a>, in the chapter on model evaluation and selection.</li>
+<li>The scikit-learn user guide on <a href="https://scikit-learn.org/stable/modules/model_evaluation.html">metrics and scoring</a>, and on <a href="https://scikit-learn.org/stable/modules/calibration.html">probability calibration</a>.</li>
+<li>The <a href="https://developers.google.com/machine-learning/crash-course/classification">Classification</a> chapter of the Google crash course (thresholds, ROC and AUC).</li>
+</ul>
+<p>Suggested <strong>activities</strong>:</p>
+<ul>
+<li>Compute precision, recall and <span class="math inline">\(F_1\)</span> of the news example by hand, then check them with <code>precision_score</code>, <code>recall_score</code> and <code>f1_score</code> on arrays that reproduce the table.</li>
+<li>In the imbalanced example, lower the threshold of the unweighted model instead of re-weighting: which threshold gives the same recall as <code>class_weight="balanced"</code>?</li>
+<li>Repeat the cost analysis with <span class="math inline">\(c_{FN} = 3\)</span> and <span class="math inline">\(c_{FN} = 30\)</span>: how does the best threshold move?</li>
+<li>Compute the bootstrap interval of the recall in the imbalanced example: how wide is it, with 12 positives?</li>
+</ul>
+</section>
+
+<section id="assignment-cw1" class="title-slide slide level1 center" data-background-color="darkred">
+<h1>Assignment: CW1</h1>
+<p>The CW1 report asks you to <strong>evaluate</strong> your model and justify the choices. Today’s concepts that the coursework expects you to use:</p>
+<ul>
+<li>a baseline, reported next to every score</li>
+<li>metrics chosen for the problem, and why: MAE or RMSE and <span class="math inline">\(R^2\)</span> for regression; the confusion matrix, precision, recall and <span class="math inline">\(F_1\)</span> (averaged appropriately if more than two classes) for classification</li>
+<li>whether the classes are balanced, and what that implies for accuracy</li>
+<li>the threshold, ROC and PR curves for a logistic regression, and calibration if you use the probabilities</li>
+<li>an idea of how much the numbers could change with a different test set</li>
+</ul>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Tip</strong></p>
+</div>
+<div class="callout-content">
+<p>Choosing the model settings (<code>C</code>, the number of features, …) with these metrics, without touching the test set, is the subject of 4b. The labs this week and next are dedicated to CW1. Deadlines, submission instructions and the marking rubric are on <strong>Moodle</strong>.</p>
+</div>
+</div>
+</div>
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<p><img src="img/UoG_colour.png" class="slide-logo"></p>
+<div class="footer footer-default">
+<p>ENG4200 AI4</p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="lec04a_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="lec04a_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="lec04a_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="lec04a_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="lec04a_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="lec04a_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="lec04a_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="lec04a_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="lec04a_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="lec04a_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: true,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'fade',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>
