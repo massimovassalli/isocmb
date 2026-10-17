@@ -360,7 +360,7 @@ Massimo Vassalli
 <section id="overfitting-a-polynomial-example" class="slide level2 center">
 <h2>Overfitting: a polynomial example</h2>
 <p>Twenty noisy samples from a quadratic law, fitted with polynomials of degree 1, 2 and 15 (polynomial features of 3b, then scaling and linear regression):</p>
-<div id="f44d13c9" class="cell columns column-output-location" data-execution_count="2">
+<div id="c038d4ae" class="cell columns column-output-location" data-execution_count="2">
 <div class="column">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
 <span id="cb1-2"><a href="" aria-label="2"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_squared_error</span>
@@ -400,7 +400,7 @@ Massimo Vassalli
 </section>
 <section id="on-new-data" class="slide level2 center">
 <h2>On new data</h2>
-<div id="6f99be8e" class="cell" data-execution_count="3">
+<div id="775391b7" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="" aria-label="1"></a><span class="cf">for</span> deg <span class="kw">in</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">15</span>]:</span>
 <span id="cb2-2"><a href="" aria-label="2"></a>    m <span class="op">=</span> poly(deg).fit(X_tr, y_tr)</span>
 <span id="cb2-3"><a href="" aria-label="3"></a>    <span class="bu">print</span>(<span class="ss">f"degree </span><span class="sc">{</span>deg<span class="sc">:2d}</span><span class="ss">:  train MSE = </span><span class="sc">{</span>mean_squared_error(y_tr, m.predict(X_tr))<span class="sc">:5.2f}</span><span class="ss">"</span></span>
@@ -421,7 +421,7 @@ degree 15:  train MSE =  0.58   test MSE =    705.1   largest |w_j| =   5397.2</
 <section id="multicollinearity" class="slide level2 center">
 <h2>Multicollinearity</h2>
 <p>In 2b, <code>s1</code> and <code>s2</code> of the diabetes data (<span class="math inline">\(r \approx 0.9\)</span>) got large weights of opposite sign. How stable are they? Refit the linear model on 200 bootstrap samples (4a) of the training set:</p>
-<div id="e00c7989" class="cell columns column-output-location" data-execution_count="4">
+<div id="eacc984f" class="cell columns column-output-location" data-execution_count="4">
 <div class="column">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_diabetes</span>
 <span id="cb4-2"><a href="" aria-label="2"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
@@ -465,7 +465,7 @@ degree 15:  train MSE =  0.58   test MSE =    705.1   largest |w_j| =   5397.2</
 <section id="the-biasvariance-decomposition" class="title-slide slide level1 center">
 <h1>The bias–variance decomposition</h1>
 <p>Imagine repeating the whole experiment many times: new training set <span class="math inline">\(\mathcal{D}\)</span>, new fit <span class="math inline">\(\hat f\)</span>. Twenty repetitions of three of our polynomial models, with <span class="math inline">\(f\)</span> in black and the average fit dashed:</p>
-<div id="f715fca7" class="cell" data-execution_count="5">
+<div id="076d02a4" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -520,7 +520,7 @@ y - \hat f = \underbrace{(f - \bar f)}_{\text{constant}} + \underbrace{(\bar f -
 <section id="measuring-bias-and-variance" class="slide level2 center">
 <h2>Measuring bias and variance</h2>
 <p>We can estimate the terms by simulation when we know <span class="math inline">\(f\)</span>: 200 training sets of 25 samples from <span class="math inline">\(f(x) = \sin(2\pi x)\)</span> with noise <span class="math inline">\(\sigma = 0.3\)</span>, polynomials of increasing degree.</p>
-<div id="6f7aa3ea" class="cell columns column-output-location" data-execution_count="6">
+<div id="d07400aa" class="cell columns column-output-location" data-execution_count="6">
 <div class="column">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="" aria-label="1"></a><span class="kw">def</span> f_sin(x):</span>
 <span id="cb6-2"><a href="" aria-label="2"></a>    <span class="cf">return</span> np.sin(<span class="dv">2</span> <span class="op">*</span> np.pi <span class="op">*</span> x)</span>
@@ -559,7 +559,7 @@ y - \hat f = \underbrace{(f - \bar f)}_{\text{constant}} + \underbrace{(\bar f -
 <h2>The trade-off</h2>
 <div class="columns">
 <div class="column" style="width:45%;">
-<div id="67d12412" class="cell" data-execution_count="7">
+<div id="5f1965a7" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -641,7 +641,7 @@ y - \hat f = \underbrace{(f - \bar f)}_{\text{constant}} + \underbrace{(\bar f -
 \mathrm{Var}[\bar f] = \frac{1}{M^2}\Big(M\sigma^2 + M(M-1)\rho\sigma^2\Big) = \sigma^2\Big(\rho + \frac{1-\rho}{M}\Big)
 \]</span></p>
 </div>
-<div id="e0eaa217" class="cell" data-execution_count="8">
+<div id="41057805" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -657,7 +657,7 @@ y - \hat f = \underbrace{(f - \bar f)}_{\text{constant}} + \underbrace{(\bar f -
 <section id="averaging-models-a-simulation" class="slide level2 center">
 <h2>Averaging models: a simulation</h2>
 <p>Polynomials of degree 5, predicting at <span class="math inline">\(x = 0\)</span>. Each model is trained on a bootstrap sample (4a) of a training set of 30 samples, and <span class="math inline">\(M\)</span> models are averaged. The only difference: in (a) every model gets its own <strong>independent</strong> training set, in (b) all <span class="math inline">\(M\)</span> models resample the <strong>same</strong> training set.</p>
-<div id="68d0945f" class="cell" data-execution_count="9">
+<div id="f6b22245" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="" aria-label="1"></a>xs <span class="op">=</span> np.array([[<span class="fl">0.0</span>]])</span>
 <span id="cb7-2"><a href="" aria-label="2"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">2</span>)</span>
 <span id="cb7-3"><a href="" aria-label="3"></a><span class="kw">def</span> new_set(n<span class="op">=</span><span class="dv">30</span>):                                   <span class="co"># a fresh training set</span></span>
@@ -745,7 +745,8 @@ L_{\text{Ridge}}(\mathbf{w}, b) = \sum_{i=1}^{n}\big(y_i - b - \mathbf{w}^T\math
 \kappa = \frac{\lambda_{\max}}{\lambda_{\min}} \ge 1,
 \]</span> and bounds how much a relative error in the data (noise, rounding) can be amplified in the solution <span class="math inline">\(\hat{\mathbf{w}}\)</span>. Computers store about 16 significant digits: with <span class="math inline">\(\kappa \approx 10^{16}\)</span>, none of the digits of <span class="math inline">\(\hat{\mathbf{w}}\)</span> can be trusted. Adding <span class="math inline">\(\lambda\mathbf{I}\)</span> shifts <strong>every</strong> eigenvalue by <span class="math inline">\(\lambda\)</span>, so <span class="math inline">\(\kappa\)</span> becomes <span class="math inline">\((\lambda_{\max} + \lambda)/(\lambda_{\min} + \lambda)\)</span>. Diabetes with degree-2 polynomial features (65 features, 331 training samples):</p>
 </div>
-<div id="d9d37b9d" class="cell" data-execution_count="10">
+<div id="73f15378" class="cell columns column-output-location" data-execution_count="10">
+<div class="column">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> Ridge</span>
 <span id="cb9-2"><a href="" aria-label="2"></a></span>
 <span id="cb9-3"><a href="" aria-label="3"></a>prep <span class="op">=</span> make_pipeline(PolynomialFeatures(<span class="dv">2</span>, include_bias<span class="op">=</span><span class="va">False</span>), StandardScaler())</span>
@@ -760,8 +761,7 @@ L_{\text{Ridge}}(\mathbf{w}, b) = \sum_{i=1}^{n}\big(y_i - b - \mathbf{w}^T\math
 <span id="cb9-12"><a href="" aria-label="12"></a></span>
 <span id="cb9-13"><a href="" aria-label="13"></a>w <span class="op">=</span> np.linalg.solve(A <span class="op">+</span> <span class="dv">10</span> <span class="op">*</span> np.eye(<span class="bu">len</span>(A)), Zc.T <span class="op">@</span> yc)    <span class="co"># closed form, lambda = 10</span></span>
 <span id="cb9-14"><a href="" aria-label="14"></a><span class="bu">print</span>(<span class="st">"largest difference from Ridge(alpha=10):"</span>, np.<span class="bu">abs</span>(w <span class="op">-</span> Ridge(alpha<span class="op">=</span><span class="dv">10</span>).fit(Z, yd_train).coef_).<span class="bu">max</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="cell fragment" data-execution_count="10">
+</div><div class="column fragment">
 <div class="cell-output cell-output-stdout">
 <pre><code>eigenvalues of Xc^T Xc: largest 3.8e+03, smallest 1.8e-13
 condition number of Xc^T Xc         : 3.7e+16
@@ -770,7 +770,7 @@ condition number with lambda =  10 : 3.8e+02
 condition number with lambda = 100 : 3.9e+01
 largest difference from Ridge(alpha=10): 6.572520305780927e-14</code></pre>
 </div>
-</div>
+</div></div>
 <div class="fragment micro">
 <p>Without regularisation the matrix is numerically singular (<code>sex</code> takes only two values, so its square is a constant column, and many products are almost collinear): OLS is at the mercy of rounding errors. A modest <span class="math inline">\(\lambda\)</span> brings the condition number to a few hundred. The closed form and <code>Ridge</code> agree to machine precision.</p>
 </div>
@@ -778,7 +778,7 @@ largest difference from Ridge(alpha=10): 6.572520305780927e-14</code></pre>
 <section id="ridge-on-the-polynomial-example" class="slide level2 center">
 <h2>Ridge on the polynomial example</h2>
 <p>The degree-15 polynomial again, now with a Ridge penalty of increasing strength:</p>
-<div id="96d81217" class="cell" data-execution_count="11">
+<div id="8a9f0913" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="" aria-label="1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="fl">4.5</span>, <span class="dv">3</span>))</span>
 <span id="cb11-2"><a href="" aria-label="2"></a>ax.scatter(x_tr, y_tr, s<span class="op">=</span><span class="dv">12</span>, color<span class="op">=</span><span class="st">"k"</span>)</span>
 <span id="cb11-3"><a href="" aria-label="3"></a><span class="cf">for</span> lam <span class="kw">in</span> [<span class="fl">1e-6</span>, <span class="fl">1e-3</span>, <span class="fl">1e-1</span>, <span class="dv">10</span>]:</span>
@@ -805,7 +805,7 @@ largest difference from Ridge(alpha=10): 6.572520305780927e-14</code></pre>
 <section id="ridge-coefficient-path" class="slide level2 center">
 <h2>Ridge coefficient path</h2>
 <p>The weights of the ten (standardised) diabetes features as <span class="math inline">\(\lambda\)</span> grows:</p>
-<div id="79d3b22e" class="cell columns column-output-location" data-execution_count="12">
+<div id="05b63b4f" class="cell columns column-output-location" data-execution_count="12">
 <div class="column">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="" aria-label="1"></a>scaler <span class="op">=</span> StandardScaler().fit(Xd_train)</span>
 <span id="cb12-2"><a href="" aria-label="2"></a>Zs <span class="op">=</span> scaler.transform(Xd_train)</span>
@@ -864,8 +864,10 @@ L_{\text{Lasso}}(\mathbf{w}, b) = \frac{1}{2n}\sum_{i=1}^{n}\big(y_i - b - \math
 </section>
 <section id="why-zeros-the-geometric-view" class="slide level2 center">
 <h2>Why zeros? The geometric view</h2>
+<div class="micro">
 <p>Two weights, the constrained form. The orange curves are <strong>level curves</strong> of the data term in the <span class="math inline">\((w_1, w_2)\)</span> plane: all the weights on one curve give the same training error. For a squared loss they are ellipses centred on the OLS solution (+), tilted and stretched when the features are correlated (the shape is set by <span class="math inline">\(\mathbf{X}_c^T\mathbf{X}_c\)</span>). The solution is the point of the region <span class="math inline">\(\|\mathbf{w}\|_p^p \le \tau\)</span> (shaded) on the lowest level curve: where the growing ellipses first touch it.</p>
-<div id="4a22e0d6" class="cell" data-execution_count="13">
+</div>
+<div id="c226c587" class="cell" data-execution_count="13">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -889,7 +891,7 @@ w_j^{\text{Ridge}} = \frac{\hat w_j}{1 + \lambda}
 w_j^{\text{Lasso}} = \mathrm{sign}(\hat w_j)\,\max\big(|\hat w_j| - \lambda,\; 0\big)
 \]</span></p>
 </div>
-<div id="ada58ab4" class="cell" data-execution_count="14">
+<div id="f0980104" class="cell" data-execution_count="14">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -913,7 +915,7 @@ w_j = 0:\quad |g_j| \le \lambda
 \]</span></p>
 <p>A non-zero weight sits where the pull of the data exactly balances the pull of the penalty. A weight stays at zero when the data pull is weaker than <span class="math inline">\(\lambda\)</span>. With the <span class="math inline">\(\frac{1}{2n}\)</span> scaling, <span class="math inline">\(g_j = -\frac{1}{n}\sum_i x_{ij} r_i\)</span>: the correlation of feature <span class="math inline">\(j\)</span> with the current residuals <span class="math inline">\(r_i = y_i - \hat y_i\)</span>. A feature enters the model only when it explains enough of what the others leave unexplained.</p>
 </div>
-<div id="cd12c883" class="cell" data-execution_count="15">
+<div id="ae9ecea9" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> Lasso</span>
 <span id="cb13-2"><a href="" aria-label="2"></a></span>
 <span id="cb13-3"><a href="" aria-label="3"></a>lasso <span class="op">=</span> Lasso(alpha<span class="op">=</span><span class="fl">1.0</span>).fit(Zs, yd_train)                 <span class="co"># lambda = 1, standardised diabetes</span></span>
@@ -942,7 +944,7 @@ s6    w =    0.5   |g| =  1.00</code></pre>
 </section>
 <section id="lasso-path" class="slide level2 center">
 <h2>Lasso path</h2>
-<div id="92272e7d" class="cell columns column-output-location" data-execution_count="16">
+<div id="5b253851" class="cell columns column-output-location" data-execution_count="16">
 <div class="column">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> lasso_path</span>
 <span id="cb15-2"><a href="" aria-label="2"></a></span>
@@ -984,7 +986,7 @@ s6    w =    0.5   |g| =  1.00</code></pre>
 L_{\text{EN}}(\mathbf{w}, b) = \frac{1}{2n}\sum_{i=1}^{n}\big(y_i - b - \mathbf{w}^T\mathbf{x}_i\big)^2 + \lambda r\, \|\mathbf{w}\|_1 + \frac{\lambda(1-r)}{2}\,\|\mathbf{w}\|_2^2
 \]</span></p>
 <p>Two nearly identical features (<code>x1</code>, <code>x2</code>, correlation 0.995), both relevant, and eight irrelevant ones:</p>
-<div id="a4a5d4a2" class="cell" data-execution_count="17">
+<div id="1845bc74" class="cell" data-execution_count="17">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> ElasticNet</span>
 <span id="cb17-2"><a href="" aria-label="2"></a></span>
 <span id="cb17-3"><a href="" aria-label="3"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">0</span>)</span>
@@ -1098,7 +1100,7 @@ Elastic Net  twins:  0.76  0.75   irrelevant: 0 non-zero, largest |w| = 0.000</c
 <section id="choosing-lambda" class="title-slide slide level1 center">
 <h1>Choosing <span class="math inline">\(\lambda\)</span></h1>
 <p><span class="math inline">\(\lambda\)</span> is a hyperparameter: chosen by cross-validation on the training set, exactly as <code>C</code> in 4b. <code>RidgeCV</code> and <code>LassoCV</code> do the search internally. Back to the degree-2 diabetes model that overfitted in the learning curves of 4b:</p>
-<div id="c7eca4e2" class="cell" data-execution_count="18">
+<div id="61f0b202" class="cell" data-execution_count="18">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LassoCV, RidgeCV</span>
 <span id="cb19-2"><a href="" aria-label="2"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> KFold, cross_val_score</span>
 <span id="cb19-3"><a href="" aria-label="3"></a>cv5 <span class="op">=</span> KFold(<span class="dv">5</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">0</span>)               <span class="co"># regression: 5 shuffled folds</span></span>
@@ -1133,7 +1135,7 @@ degree 2, Lasso    : CV R2 = 0.536 +/- 0.078   lambda = 2.07, non-zero weights =
 </section>
 <section id="reading-the-comparison" class="slide level2 center">
 <h2>Reading the comparison</h2>
-<div id="57b061ca" class="cell" data-execution_count="19">
+<div id="4d88672d" class="cell" data-execution_count="19">
 <div class="cell-output cell-output-stdout">
 <pre><code>linear, 10 features: CV R2 = 0.522 +/- 0.076
 degree 2, OLS      : CV R2 = 0.383 +/- 0.166
@@ -1169,7 +1171,7 @@ degree 2, Lasso    : CV R2 = 0.536 +/- 0.078   lambda = 2.07, non-zero weights =
 </section>
 <section id="the-validation-curve-of-lambda" class="slide level2 center">
 <h2>The validation curve of <span class="math inline">\(\lambda\)</span></h2>
-<div id="188183f2" class="cell columns column-output-location" data-execution_count="20">
+<div id="d568d36b" class="cell columns column-output-location" data-execution_count="20">
 <div class="column">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> validation_curve</span>
 <span id="cb22-2"><a href="" aria-label="2"></a>cv5 <span class="op">=</span> KFold(<span class="dv">5</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">0</span>)               <span class="co"># regression: 5 shuffled folds</span></span>
@@ -1236,7 +1238,7 @@ L(\mathbf{w}, b) = C\sum_{i=1}^{n}\ell\big(y_i, \hat p_i\big) + \frac{1-r}{2}\|\
 <section id="l2-and-l1-on-breast-cancer" class="slide level2 center">
 <h2>L2 and L1 on breast cancer</h2>
 <p>The breast cancer pipeline of 3a–4b (malignant = 1), with L2 and L1 penalties of decreasing strength:</p>
-<div id="94330af3" class="cell" data-execution_count="21">
+<div id="b46089a1" class="cell" data-execution_count="21">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_breast_cancer</span>
 <span id="cb23-2"><a href="" aria-label="2"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
 <span id="cb23-3"><a href="" aria-label="3"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> StratifiedKFold</span>
@@ -1271,7 +1273,7 @@ C =    100   L2: CV acc 0.960, largest |w|  9.93   L1: CV acc 0.955, non-zero we
 <section id="choosing-c-by-cross-validation" class="slide level2 center">
 <h2>Choosing <code>C</code> by cross-validation</h2>
 <p><code>LogisticRegressionCV</code> searches <code>C</code> (and <code>l1_ratio</code>) internally, like <code>RidgeCV</code>:</p>
-<div id="6e0e8889" class="cell" data-execution_count="22">
+<div id="b383e980" class="cell" data-execution_count="22">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegressionCV</span>
 <span id="cb25-2"><a href="" aria-label="2"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> accuracy_score, log_loss</span>
 <span id="cb25-3"><a href="" aria-label="3"></a>cv <span class="op">=</span> StratifiedKFold(<span class="dv">5</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">0</span>)        <span class="co"># how to split: 5 stratified folds</span></span>
@@ -1298,7 +1300,7 @@ test accuracy 0.986, test log-loss 0.076</code></pre>
 <section id="embedded-feature-selection" class="title-slide slide level1 center">
 <h1>Embedded feature selection</h1>
 <p>With an L1 penalty, the model selects features <strong>while training</strong>: an <strong>embedded</strong> method. <code>SelectFromModel</code> turns it into a selection step of the pipeline, keeping the features with non-zero weight:</p>
-<div id="1a5c37cc" class="cell" data-execution_count="23">
+<div id="95e053b7" class="cell" data-execution_count="23">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.feature_selection <span class="im">import</span> SelectFromModel</span>
 <span id="cb27-2"><a href="" aria-label="2"></a>cv <span class="op">=</span> StratifiedKFold(<span class="dv">5</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">0</span>)        <span class="co"># how to split: 5 stratified folds</span></span>
 <span id="cb27-3"><a href="" aria-label="3"></a></span>
@@ -1388,7 +1390,7 @@ test accuracy 0.986, test log-loss 0.076</code></pre>
 <section id="other-forms-of-regularisation" class="title-slide slide level1 center">
 <h1>Other forms of regularisation</h1>
 <p>Any constraint that limits the effective flexibility of a model regularises it. A common one: <strong>early stopping</strong>. Gradient descent (2b) on the degree-2 diabetes features, one epoch at a time, watching a validation set:</p>
-<div id="85d9f6b9" class="cell columns column-output-location" data-execution_count="24">
+<div id="665596cc" class="cell columns column-output-location" data-execution_count="24">
 <div class="column">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> SGDRegressor</span>
 <span id="cb29-2"><a href="" aria-label="2"></a></span>
@@ -1480,7 +1482,7 @@ test accuracy 0.986, test log-loss 0.076</code></pre>
 <section id="what-regularisation-cannot-do" class="title-slide slide level1 center">
 <h1>What regularisation cannot do</h1>
 <p>Regularisation reduces <strong>variance</strong>, at the cost of some bias. If the model family itself is wrong, there is no variance to remove. A classic example, the XOR pattern: class 1 when <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span> have the same sign.</p>
-<div id="a5277d34" class="cell columns column-output-location" data-execution_count="25">
+<div id="4ff310eb" class="cell columns column-output-location" data-execution_count="25">
 <div class="column">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="" aria-label="1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">0</span>)</span>
 <span id="cb30-2"><a href="" aria-label="2"></a>Xx <span class="op">=</span> rng.uniform(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, (<span class="dv">400</span>, <span class="dv">2</span>))</span>
