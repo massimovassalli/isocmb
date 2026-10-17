@@ -1,0 +1,2017 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="lec05a_files/libs/clipboard/clipboard.min.js"></script>
+<script src="lec05a_files/libs/quarto-html/tabby.min.js"></script>
+<script src="lec05a_files/libs/quarto-html/popper.min.js"></script>
+<script src="lec05a_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="lec05a_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="lec05a_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="lec05a_files/libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.10.19">
+
+  <meta name="author" content="Jiabao Xu">
+  <meta name="author" content="Massimo Vassalli">
+  <title>Overfitting and regularisation</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="lec05a_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="lec05a_files/libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="lec05a_files/libs/revealjs/dist/theme/quarto-a66d5f97dc36661424f13b5665fec6ea.css">
+  <link href="lec05a_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="lec05a_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="lec05a_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="lec05a_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Overfitting and regularisation</h1>
+  <p class="subtitle">Introduction to Artificial Intelligence and Machine Learning 4</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Jiabao Xu
+</div>
+        <p class="quarto-title-affiliation">
+            Jiabao.Xu@glasgow.ac.uk
+          </p>
+    </div>
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Massimo Vassalli
+</div>
+        <p class="quarto-title-affiliation">
+            massimo.vassalli@glasgow.ac.uk
+          </p>
+    </div>
+</div>
+
+</section>
+<section>
+<section id="from-curves-to-an-explanation" class="title-slide slide level1 center">
+<h1>From curves to an explanation</h1>
+<p>In 4b we <strong>saw</strong> overfitting: a validation curve that turns upwards for large <code>C</code>, a learning curve with a wide gap between training and validation. Today we explain it and learn to control it:</p>
+<ul>
+<li>why flexible models fail on new data: <strong>ill-posed</strong> problems, large weights, <strong>multicollinearity</strong></li>
+<li>the <strong>bias–variance decomposition</strong>: the error on new data in three parts</li>
+<li>two ways to reduce variance: <strong>averaging</strong> many models, and <strong>regularisation</strong> (Ridge, Lasso, Elastic Net)</li>
+<li>regularisation for classification: what <code>C</code> really is</li>
+<li><strong>embedded</strong> feature selection, and other regularisers (early stopping)</li>
+<li>what regularisation <strong>cannot</strong> do</li>
+</ul>
+<div class="micro">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p>CW1 is due this week: bring your questions to Lab02. From today, the tools are for CW2 (and CW3).</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="the-map-of-the-course" class="slide level2 center">
+<h2>The map of the course</h2>
+<p>The order of weeks 6 and 7 has changed since the map shown in Lecture 3a: the methods most useful for CW2 (<strong>trees and ensembles</strong>) now come first, in week 6.</p>
+<div class="micro">
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Step of the ML process</th>
+<th style="text-align: left;">What we do</th>
+<th style="text-align: left;">Lectures</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Problem understanding</td>
+<td style="text-align: left;">frame the problem as an ML task, choose the target</td>
+<td style="text-align: left;">2a, all coursework</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Data understanding</td>
+<td style="text-align: left;">explore, visualise, find structure</td>
+<td style="text-align: left;">2a, 5b (PCA), 7b (clustering)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Data preparation</td>
+<td style="text-align: left;">clean, impute, encode, scale, transform, select features</td>
+<td style="text-align: left;">2a, 3b, 4b, <strong>5a</strong>, 5b</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Modelling</td>
+<td style="text-align: left;">choose and train models: the <span class="math inline">\((H, L, A)\)</span> of each method</td>
+<td style="text-align: left;">2b, 3a, <strong>5a</strong>, 6a, 6b, 7a, 7b, ANN (weeks 8–10)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Evaluation</td>
+<td style="text-align: left;">metrics, validation strategies, hyperparameter tuning</td>
+<td style="text-align: left;">4a, 4b</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Deployment</td>
+<td style="text-align: left;">communicate results and their limits</td>
+<td style="text-align: left;">coursework reports and presentation</td>
+</tr>
+</tbody>
+</table>
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Week 5</th>
+<th style="text-align: left;">Week 6</th>
+<th style="text-align: left;">Week 7</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">5a Overfitting and regularisation</td>
+<td style="text-align: left;">6a Decision trees</td>
+<td style="text-align: left;">7a kNN and support vector machines</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">5b Dimensionality reduction and PCA</td>
+<td style="text-align: left;">6b Ensemble learning</td>
+<td style="text-align: left;">7b Clustering</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="micro">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p>Lectures 2a–4b refer to the previous order where they point ahead: ensembles (then 7a) are now in <strong>6b</strong>, kNN and SVM (then 6b) in <strong>7a</strong>. Deadlines are on <strong>Moodle</strong>.</p>
+</div>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="why-flexible-models-fail" class="title-slide slide level1 center">
+<h1>Why flexible models fail</h1>
+<p>Following Jacques Hadamard, a problem is <strong>well-posed</strong> if</p>
+<ol type="1">
+<li>a solution exists,</li>
+<li>the solution is unique,</li>
+<li>the solution depends <strong>continuously</strong> on the data: small changes in the data give small changes in the solution.</li>
+</ol>
+<div class="fragment micro">
+<p>Learning from a finite, noisy sample is usually <strong>ill-posed</strong>. Many models fit the training data equally well (no uniqueness), and a flexible model can change completely when a few samples change (no stability). The training loss alone cannot tell which of the many solutions will work on new data: we need to add information, a preference for “simple” solutions. That added preference is <strong>regularisation</strong>.</p>
+</div>
+</section>
+<section id="overfitting-a-polynomial-example" class="slide level2 center">
+<h2>Overfitting: a polynomial example</h2>
+<p>Twenty noisy samples from a quadratic law, fitted with polynomials of degree 1, 2 and 15 (polynomial features of 3b, then scaling and linear regression):</p>
+<div id="f44d13c9" class="cell columns column-output-location" data-execution_count="2">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
+<span id="cb1-2"><a href="" aria-label="2"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_squared_error</span>
+<span id="cb1-3"><a href="" aria-label="3"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> make_pipeline</span>
+<span id="cb1-4"><a href="" aria-label="4"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> PolynomialFeatures, StandardScaler</span>
+<span id="cb1-5"><a href="" aria-label="5"></a></span>
+<span id="cb1-6"><a href="" aria-label="6"></a><span class="kw">def</span> f_true(x):                                   <span class="co"># the "true" law</span></span>
+<span id="cb1-7"><a href="" aria-label="7"></a>    <span class="cf">return</span> <span class="fl">2.0</span> <span class="op">+</span> <span class="fl">0.5</span> <span class="op">*</span> x <span class="op">-</span> <span class="fl">1.2</span> <span class="op">*</span> x<span class="op">**</span><span class="dv">2</span></span>
+<span id="cb1-8"><a href="" aria-label="8"></a></span>
+<span id="cb1-9"><a href="" aria-label="9"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">0</span>)</span>
+<span id="cb1-10"><a href="" aria-label="10"></a>x_tr <span class="op">=</span> rng.uniform(<span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">20</span>)                    <span class="co"># 20 training samples</span></span>
+<span id="cb1-11"><a href="" aria-label="11"></a>y_tr <span class="op">=</span> f_true(x_tr) <span class="op">+</span> rng.normal(<span class="dv">0</span>, <span class="fl">2.0</span>, <span class="dv">20</span>)     <span class="co"># noise, sigma = 2</span></span>
+<span id="cb1-12"><a href="" aria-label="12"></a>x_te <span class="op">=</span> rng.uniform(<span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">200</span>)                   <span class="co"># 200 new samples</span></span>
+<span id="cb1-13"><a href="" aria-label="13"></a>y_te <span class="op">=</span> f_true(x_te) <span class="op">+</span> rng.normal(<span class="dv">0</span>, <span class="fl">2.0</span>, <span class="dv">200</span>)</span>
+<span id="cb1-14"><a href="" aria-label="14"></a>X_tr, X_te <span class="op">=</span> x_tr.reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>), x_te.reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb1-15"><a href="" aria-label="15"></a></span>
+<span id="cb1-16"><a href="" aria-label="16"></a><span class="kw">def</span> poly(deg, reg<span class="op">=</span><span class="va">None</span>):                         <span class="co"># polynomial model of degree deg</span></span>
+<span id="cb1-17"><a href="" aria-label="17"></a>    <span class="cf">return</span> make_pipeline(PolynomialFeatures(deg, include_bias<span class="op">=</span><span class="va">False</span>),</span>
+<span id="cb1-18"><a href="" aria-label="18"></a>                         StandardScaler(), reg <span class="cf">if</span> reg <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span> <span class="cf">else</span> LinearRegression())</span>
+<span id="cb1-19"><a href="" aria-label="19"></a></span>
+<span id="cb1-20"><a href="" aria-label="20"></a>xg <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">400</span>).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb1-21"><a href="" aria-label="21"></a>fig, axs <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="fl">2.6</span>), sharey<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb1-22"><a href="" aria-label="22"></a><span class="cf">for</span> ax, deg <span class="kw">in</span> <span class="bu">zip</span>(axs, [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">15</span>]):</span>
+<span id="cb1-23"><a href="" aria-label="23"></a>    ax.scatter(x_tr, y_tr, s<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb1-24"><a href="" aria-label="24"></a>    ax.plot(xg, poly(deg).fit(X_tr, y_tr).predict(xg), <span class="st">"C1"</span>)</span>
+<span id="cb1-25"><a href="" aria-label="25"></a>    ax.set_title(<span class="ss">f"degree </span><span class="sc">{</span>deg<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-26"><a href="" aria-label="26"></a>    ax.set_ylim(<span class="op">-</span><span class="dv">15</span>, <span class="dv">6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column fragment">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec05a_files/figure-revealjs/cell-3-output-1.png" width="577" height="254"></p>
+</figure>
+</div>
+</div>
+</div></div>
+</section>
+<section id="on-new-data" class="slide level2 center">
+<h2>On new data</h2>
+<div id="6f99be8e" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="" aria-label="1"></a><span class="cf">for</span> deg <span class="kw">in</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">15</span>]:</span>
+<span id="cb2-2"><a href="" aria-label="2"></a>    m <span class="op">=</span> poly(deg).fit(X_tr, y_tr)</span>
+<span id="cb2-3"><a href="" aria-label="3"></a>    <span class="bu">print</span>(<span class="ss">f"degree </span><span class="sc">{</span>deg<span class="sc">:2d}</span><span class="ss">:  train MSE = </span><span class="sc">{</span>mean_squared_error(y_tr, m.predict(X_tr))<span class="sc">:5.2f}</span><span class="ss">"</span></span>
+<span id="cb2-4"><a href="" aria-label="4"></a>          <span class="ss">f"   test MSE = </span><span class="sc">{</span>mean_squared_error(y_te, m.predict(X_te))<span class="sc">:8.1f}</span><span class="ss">"</span></span>
+<span id="cb2-5"><a href="" aria-label="5"></a>          <span class="ss">f"   largest |w_j| = </span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">abs</span>(m[<span class="op">-</span><span class="dv">1</span>].coef_)<span class="sc">.</span><span class="bu">max</span>()<span class="sc">:8.1f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell fragment" data-execution_count="3">
+<div class="cell-output cell-output-stdout">
+<pre><code>degree  1:  train MSE = 14.38   test MSE =     17.1   largest |w_j| =      1.8
+degree  2:  train MSE =  1.74   test MSE =      4.5   largest |w_j| =      3.8
+degree 15:  train MSE =  0.58   test MSE =    705.1   largest |w_j| =   5397.2</code></pre>
+</div>
+</div>
+<div class="fragment micro">
+<p>Degree 15 has the lowest training error and a test error thousands of times larger: it has learned the noise of these twenty samples. The noise variance is <span class="math inline">\(\sigma^2 = 4\)</span>, so no model can do better than a test MSE of about 4 on average; degree 2 gets close. The last column is the symptom to remember: the overfitted model needs <strong>huge weights</strong>, of alternating sign, that cancel each other on the training points and explode between them. Large weights mean that a small change in <span class="math inline">\(\mathbf{x}\)</span> (or in the data) produces a large change in <span class="math inline">\(\hat y\)</span>: exactly the instability of an ill-posed problem.</p>
+</div>
+</section>
+<section id="multicollinearity" class="slide level2 center">
+<h2>Multicollinearity</h2>
+<p>In 2b, <code>s1</code> and <code>s2</code> of the diabetes data (<span class="math inline">\(r \approx 0.9\)</span>) got large weights of opposite sign. How stable are they? Refit the linear model on 200 bootstrap samples (4a) of the training set:</p>
+<div id="e00c7989" class="cell columns column-output-location" data-execution_count="4">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_diabetes</span>
+<span id="cb4-2"><a href="" aria-label="2"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb4-3"><a href="" aria-label="3"></a></span>
+<span id="cb4-4"><a href="" aria-label="4"></a>diabetes <span class="op">=</span> load_diabetes()</span>
+<span id="cb4-5"><a href="" aria-label="5"></a>Xd, yd <span class="op">=</span> diabetes.data, diabetes.target</span>
+<span id="cb4-6"><a href="" aria-label="6"></a>names <span class="op">=</span> np.array(diabetes.feature_names)</span>
+<span id="cb4-7"><a href="" aria-label="7"></a>Xd_train, Xd_test, yd_train, yd_test <span class="op">=</span> train_test_split(</span>
+<span id="cb4-8"><a href="" aria-label="8"></a>    Xd, yd, test_size<span class="op">=</span><span class="fl">0.25</span>, random_state<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb4-9"><a href="" aria-label="9"></a></span>
+<span id="cb4-10"><a href="" aria-label="10"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">0</span>)</span>
+<span id="cb4-11"><a href="" aria-label="11"></a>W <span class="op">=</span> []</span>
+<span id="cb4-12"><a href="" aria-label="12"></a><span class="cf">for</span> b <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">200</span>):</span>
+<span id="cb4-13"><a href="" aria-label="13"></a>    i <span class="op">=</span> rng.integers(<span class="dv">0</span>, <span class="bu">len</span>(yd_train), <span class="bu">len</span>(yd_train))</span>
+<span id="cb4-14"><a href="" aria-label="14"></a>    W.append(LinearRegression().fit(Xd_train[i], yd_train[i]).coef_)</span>
+<span id="cb4-15"><a href="" aria-label="15"></a>W <span class="op">=</span> np.array(W)</span>
+<span id="cb4-16"><a href="" aria-label="16"></a></span>
+<span id="cb4-17"><a href="" aria-label="17"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="fl">5.5</span>, <span class="dv">3</span>))</span>
+<span id="cb4-18"><a href="" aria-label="18"></a>ax.boxplot(W)</span>
+<span id="cb4-19"><a href="" aria-label="19"></a>ax.set_xticks(<span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">11</span>), names)</span>
+<span id="cb4-20"><a href="" aria-label="20"></a>ax.axhline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">"k"</span>, linewidth<span class="op">=</span><span class="fl">0.8</span>)</span>
+<span id="cb4-21"><a href="" aria-label="21"></a>_ <span class="op">=</span> ax.set_ylabel(<span class="st">"weight $w_j$ (200 refits)"</span>)</span>
+<span id="cb4-22"><a href="" aria-label="22"></a><span class="bu">print</span>(<span class="st">"corr(w_s1, w_s2) ="</span>, np.corrcoef(W[:, <span class="dv">4</span>], W[:, <span class="dv">5</span>])[<span class="dv">0</span>, <span class="dv">1</span>].<span class="bu">round</span>(<span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column fragment">
+<div class="cell-output cell-output-stdout">
+<pre><code>corr(w_s1, w_s2) = -0.97</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec05a_files/figure-revealjs/cell-5-output-2.png" width="504" height="263"></p>
+</figure>
+</div>
+</div>
+</div></div>
+<div class="fragment micro">
+<p>The weights of <code>s1</code> and <code>s2</code> swing over hundreds of units from one sample to the next, and always in opposite directions (correlation close to <span class="math inline">\(-1\)</span>): the data constrain <span class="math inline">\(w_{s1} + w_{s2}\)</span> well, but not the two separately. Their predictions are fine; their weights cannot be interpreted. This is <strong>data multicollinearity</strong>; <code>PolynomialFeatures</code> creates <strong>structural</strong> multicollinearity (<span class="math inline">\(x\)</span>, <span class="math inline">\(x^2\)</span>, <span class="math inline">\(x^3\)</span> are strongly correlated), which is why degree 15 needed huge weights.</p>
+</div>
+</section></section>
+<section>
+<section id="the-biasvariance-decomposition" class="title-slide slide level1 center">
+<h1>The bias–variance decomposition</h1>
+<p>Imagine repeating the whole experiment many times: new training set <span class="math inline">\(\mathcal{D}\)</span>, new fit <span class="math inline">\(\hat f\)</span>. Twenty repetitions of three of our polynomial models, with <span class="math inline">\(f\)</span> in black and the average fit dashed:</p>
+<div id="f715fca7" class="cell" data-execution_count="5">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec05a_files/figure-revealjs/cell-6-output-1.png" width="652" height="254"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="fragment micro">
+<p>Degree 1: the fits agree with each other, but their average is far from <span class="math inline">\(f\)</span> (<strong>bias</strong>). Degree 10: on average close to <span class="math inline">\(f\)</span>, but each fit is very different from the others (<strong>variance</strong>). Degree 2: both small.</p>
+</div>
+</section>
+<section id="the-expected-error-over-training-sets" class="slide level2 center">
+<h2>The expected error over training sets</h2>
+<div class="micro">
+<p>The previous slide shows <strong>one</strong> experiment repeated twenty times. Our training set is just one of those draws: we cannot know whether it was a lucky or an unlucky one (the 200 splits of 4b). The fair way to judge a learning method is therefore its error <strong>on average over all the training sets it could have received</strong>.</p>
+<p>The <strong>expectation</strong> <span class="math inline">\(\mathbb{E}[\cdot]\)</span> is that average: the mean of a random quantity over all its possible values, weighted by their probability. Here two things are random: the training set <span class="math inline">\(\mathcal{D}\)</span> (so the fitted model <span class="math inline">\(\hat f\)</span>, which depends on it) and the noise <span class="math inline">\(\varepsilon\)</span> of the new sample, <span class="math inline">\(y = f(\mathbf{x}) + \varepsilon\)</span>, with <span class="math inline">\(\mathbb{E}[\varepsilon] = 0\)</span> and <span class="math inline">\(\mathbb{E}[\varepsilon^2] = \sigma^2\)</span>. In the simulations, <span class="math inline">\(\mathbb{E}\)</span> is approximated by averaging over many repetitions. Two properties are all we need: <span class="math inline">\(\mathbb{E}\)</span> is <strong>linear</strong>, and a quantity that does not depend on <span class="math inline">\(\mathcal{D}\)</span> or <span class="math inline">\(\varepsilon\)</span> (like <span class="math inline">\(f(\mathbf{x})\)</span>) is a constant.</p>
+</div>
+<div class="fragment micro">
+<p>At a fixed point <span class="math inline">\(\mathbf{x}\)</span>, call <span class="math inline">\(\bar f = \mathbb{E}[\hat f]\)</span> the <strong>average model</strong>. Add and subtract <span class="math inline">\(f\)</span> and <span class="math inline">\(\bar f\)</span>:</p>
+<p><span class="math display">\[
+y - \hat f = \underbrace{(f - \bar f)}_{\text{constant}} + \underbrace{(\bar f - \hat f)}_{\text{depends on }\mathcal{D}} + \underbrace{\varepsilon}_{\text{noise}}
+\]</span></p>
+<p>Squaring gives three squares and three cross terms. Taking <span class="math inline">\(\mathbb{E}\)</span>, the cross terms vanish:</p>
+<ul>
+<li><span class="math inline">\(\mathbb{E}\big[2(f - \bar f)(\bar f - \hat f)\big] = 2(f - \bar f)\big(\bar f - \mathbb{E}[\hat f]\big) = 0\)</span>, by the definition of <span class="math inline">\(\bar f\)</span></li>
+<li><span class="math inline">\(\mathbb{E}\big[2(f - \bar f)\,\varepsilon\big] = 2(f - \bar f)\,\mathbb{E}[\varepsilon] = 0\)</span></li>
+<li><span class="math inline">\(\mathbb{E}\big[2(\bar f - \hat f)\,\varepsilon\big] = 2\,\mathbb{E}[\bar f - \hat f]\,\mathbb{E}[\varepsilon] = 0\)</span>, because the noise of the <strong>new</strong> sample is independent of the training set</li>
+</ul>
+</div>
+</section>
+<section id="three-sources-of-error" class="slide level2 center">
+<h2>Three sources of error</h2>
+<p>What survives are the expectations of the three squares:</p>
+<p><span class="math display">\[
+\mathbb{E}\big[(y-\hat f(\mathbf{x}))^2\big] =
+\underbrace{\big(\bar f(\mathbf{x}) - f(\mathbf{x})\big)^2}_{\text{bias}^2}
++ \underbrace{\mathbb{E}\Big[\big(\hat f(\mathbf{x}) - \bar f(\mathbf{x})\big)^2\Big]}_{\text{variance}}
++ \underbrace{\sigma^2}_{\text{noise}}
+\]</span></p>
+<div class="micro">
+<ul>
+<li><strong>bias</strong><span class="math inline">\(^2\)</span>: how far the <strong>average</strong> model is from the truth; a property of the model family <span class="math inline">\(H\)</span> (a line cannot follow a parabola, whatever the data). Degree 1 on the previous slide.</li>
+<li><strong>variance</strong>: how much <span class="math inline">\(\hat f\)</span> changes from one training set to another; large for flexible models and small <span class="math inline">\(n\)</span>. Degree 10 on the previous slide.</li>
+<li><strong>noise</strong>: the irreducible error; no model can remove it. Here <span class="math inline">\(\sigma^2 = 4\)</span>: the floor of the test MSE of the polynomial example.</li>
+</ul>
+</div>
+<div class="fragment micro">
+<p>The decomposition is exact for the squared error, at every <span class="math inline">\(\mathbf{x}\)</span>; averaging over <span class="math inline">\(\mathbf{x}\)</span> gives the expected test MSE. For other losses (log-loss, accuracy) the same intuition holds, with different formulas. Note what it says about evaluation: the test error of <strong>one</strong> fitted model mixes all three terms with the luck of the draw.</p>
+</div>
+</section>
+<section id="measuring-bias-and-variance" class="slide level2 center">
+<h2>Measuring bias and variance</h2>
+<p>We can estimate the terms by simulation when we know <span class="math inline">\(f\)</span>: 200 training sets of 25 samples from <span class="math inline">\(f(x) = \sin(2\pi x)\)</span> with noise <span class="math inline">\(\sigma = 0.3\)</span>, polynomials of increasing degree.</p>
+<div id="6f7aa3ea" class="cell columns column-output-location" data-execution_count="6">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="" aria-label="1"></a><span class="kw">def</span> f_sin(x):</span>
+<span id="cb6-2"><a href="" aria-label="2"></a>    <span class="cf">return</span> np.sin(<span class="dv">2</span> <span class="op">*</span> np.pi <span class="op">*</span> x)</span>
+<span id="cb6-3"><a href="" aria-label="3"></a></span>
+<span id="cb6-4"><a href="" aria-label="4"></a>xq <span class="op">=</span> np.linspace(<span class="fl">0.05</span>, <span class="fl">0.95</span>, <span class="dv">50</span>).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)    <span class="co"># query points</span></span>
+<span id="cb6-5"><a href="" aria-label="5"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">1</span>)</span>
+<span id="cb6-6"><a href="" aria-label="6"></a>degrees <span class="op">=</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">9</span>)</span>
+<span id="cb6-7"><a href="" aria-label="7"></a>bias2, var <span class="op">=</span> [], []</span>
+<span id="cb6-8"><a href="" aria-label="8"></a><span class="cf">for</span> deg <span class="kw">in</span> degrees:</span>
+<span id="cb6-9"><a href="" aria-label="9"></a>    P <span class="op">=</span> []</span>
+<span id="cb6-10"><a href="" aria-label="10"></a>    <span class="cf">for</span> r <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">200</span>):                           <span class="co"># 200 training sets</span></span>
+<span id="cb6-11"><a href="" aria-label="11"></a>        x <span class="op">=</span> rng.uniform(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">25</span>).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb6-12"><a href="" aria-label="12"></a>        y <span class="op">=</span> f_sin(x.ravel()) <span class="op">+</span> rng.normal(<span class="dv">0</span>, <span class="fl">0.3</span>, <span class="dv">25</span>)</span>
+<span id="cb6-13"><a href="" aria-label="13"></a>        P.append(poly(deg).fit(x, y).predict(xq))</span>
+<span id="cb6-14"><a href="" aria-label="14"></a>    P <span class="op">=</span> np.array(P)</span>
+<span id="cb6-15"><a href="" aria-label="15"></a>    bias2.append(np.mean((P.mean(axis<span class="op">=</span><span class="dv">0</span>) <span class="op">-</span> f_sin(xq.ravel()))<span class="op">**</span><span class="dv">2</span>))</span>
+<span id="cb6-16"><a href="" aria-label="16"></a>    var.append(np.mean(P.var(axis<span class="op">=</span><span class="dv">0</span>)))</span>
+<span id="cb6-17"><a href="" aria-label="17"></a></span>
+<span id="cb6-18"><a href="" aria-label="18"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="fl">3.3</span>))</span>
+<span id="cb6-19"><a href="" aria-label="19"></a>ax.semilogy(degrees, bias2, <span class="st">"o-"</span>, label<span class="op">=</span><span class="st">"bias$^2$"</span>)</span>
+<span id="cb6-20"><a href="" aria-label="20"></a>ax.semilogy(degrees, var, <span class="st">"o-"</span>, label<span class="op">=</span><span class="st">"variance"</span>)</span>
+<span id="cb6-21"><a href="" aria-label="21"></a>ax.semilogy(degrees, np.add(bias2, var) <span class="op">+</span> <span class="fl">0.09</span>, <span class="st">"k--"</span>, label<span class="op">=</span><span class="st">"total (+ noise)"</span>)</span>
+<span id="cb6-22"><a href="" aria-label="22"></a>ax.set_xlabel(<span class="st">"polynomial degree"</span>)</span>
+<span id="cb6-23"><a href="" aria-label="23"></a>_ <span class="op">=</span> ax.legend()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column fragment">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec05a_files/figure-revealjs/cell-7-output-1.png" width="432" height="304"></p>
+</figure>
+</div>
+</div>
+</div></div>
+</section>
+<section id="the-trade-off" class="slide level2 center">
+<h2>The trade-off</h2>
+<div class="columns">
+<div class="column" style="width:45%;">
+<div id="67d12412" class="cell" data-execution_count="7">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec05a_files/figure-revealjs/cell-8-output-1.png" width="357" height="282"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:55%;">
+<div class="micro">
+<p>Bias falls quickly with the degree (a cubic can already follow one period of a sine). Variance grows, slowly at first and then explosively (note the log scale): with 25 samples and degree 8, nine coefficients are estimated from very little information, and beyond that the fits become unstable. The total error is smallest at an intermediate degree, here around 3 to 5.</p>
+</div>
+</div></div>
+<div class="fragment micro">
+<table class="caption-top">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Regime</th>
+<th style="text-align: left;">Bias</th>
+<th style="text-align: left;">Variance</th>
+<th style="text-align: left;">In the curves of 4b</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">too simple (underfitting)</td>
+<td style="text-align: left;">high</td>
+<td style="text-align: left;">low</td>
+<td style="text-align: left;">training and validation scores both poor and close</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">about right</td>
+<td style="text-align: left;">low</td>
+<td style="text-align: left;">low</td>
+<td style="text-align: left;">validation score at its best</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">too flexible (overfitting)</td>
+<td style="text-align: left;">low</td>
+<td style="text-align: left;">high</td>
+<td style="text-align: left;">training score high, wide gap to validation</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fragment micro">
+<p>We never know <span class="math inline">\(f\)</span>, so in practice bias and variance are not measured: they are <strong>read</strong> from validation and learning curves (4b). The decomposition explains the remedies. More data reduces variance; a more flexible model reduces bias. And there are two ways to reduce variance <strong>without</strong> collecting data: averaging and regularisation.</p>
+</div>
+</section></section>
+<section>
+<section id="reducing-variance-1-averaging" class="title-slide slide level1 center">
+<h1>Reducing variance (1): averaging</h1>
+<p>Take <span class="math inline">\(M\)</span> estimates <span class="math inline">\(\hat f_1, \dots, \hat f_M\)</span> of the same quantity, each with variance <span class="math inline">\(\sigma^2\)</span>, and average them: <span class="math inline">\(\bar f = \frac{1}{M}\sum_{m=1}^{M} \hat f_m\)</span>.</p>
+<div class="micro">
+<p>Two rules of variances do all the work: a constant factor comes out <strong>squared</strong>, <span class="math inline">\(\mathrm{Var}[aX] = a^2\,\mathrm{Var}[X]\)</span>, and the variance of a sum is the sum of all variances and covariances:</p>
+<p><span class="math display">\[
+\mathrm{Var}[\bar f] = \mathrm{Var}\Big[\frac{1}{M}\sum_{m=1}^{M}\hat f_m\Big]
+= \frac{1}{M^2}\,\mathrm{Var}\Big[\sum_{m=1}^{M}\hat f_m\Big]
+= \frac{1}{M^2}\Big(\sum_{m=1}^{M}\mathrm{Var}[\hat f_m] + \sum_{m \neq m'}\mathrm{Cov}[\hat f_m, \hat f_{m'}]\Big)
+\]</span></p>
+<p>If the estimates are <strong>independent</strong>, all the covariances are zero, and the <span class="math inline">\(M\)</span> variances add up:</p>
+<p><span class="math display">\[
+\mathrm{Var}[\bar f] = \frac{1}{M^2}\, M\sigma^2 = \frac{\sigma^2}{M}
+\]</span></p>
+<p>while the mean, and so the bias, does not change: <span class="math inline">\(\mathbb{E}[\bar f] = \mathbb{E}[\hat f_m]\)</span>. This is why we average repeated measurements in the lab: ten readings give a mean with <span class="math inline">\(\sqrt{10} \approx 3\)</span> times less scatter.</p>
+</div>
+</section>
+<section id="averaging-correlated-estimates" class="slide level2 center">
+<h2>Averaging correlated estimates</h2>
+<p>Estimates obtained from the same data are <strong>correlated</strong>. With pairwise correlation <span class="math inline">\(\rho\)</span>, <span class="math inline">\(\mathrm{Cov}[\hat f_m, \hat f_{m'}] = \rho\sigma^2\)</span>, and the <span class="math inline">\(M(M-1)\)</span> covariance terms of the previous slide (all pairs <span class="math inline">\(m \neq m'\)</span>) no longer vanish:</p>
+<div class="micro">
+<p><span class="math display">\[
+\mathrm{Var}[\bar f] = \frac{1}{M^2}\Big(M\sigma^2 + M(M-1)\rho\sigma^2\Big) = \sigma^2\Big(\rho + \frac{1-\rho}{M}\Big)
+\]</span></p>
+</div>
+<div id="e0eaa217" class="cell" data-execution_count="8">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec05a_files/figure-revealjs/cell-9-output-1.png" width="443" height="254"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="fragment micro">
+<p>As <span class="math inline">\(M \to \infty\)</span> the variance does not go to zero but to <span class="math inline">\(\rho\sigma^2\)</span>: averaging helps only as far as the models are <strong>diverse</strong>. This formula is the design principle of the ensembles of 6b.</p>
+</div>
+</section>
+<section id="averaging-models-a-simulation" class="slide level2 center">
+<h2>Averaging models: a simulation</h2>
+<p>Polynomials of degree 5, predicting at <span class="math inline">\(x = 0\)</span>. Each model is trained on a bootstrap sample (4a) of a training set of 30 samples, and <span class="math inline">\(M\)</span> models are averaged. The only difference: in (a) every model gets its own <strong>independent</strong> training set, in (b) all <span class="math inline">\(M\)</span> models resample the <strong>same</strong> training set.</p>
+<div id="68d0945f" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="" aria-label="1"></a>xs <span class="op">=</span> np.array([[<span class="fl">0.0</span>]])</span>
+<span id="cb7-2"><a href="" aria-label="2"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">2</span>)</span>
+<span id="cb7-3"><a href="" aria-label="3"></a><span class="kw">def</span> new_set(n<span class="op">=</span><span class="dv">30</span>):                                   <span class="co"># a fresh training set</span></span>
+<span id="cb7-4"><a href="" aria-label="4"></a>    x <span class="op">=</span> rng.uniform(<span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>, n)</span>
+<span id="cb7-5"><a href="" aria-label="5"></a>    <span class="cf">return</span> x.reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>), f_true(x) <span class="op">+</span> rng.normal(<span class="dv">0</span>, <span class="fl">2.0</span>, n)</span>
+<span id="cb7-6"><a href="" aria-label="6"></a><span class="kw">def</span> boot_fit(X, y):                                  <span class="co"># one model on a bootstrap sample</span></span>
+<span id="cb7-7"><a href="" aria-label="7"></a>    i <span class="op">=</span> rng.integers(<span class="dv">0</span>, <span class="bu">len</span>(y), <span class="bu">len</span>(y))</span>
+<span id="cb7-8"><a href="" aria-label="8"></a>    <span class="cf">return</span> poly(<span class="dv">5</span>).fit(X[i], y[i]).predict(xs)[<span class="dv">0</span>]</span>
+<span id="cb7-9"><a href="" aria-label="9"></a></span>
+<span id="cb7-10"><a href="" aria-label="10"></a><span class="cf">for</span> M <span class="kw">in</span> [<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">10</span>, <span class="dv">30</span>]:</span>
+<span id="cb7-11"><a href="" aria-label="11"></a>    indep, same <span class="op">=</span> [], []</span>
+<span id="cb7-12"><a href="" aria-label="12"></a>    <span class="cf">for</span> r <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">200</span>):                             <span class="co"># 200 repetitions of the experiment</span></span>
+<span id="cb7-13"><a href="" aria-label="13"></a>        indep.append(np.mean([boot_fit(<span class="op">*</span>new_set()) <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(M)]))</span>
+<span id="cb7-14"><a href="" aria-label="14"></a>        X0, y0 <span class="op">=</span> new_set()</span>
+<span id="cb7-15"><a href="" aria-label="15"></a>        same.append(np.mean([boot_fit(X0, y0) <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(M)]))</span>
+<span id="cb7-16"><a href="" aria-label="16"></a>    <span class="bu">print</span>(<span class="ss">f"M = </span><span class="sc">{</span>M<span class="sc">:2d}</span><span class="ss">:  variance (a) independent sets = </span><span class="sc">{</span>np<span class="sc">.</span>var(indep)<span class="sc">:4.2f}</span><span class="ss">"</span></span>
+<span id="cb7-17"><a href="" aria-label="17"></a>          <span class="ss">f"   (b) one set = </span><span class="sc">{</span>np<span class="sc">.</span>var(same)<span class="sc">:4.2f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell fragment" data-execution_count="9">
+<div class="cell-output cell-output-stdout">
+<pre><code>M =  1:  variance (a) independent sets = 1.27   (b) one set = 1.17
+M =  3:  variance (a) independent sets = 0.40   (b) one set = 0.79
+M = 10:  variance (a) independent sets = 0.11   (b) one set = 0.70
+M = 30:  variance (a) independent sets = 0.04   (b) one set = 0.59</code></pre>
+</div>
+</div>
+<div class="fragment micro">
+<p>For <span class="math inline">\(M = 1\)</span> the two procedures are the same, and so are the variances (up to simulation noise). Then they part: with independent sets the variance falls as <span class="math inline">\(1/M\)</span>, to about 0.04 for thirty models. Resampling one set gives <strong>correlated</strong> models: the variance falls more slowly and levels off at about 0.6, roughly half of <span class="math inline">\(\sigma^2\)</span>, which means <span class="math inline">\(\rho \approx 0.5\)</span> in the formula. The part of the variance that comes from having drawn <strong>this</strong> training set is shared by all the models and cannot be averaged away. In practice we have only one data set, so the art of ensembles (6b) is to make the models as uncorrelated as possible.</p>
+</div>
+</section></section>
+<section>
+<section id="reducing-variance-2-regularisation" class="title-slide slide level1 center">
+<h1>Reducing variance (2): regularisation</h1>
+<p>The large weights of the overfitted polynomial suggest a direct remedy: <strong>penalise</strong> them. The strategy <span class="math inline">\(L\)</span> becomes the training loss plus a penalty on the size of <span class="math inline">\(\mathbf{w}\)</span>, weighted by <span class="math inline">\(\lambda \ge 0\)</span>:</p>
+<p><span class="math display">\[
+\min_{\mathbf{w}, b}\; \sum_{i=1}^{n}\big(y_i - b - \mathbf{w}^T\mathbf{x}_i\big)^2 + \lambda\, \|\mathbf{w}\|_p^p
+\quad\Longleftrightarrow\quad
+\min_{\mathbf{w}, b}\; \sum_{i=1}^{n}\big(y_i - b - \mathbf{w}^T\mathbf{x}_i\big)^2 \;\text{ subject to }\; \|\mathbf{w}\|_p^p \le \tau
+\]</span></p>
+<div class="micro">
+<ul>
+<li>the two forms are equivalent: each <span class="math inline">\(\lambda\)</span> corresponds to a <strong>budget</strong> <span class="math inline">\(\tau\)</span> for the weights (large <span class="math inline">\(\lambda\)</span>, small <span class="math inline">\(\tau\)</span>). The correspondence is monotone but depends on the data: <span class="math inline">\(\tau\)</span> is the size <span class="math inline">\(\|\hat{\mathbf{w}}\|_p^p\)</span> of the solution found with that <span class="math inline">\(\lambda\)</span></li>
+<li><span class="math inline">\(\lambda = 0\)</span> gives back <strong>ordinary least squares</strong> (OLS), the unpenalised fit of 2b (normal equations or gradient descent); <span class="math inline">\(\lambda \to \infty\)</span> forces <span class="math inline">\(\mathbf{w} \to 0\)</span>, a constant model <span class="math inline">\(\hat y = b\)</span></li>
+<li>the intercept <span class="math inline">\(b\)</span> is <strong>not</strong> penalised: shifting <span class="math inline">\(y\)</span> should not change the model</li>
+<li><span class="math inline">\(\lambda\)</span> is a hyperparameter, chosen by cross-validation (4b)</li>
+</ul>
+</div>
+<div class="fragment micro">
+<p>The idea comes from inverse problems: Tikhonov (1943) stabilised the solution of <span class="math inline">\(\mathbf{A}\mathbf{f} = \mathbf{g}\)</span> by adding <span class="math inline">\(\gamma\|\mathbf{f}\|^2\)</span> to <span class="math inline">\(\|\mathbf{A}\mathbf{f} - \mathbf{g}\|^2\)</span>. In statistics, regularisation is the general name for methods that trade a little bias for a large reduction in variance.</p>
+</div>
+</section>
+<section id="ridge-regression-l2" class="slide level2 center">
+<h2>Ridge regression (L2)</h2>
+<p>Ridge regression is linear regression with an L2 penalty: same model <span class="math inline">\(H\)</span>, and a strategy <span class="math inline">\(L\)</span> that adds the <strong>squared</strong> Euclidean norm of the weights, <span class="math inline">\(\|\mathbf{w}\|_2^2 = \sum_{j=1}^{d} w_j^2\)</span> (the intercept excluded):</p>
+<p><span class="math display">\[
+L_{\text{Ridge}}(\mathbf{w}, b) = \sum_{i=1}^{n}\big(y_i - b - \mathbf{w}^T\mathbf{x}_i\big)^2 + \lambda \sum_{j=1}^{d} w_j^2
+\]</span></p>
+<div class="micro">
+<p>The loss is still quadratic, so there is a closed form. With centred data (<span class="math inline">\(\mathbf{X}_c\)</span>, <span class="math inline">\(\mathbf{y}_c\)</span>, which removes <span class="math inline">\(b\)</span>):</p>
+<p><span class="math display">\[
+\hat{\mathbf{w}} = \big(\mathbf{X}_c^T\mathbf{X}_c + \lambda\mathbf{I}\big)^{-1}\mathbf{X}_c^T\mathbf{y}_c
+\]</span></p>
+<p>Compare it with the normal equations of 2b, <span class="math inline">\(\hat{\mathbf{w}} = (\mathbf{X}_c^T\mathbf{X}_c)^{-1}\mathbf{X}_c^T\mathbf{y}_c\)</span>: Ridge adds <span class="math inline">\(\lambda\)</span> to the diagonal. When features are strongly correlated, <span class="math inline">\(\mathbf{X}_c^T\mathbf{X}_c\)</span> is almost singular and its inverse amplifies the noise. Adding <span class="math inline">\(\lambda\mathbf{I}\)</span> keeps it safely invertible.</p>
+</div>
+<div class="micro">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p>In scikit-learn, <code>Ridge(alpha=...)</code> minimises exactly <span class="math inline">\(L_{\text{Ridge}}\)</span>: <code>alpha</code> is our <span class="math inline">\(\lambda\)</span>. Gradient descent also works: the penalty adds <span class="math inline">\(2\lambda w_j\)</span> to each component of the gradient, shrinking the weights at every step (<strong>weight decay</strong>, the name used for neural networks in CW3).</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="ridge-repairs-an-ill-conditioned-problem" class="slide level2 center">
+<h2>Ridge repairs an ill-conditioned problem</h2>
+<div class="micro">
+<p><span class="math inline">\(\mathbf{X}_c^T\mathbf{X}_c\)</span> is the <span class="math inline">\(d \times d\)</span> matrix of the sums of products of the centred features: <span class="math inline">\((n-1)\)</span> times their <strong>covariance matrix</strong> (5b). Its eigenvalues measure how much the data spread along each direction of feature space; a near-zero eigenvalue means a combination of features that hardly varies, i.e.&nbsp;collinear features. The <strong>condition number</strong> of this symmetric matrix is the ratio of its largest to its smallest eigenvalue, <span class="math display">\[
+\kappa = \frac{\lambda_{\max}}{\lambda_{\min}} \ge 1,
+\]</span> and bounds how much a relative error in the data (noise, rounding) can be amplified in the solution <span class="math inline">\(\hat{\mathbf{w}}\)</span>. Computers store about 16 significant digits: with <span class="math inline">\(\kappa \approx 10^{16}\)</span>, none of the digits of <span class="math inline">\(\hat{\mathbf{w}}\)</span> can be trusted. Adding <span class="math inline">\(\lambda\mathbf{I}\)</span> shifts <strong>every</strong> eigenvalue by <span class="math inline">\(\lambda\)</span>, so <span class="math inline">\(\kappa\)</span> becomes <span class="math inline">\((\lambda_{\max} + \lambda)/(\lambda_{\min} + \lambda)\)</span>. Diabetes with degree-2 polynomial features (65 features, 331 training samples):</p>
+</div>
+<div id="d9d37b9d" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> Ridge</span>
+<span id="cb9-2"><a href="" aria-label="2"></a></span>
+<span id="cb9-3"><a href="" aria-label="3"></a>prep <span class="op">=</span> make_pipeline(PolynomialFeatures(<span class="dv">2</span>, include_bias<span class="op">=</span><span class="va">False</span>), StandardScaler())</span>
+<span id="cb9-4"><a href="" aria-label="4"></a>Z <span class="op">=</span> prep.fit_transform(Xd_train)</span>
+<span id="cb9-5"><a href="" aria-label="5"></a>Zc, yc <span class="op">=</span> Z <span class="op">-</span> Z.mean(axis<span class="op">=</span><span class="dv">0</span>), yd_train <span class="op">-</span> yd_train.mean()</span>
+<span id="cb9-6"><a href="" aria-label="6"></a>A <span class="op">=</span> Zc.T <span class="op">@</span> Zc                                               <span class="co"># d x d, here 65 x 65</span></span>
+<span id="cb9-7"><a href="" aria-label="7"></a>ev <span class="op">=</span> np.linalg.eigvalsh(A)</span>
+<span id="cb9-8"><a href="" aria-label="8"></a><span class="bu">print</span>(<span class="ss">f"eigenvalues of Xc^T Xc: largest </span><span class="sc">{</span>ev<span class="sc">.</span><span class="bu">max</span>()<span class="sc">:.1e}</span><span class="ss">, smallest </span><span class="sc">{</span><span class="bu">abs</span>(ev)<span class="sc">.</span><span class="bu">min</span>()<span class="sc">:.1e}</span><span class="ss">"</span>)</span>
+<span id="cb9-9"><a href="" aria-label="9"></a><span class="bu">print</span>(<span class="ss">f"condition number of Xc^T Xc         : </span><span class="sc">{</span>np<span class="sc">.</span>linalg<span class="sc">.</span>cond(A)<span class="sc">:.1e}</span><span class="ss">"</span>)</span>
+<span id="cb9-10"><a href="" aria-label="10"></a><span class="cf">for</span> lam <span class="kw">in</span> [<span class="dv">1</span>, <span class="dv">10</span>, <span class="dv">100</span>]:</span>
+<span id="cb9-11"><a href="" aria-label="11"></a>    <span class="bu">print</span>(<span class="ss">f"condition number with lambda = </span><span class="sc">{</span>lam<span class="sc">:3d}</span><span class="ss"> : </span><span class="sc">{</span>np<span class="sc">.</span>linalg<span class="sc">.</span>cond(A <span class="op">+</span> lam <span class="op">*</span> np.eye(<span class="bu">len</span>(A)))<span class="sc">:.1e}</span><span class="ss">"</span>)</span>
+<span id="cb9-12"><a href="" aria-label="12"></a></span>
+<span id="cb9-13"><a href="" aria-label="13"></a>w <span class="op">=</span> np.linalg.solve(A <span class="op">+</span> <span class="dv">10</span> <span class="op">*</span> np.eye(<span class="bu">len</span>(A)), Zc.T <span class="op">@</span> yc)    <span class="co"># closed form, lambda = 10</span></span>
+<span id="cb9-14"><a href="" aria-label="14"></a><span class="bu">print</span>(<span class="st">"largest difference from Ridge(alpha=10):"</span>, np.<span class="bu">abs</span>(w <span class="op">-</span> Ridge(alpha<span class="op">=</span><span class="dv">10</span>).fit(Z, yd_train).coef_).<span class="bu">max</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell fragment" data-execution_count="10">
+<div class="cell-output cell-output-stdout">
+<pre><code>eigenvalues of Xc^T Xc: largest 3.8e+03, smallest 1.8e-13
+condition number of Xc^T Xc         : 3.7e+16
+condition number with lambda =   1 : 3.8e+03
+condition number with lambda =  10 : 3.8e+02
+condition number with lambda = 100 : 3.9e+01
+largest difference from Ridge(alpha=10): 6.572520305780927e-14</code></pre>
+</div>
+</div>
+<div class="fragment micro">
+<p>Without regularisation the matrix is numerically singular (<code>sex</code> takes only two values, so its square is a constant column, and many products are almost collinear): OLS is at the mercy of rounding errors. A modest <span class="math inline">\(\lambda\)</span> brings the condition number to a few hundred. The closed form and <code>Ridge</code> agree to machine precision.</p>
+</div>
+</section>
+<section id="ridge-on-the-polynomial-example" class="slide level2 center">
+<h2>Ridge on the polynomial example</h2>
+<p>The degree-15 polynomial again, now with a Ridge penalty of increasing strength:</p>
+<div id="96d81217" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="" aria-label="1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="fl">4.5</span>, <span class="dv">3</span>))</span>
+<span id="cb11-2"><a href="" aria-label="2"></a>ax.scatter(x_tr, y_tr, s<span class="op">=</span><span class="dv">12</span>, color<span class="op">=</span><span class="st">"k"</span>)</span>
+<span id="cb11-3"><a href="" aria-label="3"></a><span class="cf">for</span> lam <span class="kw">in</span> [<span class="fl">1e-6</span>, <span class="fl">1e-3</span>, <span class="fl">1e-1</span>, <span class="dv">10</span>]:</span>
+<span id="cb11-4"><a href="" aria-label="4"></a>    m <span class="op">=</span> poly(<span class="dv">15</span>, Ridge(alpha<span class="op">=</span>lam)).fit(X_tr, y_tr)</span>
+<span id="cb11-5"><a href="" aria-label="5"></a>    test <span class="op">=</span> mean_squared_error(y_te, m.predict(X_te))</span>
+<span id="cb11-6"><a href="" aria-label="6"></a>    ax.plot(xg, m.predict(xg),</span>
+<span id="cb11-7"><a href="" aria-label="7"></a>            label<span class="op">=</span><span class="vs">fr"</span><span class="dv">$</span><span class="er">\</span><span class="vs">lambda</span><span class="dv">$</span><span class="vs"> = </span><span class="sc">{</span>lam<span class="sc">:g}</span><span class="vs">: test MSE </span><span class="sc">{</span>test<span class="sc">:.1f}</span><span class="vs">, max </span><span class="dv">$</span><span class="cf">|</span><span class="vs">w_j</span><span class="cf">|</span><span class="dv">$</span><span class="vs"> </span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">abs</span>(m[<span class="op">-</span><span class="dv">1</span>].coef_)<span class="sc">.</span><span class="bu">max</span>()<span class="sc">:.1f}</span><span class="vs">"</span>)</span>
+<span id="cb11-8"><a href="" aria-label="8"></a>ax.set_ylim(<span class="op">-</span><span class="dv">15</span>, <span class="dv">6</span>)</span>
+<span id="cb11-9"><a href="" aria-label="9"></a>_ <span class="op">=</span> ax.legend(fontsize<span class="op">=</span><span class="dv">7</span>, loc<span class="op">=</span><span class="st">"upper left"</span>, bbox_to_anchor<span class="op">=</span>(<span class="fl">1.01</span>, <span class="fl">1.0</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell fragment" data-execution_count="11">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec05a_files/figure-revealjs/cell-12-output-1.png" width="625" height="263"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="fragment micro">
+<p>The model is still a polynomial of degree 15, but the penalty keeps the weights small and the curve smooth. Test error falls from tens to about 5, close to the degree-2 model. Too much penalty (<span class="math inline">\(\lambda = 10\)</span>) starts to flatten the parabola: bias comes back. <span class="math inline">\(\lambda\)</span> moves the model along the bias–variance trade-off, <strong>continuously</strong>, without changing the features.</p>
+</div>
+</section>
+<section id="ridge-coefficient-path" class="slide level2 center">
+<h2>Ridge coefficient path</h2>
+<p>The weights of the ten (standardised) diabetes features as <span class="math inline">\(\lambda\)</span> grows:</p>
+<div id="79d3b22e" class="cell columns column-output-location" data-execution_count="12">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="" aria-label="1"></a>scaler <span class="op">=</span> StandardScaler().fit(Xd_train)</span>
+<span id="cb12-2"><a href="" aria-label="2"></a>Zs <span class="op">=</span> scaler.transform(Xd_train)</span>
+<span id="cb12-3"><a href="" aria-label="3"></a>lams <span class="op">=</span> np.logspace(<span class="op">-</span><span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">60</span>)</span>
+<span id="cb12-4"><a href="" aria-label="4"></a>coefs <span class="op">=</span> np.array([Ridge(alpha<span class="op">=</span>lam).fit(Zs, yd_train).coef_ <span class="cf">for</span> lam <span class="kw">in</span> lams])</span>
+<span id="cb12-5"><a href="" aria-label="5"></a></span>
+<span id="cb12-6"><a href="" aria-label="6"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="fl">3.3</span>))</span>
+<span id="cb12-7"><a href="" aria-label="7"></a><span class="cf">for</span> j, name <span class="kw">in</span> <span class="bu">enumerate</span>(names):</span>
+<span id="cb12-8"><a href="" aria-label="8"></a>    ax.semilogx(lams, coefs[:, j], linewidth<span class="op">=</span><span class="fl">2.5</span> <span class="cf">if</span> name <span class="kw">in</span> (<span class="st">"s1"</span>, <span class="st">"s2"</span>) <span class="cf">else</span> <span class="fl">0.8</span>,</span>
+<span id="cb12-9"><a href="" aria-label="9"></a>                label<span class="op">=</span>name <span class="cf">if</span> name <span class="kw">in</span> (<span class="st">"s1"</span>, <span class="st">"s2"</span>, <span class="st">"bmi"</span>, <span class="st">"s5"</span>) <span class="cf">else</span> <span class="va">None</span>)</span>
+<span id="cb12-10"><a href="" aria-label="10"></a>ax.axhline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">"k"</span>, linewidth<span class="op">=</span><span class="fl">0.6</span>)</span>
+<span id="cb12-11"><a href="" aria-label="11"></a>ax.set_xlabel(<span class="vs">r"</span><span class="dv">$</span><span class="er">\</span><span class="vs">lambda</span><span class="dv">$</span><span class="vs">"</span>)</span>
+<span id="cb12-12"><a href="" aria-label="12"></a>ax.set_ylabel(<span class="st">"weight $w_j$"</span>)</span>
+<span id="cb12-13"><a href="" aria-label="13"></a>_ <span class="op">=</span> ax.legend(fontsize<span class="op">=</span><span class="dv">8</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column fragment">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec05a_files/figure-revealjs/cell-13-output-1.png" width="450" height="305"></p>
+</figure>
+</div>
+</div>
+</div></div>
+<div class="fragment micro">
+<p>On the left, the OLS weights: <code>s1</code> and <code>s2</code> large and of opposite sign. As <span class="math inline">\(\lambda\)</span> grows, their opposition collapses first: Ridge prefers to <strong>share</strong> the weight between correlated features, because <span class="math inline">\(w_1^2 + w_2^2\)</span> is smallest when <span class="math inline">\(w_1 = w_2\)</span>. The informative features (<code>bmi</code>, <code>s5</code>) shrink last. All weights go to zero smoothly, but none becomes exactly zero.</p>
+</div>
+</section>
+<section id="lasso-regression-l1" class="slide level2 center">
+<h2>Lasso regression (L1)</h2>
+<p>The <strong>least absolute shrinkage and selection operator</strong> penalises the absolute values, <span class="math inline">\(\|\mathbf{w}\|_1 = \sum_{j=1}^{d}|w_j|\)</span>. In scikit-learn’s convention:</p>
+<p><span class="math display">\[
+L_{\text{Lasso}}(\mathbf{w}, b) = \frac{1}{2n}\sum_{i=1}^{n}\big(y_i - b - \mathbf{w}^T\mathbf{x}_i\big)^2 + \lambda\sum_{j=1}^{d}|w_j|
+\]</span></p>
+<div class="micro">
+<ul>
+<li>the change looks small, but the effect is qualitatively different: Lasso sets some weights <strong>exactly to zero</strong>, so it selects features while it fits</li>
+<li><span class="math inline">\(|w_j|\)</span> has no derivative at 0: there is no closed form and plain gradient descent does not apply; scikit-learn uses <strong>coordinate descent</strong> (one weight at a time)</li>
+<li>the loss is still <strong>convex</strong> (2b): the solution is the global minimum</li>
+</ul>
+</div>
+<div class="micro">
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Warning</strong></p>
+</div>
+<div class="callout-content">
+<p><code>Ridge</code> and <code>Lasso</code> both call the penalty <code>alpha</code>, but the data term of Lasso is divided by <span class="math inline">\(2n\)</span> and that of Ridge is not: the same value of <code>alpha</code> means very different strengths. Never copy a value from one to the other; choose each by cross-validation.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="why-zeros-the-geometric-view" class="slide level2 center">
+<h2>Why zeros? The geometric view</h2>
+<p>Two weights, the constrained form. The orange curves are <strong>level curves</strong> of the data term in the <span class="math inline">\((w_1, w_2)\)</span> plane: all the weights on one curve give the same training error. For a squared loss they are ellipses centred on the OLS solution (+), tilted and stretched when the features are correlated (the shape is set by <span class="math inline">\(\mathbf{X}_c^T\mathbf{X}_c\)</span>). The solution is the point of the region <span class="math inline">\(\|\mathbf{w}\|_p^p \le \tau\)</span> (shaded) on the lowest level curve: where the growing ellipses first touch it.</p>
+<div id="4a22e0d6" class="cell" data-execution_count="13">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec05a_files/figure-revealjs/cell-14-output-1.png" width="635" height="329"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="fragment micro">
+<p>The L2 region is round: the contact point is generally away from the axes, both weights shrink but stay non-zero. The L1 region has <strong>corners on the axes</strong>, where one weight is exactly zero. The ellipses touch a corner when the OLS solution lies in the “shadow” of that corner: here <span class="math inline">\(\hat w_2\)</span> is small compared with <span class="math inline">\(\hat w_1\)</span>, so <span class="math inline">\(w_2\)</span> is the one set to zero. As the budget <span class="math inline">\(\tau\)</span> shrinks (larger <span class="math inline">\(\lambda\)</span>), more and more solutions end on corners and edges: in <span class="math inline">\(d\)</span> dimensions, many weights become zero.</p>
+<p>Which weights go first? Those whose feature adds little <strong>given the others</strong>: a weak feature, but also a strong one that is redundant with another (one of the twins <code>s1</code>, <code>s2</code>). Lasso’s zeros say “not needed in this model”, not “unrelated to the target”.</p>
+</div>
+</section>
+<section id="why-zeros-the-numerical-view" class="slide level2 center">
+<h2>Why zeros? The numerical view</h2>
+<p>For standardised, <strong>uncorrelated</strong> features the two penalties have simple solutions in terms of the OLS weight <span class="math inline">\(\hat w_j\)</span> (up to a constant factor in <span class="math inline">\(\lambda\)</span>):</p>
+<div class="micro">
+<p><span class="math display">\[
+w_j^{\text{Ridge}} = \frac{\hat w_j}{1 + \lambda}
+\qquad\qquad
+w_j^{\text{Lasso}} = \mathrm{sign}(\hat w_j)\,\max\big(|\hat w_j| - \lambda,\; 0\big)
+\]</span></p>
+</div>
+<div id="ada58ab4" class="cell" data-execution_count="14">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec05a_files/figure-revealjs/cell-15-output-1.png" width="440" height="273"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="fragment micro">
+<p>Ridge <strong>scales</strong> every weight by the same factor: small weights stay small but non-zero. Lasso <strong>subtracts</strong> <span class="math inline">\(\lambda\)</span> and sets to zero every weight whose magnitude is below <span class="math inline">\(\lambda\)</span> (the shaded band): a <strong>soft threshold</strong>. Coordinate descent applies this rule to one weight at a time, with the others fixed, and cycles until nothing changes.</p>
+</div>
+</section>
+<section id="optimality-at-a-kink-the-kkt-conditions" class="slide level2 center">
+<h2>Optimality at a kink: the KKT conditions</h2>
+<div class="micro">
+<p>For a smooth convex loss, the minimum is where the gradient is zero (2b). The Lasso loss has a <strong>kink</strong> at <span class="math inline">\(w_j = 0\)</span>: there, <span class="math inline">\(|w_j|\)</span> has no derivative, but any slope between <span class="math inline">\(-1\)</span> and <span class="math inline">\(+1\)</span> “supports” it from below (a <strong>subgradient</strong>). The <strong>Karush–Kuhn–Tucker (KKT) conditions</strong> generalise “gradient = 0” to problems with kinks or constraints. For Lasso, with <span class="math inline">\(g_j = \partial L_{\text{data}} / \partial w_j\)</span> the gradient of the data term at the solution:</p>
+<p><span class="math display">\[
+w_j \neq 0:\quad g_j = -\lambda\,\mathrm{sign}(w_j)
+\qquad\qquad
+w_j = 0:\quad |g_j| \le \lambda
+\]</span></p>
+<p>A non-zero weight sits where the pull of the data exactly balances the pull of the penalty. A weight stays at zero when the data pull is weaker than <span class="math inline">\(\lambda\)</span>. With the <span class="math inline">\(\frac{1}{2n}\)</span> scaling, <span class="math inline">\(g_j = -\frac{1}{n}\sum_i x_{ij} r_i\)</span>: the correlation of feature <span class="math inline">\(j\)</span> with the current residuals <span class="math inline">\(r_i = y_i - \hat y_i\)</span>. A feature enters the model only when it explains enough of what the others leave unexplained.</p>
+</div>
+<div id="cd12c883" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> Lasso</span>
+<span id="cb13-2"><a href="" aria-label="2"></a></span>
+<span id="cb13-3"><a href="" aria-label="3"></a>lasso <span class="op">=</span> Lasso(alpha<span class="op">=</span><span class="fl">1.0</span>).fit(Zs, yd_train)                 <span class="co"># lambda = 1, standardised diabetes</span></span>
+<span id="cb13-4"><a href="" aria-label="4"></a>r <span class="op">=</span> yd_train <span class="op">-</span> lasso.predict(Zs)                            <span class="co"># residuals</span></span>
+<span id="cb13-5"><a href="" aria-label="5"></a>g <span class="op">=</span> <span class="op">-</span>(Zs <span class="op">*</span> r[:, <span class="va">None</span>]).mean(axis<span class="op">=</span><span class="dv">0</span>)                         <span class="co"># gradient of the data term</span></span>
+<span id="cb13-6"><a href="" aria-label="6"></a><span class="cf">for</span> name, wj, gj <span class="kw">in</span> <span class="bu">zip</span>(names, lasso.coef_ <span class="op">+</span> <span class="fl">0.0</span>, g):      <span class="co"># + 0.0 turns -0.0 into 0.0</span></span>
+<span id="cb13-7"><a href="" aria-label="7"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>name<span class="sc">:4s}</span><span class="ss">  w = </span><span class="sc">{</span>wj<span class="sc">:6.1f}</span><span class="ss">   |g| = </span><span class="sc">{</span><span class="bu">abs</span>(gj)<span class="sc">:5.2f}</span><span class="ss">"</span> <span class="op">+</span> (<span class="st">"   &lt;- zero"</span> <span class="cf">if</span> wj <span class="op">==</span> <span class="dv">0</span> <span class="cf">else</span> <span class="st">""</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell fragment" data-execution_count="15">
+<div class="cell-output cell-output-stdout">
+<pre><code>age   w =   -0.4   |g| =  1.00
+sex   w =   -8.0   |g| =  1.00
+bmi   w =   28.9   |g| =  1.00
+bp    w =   12.7   |g| =  1.00
+s1    w =   -6.8   |g| =  1.00
+s2    w =    0.0   |g| =  0.89   &lt;- zero
+s3    w =  -10.2   |g| =  1.00
+s4    w =    0.0   |g| =  0.77   &lt;- zero
+s5    w =   27.4   |g| =  1.00
+s6    w =    0.5   |g| =  1.00</code></pre>
+</div>
+</div>
+<div class="fragment micro">
+<p>Every non-zero weight has <span class="math inline">\(|g_j| = 1 = \lambda\)</span> (to solver tolerance); the zero weights have <span class="math inline">\(|g_j| &lt; 1\)</span>. The same conditions return in 7a, where they decide which <strong>samples</strong> become support vectors: in Lasso they gate features, in SVMs samples.</p>
+</div>
+</section>
+<section id="lasso-path" class="slide level2 center">
+<h2>Lasso path</h2>
+<div id="92272e7d" class="cell columns column-output-location" data-execution_count="16">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> lasso_path</span>
+<span id="cb15-2"><a href="" aria-label="2"></a></span>
+<span id="cb15-3"><a href="" aria-label="3"></a>lams_l, coefs_l, _ <span class="op">=</span> lasso_path(Zs, yd_train, alphas<span class="op">=</span>np.logspace(<span class="op">-</span><span class="dv">2</span>, <span class="fl">1.7</span>, <span class="dv">80</span>))</span>
+<span id="cb15-4"><a href="" aria-label="4"></a>entry <span class="op">=</span> []                                     <span class="co"># order in which features enter</span></span>
+<span id="cb15-5"><a href="" aria-label="5"></a><span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(lams_l)):                   <span class="co"># from large to small lambda</span></span>
+<span id="cb15-6"><a href="" aria-label="6"></a>    <span class="cf">for</span> j <span class="kw">in</span> np.flatnonzero(coefs_l[:, k]):</span>
+<span id="cb15-7"><a href="" aria-label="7"></a>        <span class="cf">if</span> j <span class="kw">not</span> <span class="kw">in</span> entry:</span>
+<span id="cb15-8"><a href="" aria-label="8"></a>            entry.append(j)</span>
+<span id="cb15-9"><a href="" aria-label="9"></a><span class="bu">print</span>(<span class="st">"order of entry:"</span>, <span class="st">", "</span>.join(names[entry]))</span>
+<span id="cb15-10"><a href="" aria-label="10"></a></span>
+<span id="cb15-11"><a href="" aria-label="11"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="fl">3.3</span>))</span>
+<span id="cb15-12"><a href="" aria-label="12"></a><span class="cf">for</span> j, name <span class="kw">in</span> <span class="bu">enumerate</span>(names):</span>
+<span id="cb15-13"><a href="" aria-label="13"></a>    ax.semilogx(lams_l, coefs_l[j], label<span class="op">=</span>name <span class="cf">if</span> name <span class="kw">in</span> (<span class="st">"bmi"</span>, <span class="st">"s5"</span>, <span class="st">"bp"</span>) <span class="cf">else</span> <span class="va">None</span>)</span>
+<span id="cb15-14"><a href="" aria-label="14"></a>ax.axhline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">"k"</span>, linewidth<span class="op">=</span><span class="fl">0.6</span>)</span>
+<span id="cb15-15"><a href="" aria-label="15"></a>ax.set_xlabel(<span class="vs">r"</span><span class="dv">$</span><span class="er">\</span><span class="vs">lambda</span><span class="dv">$</span><span class="vs">"</span>)</span>
+<span id="cb15-16"><a href="" aria-label="16"></a>ax.set_ylabel(<span class="st">"weight $w_j$"</span>)</span>
+<span id="cb15-17"><a href="" aria-label="17"></a>_ <span class="op">=</span> ax.legend(fontsize<span class="op">=</span><span class="dv">8</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column fragment">
+<div class="cell-output cell-output-stdout">
+<pre><code>order of entry: bmi, s5, bp, s3, sex, s2, s1, s6, age, s4</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec05a_files/figure-revealjs/cell-17-output-2.png" width="450" height="305"></p>
+</figure>
+</div>
+</div>
+</div></div>
+<div class="fragment micro">
+<p>Read from right to left: at large <span class="math inline">\(\lambda\)</span> all weights are zero; as <span class="math inline">\(\lambda\)</span> decreases, features <strong>enter</strong> the model one by one, <code>bmi</code> first, then <code>s5</code> and <code>bp</code>, the three we identified in 2b. The path is piecewise linear, with a kink each time a feature enters. Choosing <span class="math inline">\(\lambda\)</span> chooses how many features the model uses.</p>
+</div>
+</section>
+<section id="elastic-net" class="slide level2 center">
+<h2>Elastic Net</h2>
+<p>Elastic Net combines the two penalties; <code>l1_ratio</code> <span class="math inline">\(= r \in [0, 1]\)</span> sets the mix:</p>
+<p><span class="math display">\[
+L_{\text{EN}}(\mathbf{w}, b) = \frac{1}{2n}\sum_{i=1}^{n}\big(y_i - b - \mathbf{w}^T\mathbf{x}_i\big)^2 + \lambda r\, \|\mathbf{w}\|_1 + \frac{\lambda(1-r)}{2}\,\|\mathbf{w}\|_2^2
+\]</span></p>
+<p>Two nearly identical features (<code>x1</code>, <code>x2</code>, correlation 0.995), both relevant, and eight irrelevant ones:</p>
+<div id="a4a5d4a2" class="cell" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> ElasticNet</span>
+<span id="cb17-2"><a href="" aria-label="2"></a></span>
+<span id="cb17-3"><a href="" aria-label="3"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">0</span>)</span>
+<span id="cb17-4"><a href="" aria-label="4"></a>x1 <span class="op">=</span> rng.normal(size<span class="op">=</span><span class="dv">200</span>)</span>
+<span id="cb17-5"><a href="" aria-label="5"></a>x2 <span class="op">=</span> x1 <span class="op">+</span> rng.normal(<span class="dv">0</span>, <span class="fl">0.1</span>, <span class="dv">200</span>)                 <span class="co"># a near-copy of x1</span></span>
+<span id="cb17-6"><a href="" aria-label="6"></a>noise <span class="op">=</span> rng.normal(size<span class="op">=</span>(<span class="dv">200</span>, <span class="dv">8</span>))                 <span class="co"># 8 irrelevant features</span></span>
+<span id="cb17-7"><a href="" aria-label="7"></a>yt <span class="op">=</span> x1 <span class="op">+</span> x2 <span class="op">+</span> rng.normal(<span class="dv">0</span>, <span class="fl">0.5</span>, <span class="dv">200</span>)</span>
+<span id="cb17-8"><a href="" aria-label="8"></a>Xt <span class="op">=</span> np.c_[x1, x2, noise]</span>
+<span id="cb17-9"><a href="" aria-label="9"></a><span class="cf">for</span> name, est <span class="kw">in</span> [(<span class="st">"OLS        "</span>, LinearRegression()), (<span class="st">"Ridge      "</span>, Ridge(alpha<span class="op">=</span><span class="dv">100</span>)),</span>
+<span id="cb17-10"><a href="" aria-label="10"></a>                  (<span class="st">"Lasso      "</span>, Lasso(alpha<span class="op">=</span><span class="fl">0.5</span>)), (<span class="st">"Elastic Net"</span>, ElasticNet(alpha<span class="op">=</span><span class="fl">0.5</span>, l1_ratio<span class="op">=</span><span class="fl">0.5</span>))]:</span>
+<span id="cb17-11"><a href="" aria-label="11"></a>    w <span class="op">=</span> est.fit(Xt, yt).coef_</span>
+<span id="cb17-12"><a href="" aria-label="12"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>name<span class="sc">}</span><span class="ss">  twins: </span><span class="sc">{</span>w[<span class="dv">0</span>]<span class="sc">:5.2f}</span><span class="ss"> </span><span class="sc">{</span>w[<span class="dv">1</span>]<span class="sc">:5.2f}</span><span class="ss">   irrelevant: </span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">sum</span>(w[<span class="dv">2</span>:] <span class="op">!=</span> <span class="dv">0</span>)<span class="sc">}</span><span class="ss"> non-zero,"</span></span>
+<span id="cb17-13"><a href="" aria-label="13"></a>          <span class="ss">f" largest |w| = </span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">abs</span>(w[<span class="dv">2</span>:])<span class="sc">.</span><span class="bu">max</span>()<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell fragment" data-execution_count="17">
+<div class="cell-output cell-output-stdout">
+<pre><code>OLS          twins:  1.17  0.82   irrelevant: 8 non-zero, largest |w| = 0.070
+Ridge        twins:  0.78  0.78   irrelevant: 8 non-zero, largest |w| = 0.039
+Lasso        twins:  0.98  0.47   irrelevant: 0 non-zero, largest |w| = 0.000
+Elastic Net  twins:  0.76  0.75   irrelevant: 0 non-zero, largest |w| = 0.000</code></pre>
+</div>
+</div>
+<div class="fragment micro">
+<p>On the twins, Ridge and Elastic Net behave alike: they <strong>share</strong> the weight evenly. Lasso splits it unevenly and arbitrarily (with another sample it could favour the other twin, or drop one). On the irrelevant features, Elastic Net behaves like Lasso: all eight weights are <strong>exactly</strong> zero, while Ridge keeps them all, small but non-zero. Elastic Net takes the grouping of Ridge and the selection of Lasso. With groups of correlated features (genes, spectral channels, sensors), it is the safer choice.</p>
+</div>
+</section>
+<section id="which-penalty" class="slide level2 center">
+<h2>Which penalty?</h2>
+<div class="micro">
+<table class="caption-top">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Ridge (L2)</th>
+<th style="text-align: left;">Lasso (L1)</th>
+<th style="text-align: left;">Elastic Net</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">effect on weights</td>
+<td style="text-align: left;">shrinks all, none to zero</td>
+<td style="text-align: left;">shrinks, many exactly zero</td>
+<td style="text-align: left;">both</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">correlated features</td>
+<td style="text-align: left;">shares the weight</td>
+<td style="text-align: left;">picks one, arbitrarily</td>
+<td style="text-align: left;">shares, and selects groups</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">solution</td>
+<td style="text-align: left;">closed form, always unique</td>
+<td style="text-align: left;">coordinate descent</td>
+<td style="text-align: left;">coordinate descent</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">use it when</td>
+<td style="text-align: left;">many small effects, collinear features</td>
+<td style="text-align: left;">few relevant features, interpretation</td>
+<td style="text-align: left;">many correlated features, <span class="math inline">\(d &gt; n\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">scikit-learn</td>
+<td style="text-align: left;"><code>Ridge</code>, <code>RidgeCV</code></td>
+<td style="text-align: left;"><code>Lasso</code>, <code>LassoCV</code></td>
+<td style="text-align: left;"><code>ElasticNet</code>, <code>ElasticNetCV</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="micro">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Tip</strong></p>
+</div>
+<div class="callout-content">
+<p>Some regularisation is almost always better than none: plain <code>LinearRegression</code> is rarely the best choice for prediction. Ridge is a good default; try Lasso or Elastic Net when you expect only a few features to matter.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="micro">
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Warning</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Scale the features first</strong>, inside the pipeline. The penalty treats all weights alike, but the size of a weight depends on the units of its feature: a feature in millimetres needs a weight 1000 times smaller than the same feature in metres, and would be penalised 1000 times less (or <span class="math inline">\(10^6\)</span> times less with L2).</p>
+</div>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="choosing-lambda" class="title-slide slide level1 center">
+<h1>Choosing <span class="math inline">\(\lambda\)</span></h1>
+<p><span class="math inline">\(\lambda\)</span> is a hyperparameter: chosen by cross-validation on the training set, exactly as <code>C</code> in 4b. <code>RidgeCV</code> and <code>LassoCV</code> do the search internally. Back to the degree-2 diabetes model that overfitted in the learning curves of 4b:</p>
+<div id="c7eca4e2" class="cell" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LassoCV, RidgeCV</span>
+<span id="cb19-2"><a href="" aria-label="2"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> KFold, cross_val_score</span>
+<span id="cb19-3"><a href="" aria-label="3"></a>cv5 <span class="op">=</span> KFold(<span class="dv">5</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">0</span>)               <span class="co"># regression: 5 shuffled folds</span></span>
+<span id="cb19-4"><a href="" aria-label="4"></a></span>
+<span id="cb19-5"><a href="" aria-label="5"></a>lam_grid <span class="op">=</span> np.logspace(<span class="op">-</span><span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">25</span>)</span>
+<span id="cb19-6"><a href="" aria-label="6"></a>models <span class="op">=</span> {</span>
+<span id="cb19-7"><a href="" aria-label="7"></a>    <span class="st">"linear, 10 features"</span>: make_pipeline(StandardScaler(), LinearRegression()),</span>
+<span id="cb19-8"><a href="" aria-label="8"></a>    <span class="st">"degree 2, OLS      "</span>: make_pipeline(PolynomialFeatures(<span class="dv">2</span>, include_bias<span class="op">=</span><span class="va">False</span>),</span>
+<span id="cb19-9"><a href="" aria-label="9"></a>                                         StandardScaler(), LinearRegression()),</span>
+<span id="cb19-10"><a href="" aria-label="10"></a>    <span class="st">"degree 2, Ridge    "</span>: make_pipeline(PolynomialFeatures(<span class="dv">2</span>, include_bias<span class="op">=</span><span class="va">False</span>), StandardScaler(),</span>
+<span id="cb19-11"><a href="" aria-label="11"></a>                                         RidgeCV(alphas<span class="op">=</span>lam_grid)),</span>
+<span id="cb19-12"><a href="" aria-label="12"></a>    <span class="st">"degree 2, Lasso    "</span>: make_pipeline(PolynomialFeatures(<span class="dv">2</span>, include_bias<span class="op">=</span><span class="va">False</span>), StandardScaler(),</span>
+<span id="cb19-13"><a href="" aria-label="13"></a>                                         LassoCV(alphas<span class="op">=</span>np.logspace(<span class="op">-</span><span class="dv">1</span>, <span class="fl">1.5</span>, <span class="dv">20</span>), cv<span class="op">=</span>cv5, max_iter<span class="op">=</span><span class="dv">100_000</span>)),</span>
+<span id="cb19-14"><a href="" aria-label="14"></a>}</span>
+<span id="cb19-15"><a href="" aria-label="15"></a>results <span class="op">=</span> {}</span>
+<span id="cb19-16"><a href="" aria-label="16"></a><span class="cf">for</span> name, m <span class="kw">in</span> models.items():</span>
+<span id="cb19-17"><a href="" aria-label="17"></a>    s <span class="op">=</span> cross_val_score(m, Xd_train, yd_train, cv<span class="op">=</span>cv5, scoring<span class="op">=</span><span class="st">"r2"</span>)</span>
+<span id="cb19-18"><a href="" aria-label="18"></a>    m.fit(Xd_train, yd_train)</span>
+<span id="cb19-19"><a href="" aria-label="19"></a>    extra <span class="op">=</span> (<span class="ss">f"   lambda = </span><span class="sc">{</span>m[<span class="op">-</span><span class="dv">1</span>]<span class="sc">.</span>alpha_<span class="sc">:.3g}</span><span class="ss">, non-zero weights = </span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">sum</span>(m[<span class="op">-</span><span class="dv">1</span>].coef_ <span class="op">!=</span> <span class="dv">0</span>)<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb19-20"><a href="" aria-label="20"></a>             <span class="cf">if</span> <span class="bu">hasattr</span>(m[<span class="op">-</span><span class="dv">1</span>], <span class="st">"alpha_"</span>) <span class="cf">else</span> <span class="st">""</span>)</span>
+<span id="cb19-21"><a href="" aria-label="21"></a>    results[name] <span class="op">=</span> (s.mean(), s.std(), extra)</span>
+<span id="cb19-22"><a href="" aria-label="22"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>name<span class="sc">}</span><span class="ss">: CV R2 = </span><span class="sc">{</span>s<span class="sc">.</span>mean()<span class="sc">:.3f}</span><span class="ss"> +/- </span><span class="sc">{</span>s<span class="sc">.</span>std()<span class="sc">:.3f}{</span>extra<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell fragment" data-execution_count="18">
+<div class="cell-output cell-output-stdout">
+<pre><code>linear, 10 features: CV R2 = 0.522 +/- 0.076
+degree 2, OLS      : CV R2 = 0.383 +/- 0.166
+degree 2, Ridge    : CV R2 = 0.523 +/- 0.074   lambda = 100, non-zero weights = 65
+degree 2, Lasso    : CV R2 = 0.536 +/- 0.078   lambda = 2.07, non-zero weights = 25</code></pre>
+</div>
+</div>
+</section>
+<section id="reading-the-comparison" class="slide level2 center">
+<h2>Reading the comparison</h2>
+<div id="57b061ca" class="cell" data-execution_count="19">
+<div class="cell-output cell-output-stdout">
+<pre><code>linear, 10 features: CV R2 = 0.522 +/- 0.076
+degree 2, OLS      : CV R2 = 0.383 +/- 0.166
+degree 2, Ridge    : CV R2 = 0.523 +/- 0.074   lambda = 100, non-zero weights = 65
+degree 2, Lasso    : CV R2 = 0.536 +/- 0.078   lambda = 2.07, non-zero weights = 25</code></pre>
+</div>
+</div>
+<div class="micro">
+<ul>
+<li>Degree 2 without regularisation is <strong>worse</strong> than the linear model (CV <span class="math inline">\(R^2\)</span> 0.38 against 0.52) and much less stable from fold to fold: 65 features for 265 samples per fold is too much freedom.</li>
+<li>The same 65 features with Ridge recover the linear model’s score; Lasso is slightly better and uses only 25 of the 65 features.</li>
+<li>The gain over the linear model is small and well inside the spread: regularisation <strong>rescued</strong> the flexible model, but the interactions of degree 2 do not carry much new information. A useful negative result for a report.</li>
+</ul>
+</div>
+<div class="fragment micro">
+<p>The pattern is general. Regularisation lets us start from a <strong>flexible</strong> model and let the data, through cross-validation, decide how much of that flexibility to use. Without it, every added feature is a risk.</p>
+</div>
+<div class="micro">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p><code>RidgeCV</code> uses by default an efficient leave-one-out formula (4b) scored with the squared error; <code>LassoCV</code> and <code>ElasticNetCV</code> take a <code>cv</code> argument and always score with the MSE. All refit on all the data with the chosen <span class="math inline">\(\lambda\)</span> (<code>alpha_</code>). For another metric, or several hyperparameters, use <code>GridSearchCV</code> with <code>ridge__alpha</code> and any <code>scoring</code>, as in 4b.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="the-validation-curve-of-lambda" class="slide level2 center">
+<h2>The validation curve of <span class="math inline">\(\lambda\)</span></h2>
+<div id="188183f2" class="cell columns column-output-location" data-execution_count="20">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> validation_curve</span>
+<span id="cb22-2"><a href="" aria-label="2"></a>cv5 <span class="op">=</span> KFold(<span class="dv">5</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">0</span>)               <span class="co"># regression: 5 shuffled folds</span></span>
+<span id="cb22-3"><a href="" aria-label="3"></a></span>
+<span id="cb22-4"><a href="" aria-label="4"></a>tr, va <span class="op">=</span> validation_curve(</span>
+<span id="cb22-5"><a href="" aria-label="5"></a>    make_pipeline(PolynomialFeatures(<span class="dv">2</span>, include_bias<span class="op">=</span><span class="va">False</span>), StandardScaler(), Ridge()),</span>
+<span id="cb22-6"><a href="" aria-label="6"></a>    Xd_train, yd_train, param_name<span class="op">=</span><span class="st">"ridge__alpha"</span>, param_range<span class="op">=</span>lam_grid,</span>
+<span id="cb22-7"><a href="" aria-label="7"></a>    cv<span class="op">=</span>cv5, scoring<span class="op">=</span><span class="st">"r2"</span>)</span>
+<span id="cb22-8"><a href="" aria-label="8"></a></span>
+<span id="cb22-9"><a href="" aria-label="9"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="fl">3.3</span>))</span>
+<span id="cb22-10"><a href="" aria-label="10"></a>ax.semilogx(lam_grid, tr.mean(axis<span class="op">=</span><span class="dv">1</span>), <span class="st">"o-"</span>, markersize<span class="op">=</span><span class="dv">3</span>, label<span class="op">=</span><span class="st">"training"</span>)</span>
+<span id="cb22-11"><a href="" aria-label="11"></a>ax.semilogx(lam_grid, va.mean(axis<span class="op">=</span><span class="dv">1</span>), <span class="st">"o-"</span>, markersize<span class="op">=</span><span class="dv">3</span>, label<span class="op">=</span><span class="st">"validation (CV)"</span>)</span>
+<span id="cb22-12"><a href="" aria-label="12"></a>ax.set_xlabel(<span class="vs">r"</span><span class="dv">$</span><span class="er">\</span><span class="vs">lambda</span><span class="dv">$</span><span class="vs"> </span><span class="kw">(</span><span class="vs">larger = stronger penalty</span><span class="kw">)</span><span class="vs">"</span>)</span>
+<span id="cb22-13"><a href="" aria-label="13"></a>ax.set_ylabel(<span class="st">"$R^2$"</span>)</span>
+<span id="cb22-14"><a href="" aria-label="14"></a>_ <span class="op">=</span> ax.legend()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column fragment">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec05a_files/figure-revealjs/cell-21-output-1.png" width="441" height="307"></p>
+</figure>
+</div>
+</div>
+</div></div>
+<div class="fragment micro">
+<p>The mirror image of the <code>C</code> curve of 4b. Small <span class="math inline">\(\lambda\)</span>: training high, validation low (variance). Large <span class="math inline">\(\lambda\)</span>: both fall together (bias). The best <span class="math inline">\(\lambda\)</span> sits where the validation curve peaks; the gap between the curves shrinks as <span class="math inline">\(\lambda\)</span> grows. We now know what the curve is made of: <span class="math inline">\(\lambda\)</span> trades variance for bias.</p>
+</div>
+</section></section>
+<section>
+<section id="regularisation-for-classification" class="title-slide slide level1 center">
+<h1>Regularisation for classification</h1>
+<p>The logistic regression of 3a is fitted with the same idea: log-loss (cross-entropy) plus a penalty. scikit-learn puts the hyperparameter on the data term:</p>
+<p><span class="math display">\[
+L(\mathbf{w}, b) = C\sum_{i=1}^{n}\ell\big(y_i, \hat p_i\big) + \frac{1-r}{2}\|\mathbf{w}\|_2^2 + r\,\|\mathbf{w}\|_1,
+\qquad \ell = \text{log-loss of sample } i
+\]</span></p>
+<div class="micro">
+<ul>
+<li>dividing by <span class="math inline">\(C\)</span> gives the form we used for regression: <span class="math inline">\(C\)</span> is the <strong>inverse</strong> of the strength, <span class="math inline">\(\lambda \propto 1/C\)</span>. Small <code>C</code> means strong regularisation.</li>
+<li><code>l1_ratio</code> <span class="math inline">\(= r\)</span>: 0 (the default) is L2, 1 is L1, values in between give Elastic Net. This replaces the deprecated <code>penalty</code> argument (3a).</li>
+<li>L1 needs a solver that handles it: <code>solver="liblinear"</code> (fast for small data) or <code>"saga"</code>.</li>
+<li>the default <code>C = 1</code> is <strong>always</strong> a Ridge-like penalty: scikit-learn’s logistic regression is regularised unless you ask otherwise (a large finite <code>C</code>, as in 3a).</li>
+</ul>
+</div>
+<div class="fragment micro">
+<p>Everything we saw about <code>C</code> now has an explanation. The calibration example of 4a: <code>C = 0.001</code> gave under-confident probabilities because the penalty kept the weights, and so the scores <span class="math inline">\(z\)</span>, small: probabilities squeezed towards 0.5. The validation curve of 4b: small <code>C</code> underfits (bias), large <code>C</code> overfits (variance).</p>
+</div>
+<div class="micro">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Three names for one knob.</strong> <span class="math inline">\(\lambda\)</span>, <code>C</code> and the budget <span class="math inline">\(\tau\)</span> of the constrained form all set how large the weights may become. <span class="math inline">\(\lambda\)</span> is the price of large weights; <code>C</code> <span class="math inline">\(\propto 1/\lambda\)</span> is the price of training errors; <span class="math inline">\(\tau\)</span> is the size the weights may reach. Large <code>C</code> means small <span class="math inline">\(\lambda\)</span> and a large budget <span class="math inline">\(\tau\)</span>: <code>C</code> and <span class="math inline">\(\tau\)</span> grow together. The link to <span class="math inline">\(\tau\)</span> is monotone but not a fixed formula: it depends on the data. Do not confuse <span class="math inline">\(\tau\)</span> with the decision threshold <span class="math inline">\(t\)</span> of 4a, which acts on <span class="math inline">\(\hat p_i\)</span> after training and does not change the model.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="l2-and-l1-on-breast-cancer" class="slide level2 center">
+<h2>L2 and L1 on breast cancer</h2>
+<p>The breast cancer pipeline of 3a–4b (malignant = 1), with L2 and L1 penalties of decreasing strength:</p>
+<div id="94330af3" class="cell" data-execution_count="21">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_breast_cancer</span>
+<span id="cb23-2"><a href="" aria-label="2"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
+<span id="cb23-3"><a href="" aria-label="3"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> StratifiedKFold</span>
+<span id="cb23-4"><a href="" aria-label="4"></a></span>
+<span id="cb23-5"><a href="" aria-label="5"></a>cancer <span class="op">=</span> load_breast_cancer()</span>
+<span id="cb23-6"><a href="" aria-label="6"></a>X, y <span class="op">=</span> cancer.data, <span class="dv">1</span> <span class="op">-</span> cancer.target                        <span class="co"># 1 = malignant</span></span>
+<span id="cb23-7"><a href="" aria-label="7"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(</span>
+<span id="cb23-8"><a href="" aria-label="8"></a>    X, y, test_size<span class="op">=</span><span class="fl">0.25</span>, stratify<span class="op">=</span>y, random_state<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb23-9"><a href="" aria-label="9"></a>cv <span class="op">=</span> StratifiedKFold(<span class="dv">5</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">0</span>)        <span class="co"># how to split: 5 stratified folds</span></span>
+<span id="cb23-10"><a href="" aria-label="10"></a></span>
+<span id="cb23-11"><a href="" aria-label="11"></a><span class="cf">for</span> C <span class="kw">in</span> [<span class="fl">0.01</span>, <span class="fl">0.1</span>, <span class="dv">1</span>, <span class="dv">10</span>, <span class="dv">100</span>]:</span>
+<span id="cb23-12"><a href="" aria-label="12"></a>    l2 <span class="op">=</span> make_pipeline(StandardScaler(), LogisticRegression(C<span class="op">=</span>C, max_iter<span class="op">=</span><span class="dv">10_000</span>))</span>
+<span id="cb23-13"><a href="" aria-label="13"></a>    l1 <span class="op">=</span> make_pipeline(StandardScaler(), LogisticRegression(C<span class="op">=</span>C, l1_ratio<span class="op">=</span><span class="dv">1</span>, solver<span class="op">=</span><span class="st">"liblinear"</span>, random_state<span class="op">=</span><span class="dv">0</span>))</span>
+<span id="cb23-14"><a href="" aria-label="14"></a>    s2, s1 <span class="op">=</span> (cross_val_score(m, X_train, y_train, cv<span class="op">=</span>cv).mean() <span class="cf">for</span> m <span class="kw">in</span> (l2, l1))</span>
+<span id="cb23-15"><a href="" aria-label="15"></a>    l2.fit(X_train, y_train)<span class="op">;</span> l1.fit(X_train, y_train)</span>
+<span id="cb23-16"><a href="" aria-label="16"></a>    <span class="bu">print</span>(<span class="ss">f"C = </span><span class="sc">{</span>C<span class="sc">:6g}</span><span class="ss">   L2: CV acc </span><span class="sc">{</span>s2<span class="sc">:.3f}</span><span class="ss">, largest |w| </span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">abs</span>(l2[<span class="op">-</span><span class="dv">1</span>].coef_)<span class="sc">.</span><span class="bu">max</span>()<span class="sc">:5.2f}</span><span class="ss">"</span></span>
+<span id="cb23-17"><a href="" aria-label="17"></a>          <span class="ss">f"   L1: CV acc </span><span class="sc">{</span>s1<span class="sc">:.3f}</span><span class="ss">, non-zero weights </span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">sum</span>(l1[<span class="op">-</span><span class="dv">1</span>].coef_ <span class="op">!=</span> <span class="dv">0</span>)<span class="sc">:2d}</span><span class="ss"> / 30"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell fragment" data-execution_count="21">
+<div class="cell-output cell-output-stdout">
+<pre><code>C =   0.01   L2: CV acc 0.944, largest |w|  0.23   L1: CV acc 0.915, non-zero weights  3 / 30
+C =    0.1   L2: CV acc 0.974, largest |w|  0.51   L1: CV acc 0.967, non-zero weights  7 / 30
+C =      1   L2: CV acc 0.977, largest |w|  1.24   L1: CV acc 0.965, non-zero weights 14 / 30
+C =     10   L2: CV acc 0.974, largest |w|  2.85   L1: CV acc 0.969, non-zero weights 23 / 30
+C =    100   L2: CV acc 0.960, largest |w|  9.93   L1: CV acc 0.955, non-zero weights 28 / 30</code></pre>
+</div>
+</div>
+<div class="fragment micro">
+<p>With L2, the weights grow steadily with <code>C</code>; accuracy is flat between <code>C = 0.1</code> and 10 and drops at both ends. With L1, <code>C</code> also decides <strong>how many</strong> features the model uses: 3 at <code>C = 0.01</code>, 7 at <code>C = 0.1</code>, 14 at <code>C = 1</code>. A model with 7 features is almost as accurate as one with 30 and much easier to explain.</p>
+</div>
+</section>
+<section id="choosing-c-by-cross-validation" class="slide level2 center">
+<h2>Choosing <code>C</code> by cross-validation</h2>
+<p><code>LogisticRegressionCV</code> searches <code>C</code> (and <code>l1_ratio</code>) internally, like <code>RidgeCV</code>:</p>
+<div id="6e0e8889" class="cell" data-execution_count="22">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegressionCV</span>
+<span id="cb25-2"><a href="" aria-label="2"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> accuracy_score, log_loss</span>
+<span id="cb25-3"><a href="" aria-label="3"></a>cv <span class="op">=</span> StratifiedKFold(<span class="dv">5</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">0</span>)        <span class="co"># how to split: 5 stratified folds</span></span>
+<span id="cb25-4"><a href="" aria-label="4"></a></span>
+<span id="cb25-5"><a href="" aria-label="5"></a>lrcv <span class="op">=</span> make_pipeline(StandardScaler(),</span>
+<span id="cb25-6"><a href="" aria-label="6"></a>                     LogisticRegressionCV(Cs<span class="op">=</span>np.logspace(<span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">13</span>), l1_ratios<span class="op">=</span>(<span class="fl">0.0</span>,), cv<span class="op">=</span>cv,</span>
+<span id="cb25-7"><a href="" aria-label="7"></a>                                          scoring<span class="op">=</span><span class="st">"neg_log_loss"</span>, use_legacy_attributes<span class="op">=</span><span class="va">False</span>))</span>
+<span id="cb25-8"><a href="" aria-label="8"></a>lrcv.fit(X_train, y_train)</span>
+<span id="cb25-9"><a href="" aria-label="9"></a><span class="bu">print</span>(<span class="ss">f"C chosen by CV (log-loss): </span><span class="sc">{</span>lrcv[<span class="op">-</span><span class="dv">1</span>]<span class="sc">.</span>C_<span class="sc">:g}</span><span class="ss">"</span>)</span>
+<span id="cb25-10"><a href="" aria-label="10"></a><span class="bu">print</span>(<span class="ss">f"test accuracy </span><span class="sc">{</span>accuracy_score(y_test, lrcv.predict(X_test))<span class="sc">:.3f}</span><span class="ss">, "</span></span>
+<span id="cb25-11"><a href="" aria-label="11"></a>      <span class="ss">f"test log-loss </span><span class="sc">{</span>log_loss(y_test, lrcv.predict_proba(X_test)[:, <span class="dv">1</span>])<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell fragment" data-execution_count="22">
+<div class="cell-output cell-output-stdout">
+<pre><code>C chosen by CV (log-loss): 1
+test accuracy 0.986, test log-loss 0.076</code></pre>
+</div>
+</div>
+<div class="fragment micro">
+<p>Here the search confirms the default, <code>C = 1</code>: not always the case, and the only way to know is to search. Why the log-loss as <code>scoring</code> (the default of <code>LogisticRegressionCV</code> is accuracy)? Accuracy changes in steps of one sample and is flat over a wide range of <code>C</code> (previous slide), so many values tie. The log-loss is smooth, it is the loss the model is trained on, and it judges the probabilities, which <code>C</code> affects most. The general rule is that of 4a: score the search with the metric that matches the use of the model (probabilities: log-loss or Brier; ranking: AUROC; decisions: <span class="math inline">\(F_1\)</span> or a cost). <code>l1_ratios=(0.0,)</code> and <code>use_legacy_attributes=False</code> silence two transition warnings of scikit-learn 1.8; a list such as <code>(0, 0.5, 1)</code> searches the penalty type too (with <code>solver="saga"</code>, slower).</p>
+</div>
+</section></section>
+<section>
+<section id="embedded-feature-selection" class="title-slide slide level1 center">
+<h1>Embedded feature selection</h1>
+<p>With an L1 penalty, the model selects features <strong>while training</strong>: an <strong>embedded</strong> method. <code>SelectFromModel</code> turns it into a selection step of the pipeline, keeping the features with non-zero weight:</p>
+<div id="1a5c37cc" class="cell" data-execution_count="23">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.feature_selection <span class="im">import</span> SelectFromModel</span>
+<span id="cb27-2"><a href="" aria-label="2"></a>cv <span class="op">=</span> StratifiedKFold(<span class="dv">5</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">0</span>)        <span class="co"># how to split: 5 stratified folds</span></span>
+<span id="cb27-3"><a href="" aria-label="3"></a></span>
+<span id="cb27-4"><a href="" aria-label="4"></a>emb <span class="op">=</span> make_pipeline(StandardScaler(),</span>
+<span id="cb27-5"><a href="" aria-label="5"></a>                    SelectFromModel(LogisticRegression(C<span class="op">=</span><span class="fl">0.05</span>, l1_ratio<span class="op">=</span><span class="dv">1</span>, solver<span class="op">=</span><span class="st">"liblinear"</span>, random_state<span class="op">=</span><span class="dv">0</span>)),</span>
+<span id="cb27-6"><a href="" aria-label="6"></a>                    LogisticRegression())</span>
+<span id="cb27-7"><a href="" aria-label="7"></a><span class="bu">print</span>(<span class="ss">f"embedded (L1): CV accuracy = </span><span class="sc">{</span>cross_val_score(emb, X_train, y_train, cv<span class="op">=</span>cv)<span class="sc">.</span>mean()<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb27-8"><a href="" aria-label="8"></a>emb.fit(X_train, y_train)</span>
+<span id="cb27-9"><a href="" aria-label="9"></a>sel <span class="op">=</span> cancer.feature_names[emb[<span class="dv">1</span>].get_support()]</span>
+<span id="cb27-10"><a href="" aria-label="10"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="bu">len</span>(sel)<span class="sc">}</span><span class="ss"> features:"</span>, <span class="st">", "</span>.join(sel))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell fragment" data-execution_count="23">
+<div class="cell-output cell-output-stdout">
+<pre><code>embedded (L1): CV accuracy = 0.977
+6 features: mean concave points, worst radius, worst texture, worst smoothness, worst concave points, worst symmetry</code></pre>
+</div>
+</div>
+<div class="fragment micro">
+<p>The selected features are the <strong>support</strong> of <span class="math inline">\(\mathbf{w}\)</span>: the features with <span class="math inline">\(w_j \neq 0\)</span> (a weight below <span class="math inline">\(10^{-5}\)</span> counts as zero), returned as a boolean mask by <code>get_support()</code>, like the selectors of 3b and 4b. Six features, selected in a single fit, with a CV accuracy above both selections of 4b on five features (wrapper 0.962, filter 0.944). Like the wrapper, the L1 model looks at the features <strong>together</strong>: it keeps size (worst radius), texture, smoothness, symmetry and concave points, not five versions of the size. The <code>C</code> of the selector is a hyperparameter like <span class="math inline">\(k\)</span> of <code>SelectKBest</code>, tuned with <code>selectfrommodel__estimator__C</code>.</p>
+</div>
+</section>
+<section id="feature-selection-the-three-families" class="slide level2 center">
+<h2>Feature selection: the three families</h2>
+<div class="micro">
+<table class="caption-top">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Family</th>
+<th style="text-align: left;">Idea</th>
+<th style="text-align: left;">Cost</th>
+<th style="text-align: left;">Sees feature interactions</th>
+<th style="text-align: left;">Where</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">filter</td>
+<td style="text-align: left;">score each feature on its own (correlation, F-test, mutual information)</td>
+<td style="text-align: left;">one pass</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">3b</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">wrapper</td>
+<td style="text-align: left;">search subsets, keep the best CV score of the model</td>
+<td style="text-align: left;">many model fits</td>
+<td style="text-align: left;">yes</td>
+<td style="text-align: left;">4b</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>embedded</strong></td>
+<td style="text-align: left;">the model selects while training (L1 weights; tree importances, 6a)</td>
+<td style="text-align: left;">one model fit</td>
+<td style="text-align: left;">yes, for that model</td>
+<td style="text-align: left;"><strong>5a</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fragment micro">
+<p>All three are <strong>inside the pipeline</strong>, refitted in every fold, and their size hyperparameter (<span class="math inline">\(k\)</span>, the number of features, <code>C</code>) is chosen by cross-validation. In 5b we meet the alternative to selection: <strong>extraction</strong>, which builds new features (principal components) from all the original ones.</p>
+</div>
+<div class="micro">
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Warning</strong></p>
+</div>
+<div class="callout-content">
+<p>When features are strongly correlated, Lasso keeps one of a group and drops the others almost at random: a dropped feature is not necessarily irrelevant. Check the stability of the selection (bootstrap or CV folds) before interpreting it, or use Elastic Net.</p>
+</div>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="other-forms-of-regularisation" class="title-slide slide level1 center">
+<h1>Other forms of regularisation</h1>
+<p>Any constraint that limits the effective flexibility of a model regularises it. A common one: <strong>early stopping</strong>. Gradient descent (2b) on the degree-2 diabetes features, one epoch at a time, watching a validation set:</p>
+<div id="85d9f6b9" class="cell columns column-output-location" data-execution_count="24">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> SGDRegressor</span>
+<span id="cb29-2"><a href="" aria-label="2"></a></span>
+<span id="cb29-3"><a href="" aria-label="3"></a>Z_a, Z_v, y_a, y_v <span class="op">=</span> train_test_split(Z, yd_train, test_size<span class="op">=</span><span class="fl">0.25</span>, random_state<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb29-4"><a href="" aria-label="4"></a>sgd <span class="op">=</span> SGDRegressor(learning_rate<span class="op">=</span><span class="st">"constant"</span>, eta0<span class="op">=</span><span class="fl">0.002</span>, alpha<span class="op">=</span><span class="fl">0.0</span>, random_state<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb29-5"><a href="" aria-label="5"></a>tr_mse, va_mse <span class="op">=</span> [], []</span>
+<span id="cb29-6"><a href="" aria-label="6"></a><span class="cf">for</span> epoch <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">300</span>):</span>
+<span id="cb29-7"><a href="" aria-label="7"></a>    sgd.partial_fit(Z_a, y_a)                       <span class="co"># one pass over the data</span></span>
+<span id="cb29-8"><a href="" aria-label="8"></a>    tr_mse.append(mean_squared_error(y_a, sgd.predict(Z_a)))</span>
+<span id="cb29-9"><a href="" aria-label="9"></a>    va_mse.append(mean_squared_error(y_v, sgd.predict(Z_v)))</span>
+<span id="cb29-10"><a href="" aria-label="10"></a></span>
+<span id="cb29-11"><a href="" aria-label="11"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="fl">3.3</span>))</span>
+<span id="cb29-12"><a href="" aria-label="12"></a>ax.plot(<span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">301</span>), tr_mse, label<span class="op">=</span><span class="st">"training"</span>)</span>
+<span id="cb29-13"><a href="" aria-label="13"></a>ax.plot(<span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">301</span>), va_mse, label<span class="op">=</span><span class="st">"validation"</span>)</span>
+<span id="cb29-14"><a href="" aria-label="14"></a>best <span class="op">=</span> <span class="bu">int</span>(np.argmin(va_mse)) <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb29-15"><a href="" aria-label="15"></a>ax.axvline(best, color<span class="op">=</span><span class="st">"k"</span>, linestyle<span class="op">=</span><span class="st">":"</span>, label<span class="op">=</span><span class="ss">f"best epoch: </span><span class="sc">{</span>best<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb29-16"><a href="" aria-label="16"></a>ax.set_xlabel(<span class="st">"epoch"</span>)</span>
+<span id="cb29-17"><a href="" aria-label="17"></a>ax.set_ylabel(<span class="st">"MSE"</span>)</span>
+<span id="cb29-18"><a href="" aria-label="18"></a>ax.set_ylim(<span class="dv">1500</span>, <span class="dv">6000</span>)</span>
+<span id="cb29-19"><a href="" aria-label="19"></a>_ <span class="op">=</span> ax.legend()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column fragment">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec05a_files/figure-revealjs/cell-25-output-1.png" width="453" height="309"></p>
+</figure>
+</div>
+</div>
+</div></div>
+<div class="fragment micro">
+<p>Starting from <span class="math inline">\(\mathbf{w} = 0\)</span>, the weights grow with every step. The validation error falls, reaches a minimum and then rises again while the training error keeps decreasing: stopping at the minimum keeps the weights small, an effect similar to L2. The number of epochs plays the role of <span class="math inline">\(1/\lambda\)</span>. In scikit-learn: <code>SGDRegressor(early_stopping=True, validation_fraction=0.2, n_iter_no_change=10)</code>; for neural networks (CW3) early stopping is standard practice.</p>
+</div>
+</section>
+<section id="regularisation-everywhere" class="slide level2 center">
+<h2>Regularisation everywhere</h2>
+<div class="micro">
+<p>Every method of the course has a “complexity knob”, and choosing it by cross-validation is regularisation:</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Method</th>
+<th style="text-align: left;">Hyperparameter that limits flexibility</th>
+<th style="text-align: left;">Lecture</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">linear and logistic regression</td>
+<td style="text-align: left;"><span class="math inline">\(\lambda\)</span> (<code>alpha</code>), <code>C</code>, <code>l1_ratio</code></td>
+<td style="text-align: left;">5a</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">polynomial features, selection</td>
+<td style="text-align: left;">degree, number of features</td>
+<td style="text-align: left;">3b, 4b</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">decision trees</td>
+<td style="text-align: left;">maximum depth, minimum samples per leaf, pruning <code>ccp_alpha</code></td>
+<td style="text-align: left;">6a</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ensembles</td>
+<td style="text-align: left;">number of models, learning rate, early stopping</td>
+<td style="text-align: left;">6b</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">k-nearest neighbours, SVM</td>
+<td style="text-align: left;"><span class="math inline">\(k\)</span>; <code>C</code> and the kernel width <span class="math inline">\(\gamma\)</span></td>
+<td style="text-align: left;">7a</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">neural networks</td>
+<td style="text-align: left;">weight decay (L2), early stopping, dropout, data augmentation</td>
+<td style="text-align: left;">weeks 8–10, CW3</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fragment micro">
+<p>Two of the last row in one sentence each. <strong>Data augmentation</strong> adds modified copies of the training samples (rotated images, noisy signals): training with input noise of variance <span class="math inline">\(s^2\)</span> is approximately equivalent to an L2 penalty with <span class="math inline">\(\lambda \propto s^2\)</span>. <strong>Dropout</strong> randomly switches off part of a network during training, so that no single weight can become essential; it behaves like averaging many smaller networks, the idea of the averaging slides.</p>
+</div>
+</section></section>
+<section id="what-regularisation-cannot-do" class="title-slide slide level1 center">
+<h1>What regularisation cannot do</h1>
+<p>Regularisation reduces <strong>variance</strong>, at the cost of some bias. If the model family itself is wrong, there is no variance to remove. A classic example, the XOR pattern: class 1 when <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span> have the same sign.</p>
+<div id="a5277d34" class="cell columns column-output-location" data-execution_count="25">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="" aria-label="1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">0</span>)</span>
+<span id="cb30-2"><a href="" aria-label="2"></a>Xx <span class="op">=</span> rng.uniform(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, (<span class="dv">400</span>, <span class="dv">2</span>))</span>
+<span id="cb30-3"><a href="" aria-label="3"></a>yx <span class="op">=</span> (Xx[:, <span class="dv">0</span>] <span class="op">*</span> Xx[:, <span class="dv">1</span>] <span class="op">&gt;</span> <span class="dv">0</span>).astype(<span class="bu">int</span>)</span>
+<span id="cb30-4"><a href="" aria-label="4"></a>cv <span class="op">=</span> StratifiedKFold(<span class="dv">5</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">0</span>)        <span class="co"># how to split: 5 stratified folds</span></span>
+<span id="cb30-5"><a href="" aria-label="5"></a></span>
+<span id="cb30-6"><a href="" aria-label="6"></a><span class="cf">for</span> C <span class="kw">in</span> [<span class="fl">0.001</span>, <span class="fl">0.1</span>, <span class="dv">1</span>, <span class="dv">100</span>]:</span>
+<span id="cb30-7"><a href="" aria-label="7"></a>    acc <span class="op">=</span> cross_val_score(make_pipeline(StandardScaler(), LogisticRegression(C<span class="op">=</span>C)),</span>
+<span id="cb30-8"><a href="" aria-label="8"></a>                          Xx, yx, cv<span class="op">=</span>cv).mean()</span>
+<span id="cb30-9"><a href="" aria-label="9"></a>    <span class="bu">print</span>(<span class="ss">f"C = </span><span class="sc">{</span>C<span class="sc">:6g}</span><span class="ss">: CV accuracy = </span><span class="sc">{</span>acc<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb30-10"><a href="" aria-label="10"></a></span>
+<span id="cb30-11"><a href="" aria-label="11"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="fl">3.4</span>, <span class="fl">3.2</span>))</span>
+<span id="cb30-12"><a href="" aria-label="12"></a>_ <span class="op">=</span> ax.scatter(Xx[:, <span class="dv">0</span>], Xx[:, <span class="dv">1</span>], c<span class="op">=</span>yx, cmap<span class="op">=</span><span class="st">"bwr"</span>, s<span class="op">=</span><span class="dv">8</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column fragment">
+<div class="cell-output cell-output-stdout">
+<pre><code>C =  0.001: CV accuracy = 0.548
+C =    0.1: CV accuracy = 0.510
+C =      1: CV accuracy = 0.505
+C =    100: CV accuracy = 0.505</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec05a_files/figure-revealjs/cell-26-output-2.png" width="314" height="278"></p>
+</figure>
+</div>
+</div>
+</div></div>
+<div class="fragment micro">
+<p>About 0.5 for every <code>C</code>: no straight line separates the four quadrants, however we limit or free the weights. This is <strong>high bias</strong>: the remedy is a different model family <span class="math inline">\(H\)</span>, not a different penalty. Engineered features would work here (<span class="math inline">\(x_1 x_2\)</span>, a degree-2 interaction), but they require knowing the answer. Next week’s <strong>decision trees</strong> (6a) cut the feature space into boxes and handle this kind of pattern without being told.</p>
+</div>
+</section>
+
+<section id="summary-regularised-linear-models-as-h-l-a" class="title-slide slide level1 center">
+<h1>Summary: regularised linear models as (H, L, A)</h1>
+<div class="micro">
+<table class="caption-top">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Element</th>
+<th style="text-align: left;">Ridge</th>
+<th style="text-align: left;">Lasso</th>
+<th style="text-align: left;">Elastic Net</th>
+<th style="text-align: left;">Regularised logistic regression</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Model</strong> <span class="math inline">\(H\)</span></td>
+<td style="text-align: left;">linear, <span class="math inline">\(\hat y = b + \mathbf{w}^T\mathbf{x}\)</span></td>
+<td style="text-align: left;">linear</td>
+<td style="text-align: left;">linear</td>
+<td style="text-align: left;">linear score, sigmoid or softmax (3a)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Strategy</strong> <span class="math inline">\(L\)</span></td>
+<td style="text-align: left;">squared error <span class="math inline">\(+ \lambda\|\mathbf{w}\|_2^2\)</span></td>
+<td style="text-align: left;">squared error <span class="math inline">\(+ \lambda\|\mathbf{w}\|_1\)</span></td>
+<td style="text-align: left;">squared error <span class="math inline">\(+\)</span> both</td>
+<td style="text-align: left;">log-loss <span class="math inline">\(+\)</span> L2, L1 or both (<code>C</code>, <code>l1_ratio</code>)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Algorithm</strong> <span class="math inline">\(A\)</span></td>
+<td style="text-align: left;">closed form, or gradient descent</td>
+<td style="text-align: left;">coordinate descent</td>
+<td style="text-align: left;">coordinate descent</td>
+<td style="text-align: left;">iterative solvers (<code>lbfgs</code>; <code>liblinear</code>, <code>saga</code> for L1)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Hyperparameters</strong></td>
+<td style="text-align: left;"><span class="math inline">\(\lambda\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\lambda\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\lambda\)</span>, <span class="math inline">\(r\)</span></td>
+<td style="text-align: left;"><code>C</code>, <code>l1_ratio</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fragment micro">
+<p>The model family is unchanged: regularisation changes only the <strong>strategy</strong>. It restricts, softly, which members of <span class="math inline">\(H\)</span> the algorithm may choose, and makes an ill-posed problem well-posed: a unique, stable solution. The same move will come back with every model of the course.</p>
+</div>
+</section>
+
+<section id="what-to-look-for" class="title-slide slide level1 center">
+<h1>What to look for</h1>
+<div class="micro">
+<p>When you regularise a model, check:</p>
+<ul>
+<li>that the features are <strong>scaled</strong> inside the pipeline before a penalised model</li>
+<li>that <span class="math inline">\(\lambda\)</span> (or <code>C</code>) is <strong>chosen by cross-validation</strong>, over a logarithmic grid, and that the best value is not at the edge of the grid</li>
+<li>the <strong>validation curve</strong> of <span class="math inline">\(\lambda\)</span>: where are the high-bias and high-variance regions?</li>
+<li>the <strong>coefficient path</strong>: which features survive, and are correlated features treated consistently?</li>
+<li>with L1: how many features are kept, and is the selection <strong>stable</strong> across folds?</li>
+<li>that the regularised model is compared with the unregularised one and a baseline, with the spread of the CV scores</li>
+<li>if every <span class="math inline">\(\lambda\)</span> gives the same poor score: a <strong>bias</strong> problem, change the model, not the penalty</li>
+</ul>
+</div>
+</section>
+
+<section id="suggested-readings-and-activities" class="title-slide slide level1 center" data-background-color="darkgreen">
+<h1>Suggested readings and activities</h1>
+<p>Suggested <strong>readings</strong>:</p>
+<ul>
+<li>Bias, variance and regularised linear models in <a href="https://doi.org/10.1007/978-3-031-33342-2">Machine Learning with Python</a> (chapters on linear models and on feature selection) and in <a href="https://hastie.su.domains/ElemStatLearn/">The Elements of Statistical Learning</a>, sections 2.9 and 3.4.</li>
+<li>The scikit-learn user guide on <a href="https://scikit-learn.org/stable/modules/linear_model.html">linear models</a> (Ridge, Lasso, Elastic Net, logistic regression) and on <a href="https://scikit-learn.org/stable/modules/feature_selection.html#select-from-model">feature selection with <code>SelectFromModel</code></a>.</li>
+</ul>
+<p>Suggested <strong>activities</strong>:</p>
+<ul>
+<li>Repeat the bias–variance simulation with 100 training samples instead of 25: where does the minimum of the total error move?</li>
+<li>Replace <code>Ridge</code> by <code>Lasso</code> in the degree-15 polynomial example: which powers of <span class="math inline">\(x\)</span> survive?</li>
+<li>Run <code>ElasticNetCV(l1_ratio=[0.1, 0.5, 0.9, 1])</code> on the degree-2 diabetes features and compare with Ridge and Lasso.</li>
+<li>Bootstrap the embedded selection on breast cancer 100 times: how often is each feature selected?</li>
+</ul>
+</section>
+
+<section id="coursework-cw1-this-week-cw2-next" class="title-slide slide level1 center" data-background-color="darkred">
+<h1>Coursework: CW1 this week, CW2 next</h1>
+<p>CW1 is due this week: questions in Lab02. Deadlines, submission instructions and the marking rubric are on <strong>Moodle</strong>.</p>
+<p>For <strong>CW2</strong> (2–3 scikit-learn tools on your CW1 dataset, critical comparison, best pipeline), today’s concepts the coursework expects you to use and discuss:</p>
+<ul>
+<li>regularised models (<code>Ridge</code>, <code>Lasso</code>, <code>ElasticNet</code>, <code>LogisticRegression</code> with tuned <code>C</code> and <code>l1_ratio</code>) as candidates or as the baseline to beat</li>
+<li><span class="math inline">\(\lambda\)</span> or <code>C</code> chosen by cross-validation inside a pipeline, with validation curves to support the choice</li>
+<li>bias and variance as the language to explain why one model generalises better than another</li>
+<li>embedded selection (L1) compared with the filter and wrapper methods of 3b and 4b</li>
+</ul>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Tip</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>CW3</strong> builds on today too: weight decay (L2) and early stopping are the regularisers of the neural networks of weeks 8–10.</p>
+</div>
+</div>
+</div>
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<p><img src="img/UoG_colour.png" class="slide-logo"></p>
+<div class="footer footer-default">
+<p>ENG4200 AI4</p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="lec05a_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="lec05a_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="lec05a_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="lec05a_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="lec05a_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="lec05a_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="lec05a_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="lec05a_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="lec05a_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="lec05a_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: true,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'fade',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>
