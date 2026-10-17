@@ -319,7 +319,7 @@ time_s,hr_bpm
 <section id="underneath-a-file-is-a-row-of-bytes" class="slide level2 center">
 <h2>Underneath, a file is a row of bytes</h2>
 <p>VS Code shows you text. The disk holds numbers from 0 to 255, one after another, with a name attached.</p>
-<div id="04876c9d" class="cell" data-execution_count="1">
+<div id="a16e9769" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">"data/recording.csv"</span>, <span class="st">"rb"</span>) <span class="im">as</span> <span class="bu">file</span>:      <span class="co"># "rb": read the raw bytes</span></span>
 <span id="cb2-2"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="bu">file</span>.read()[:<span class="dv">40</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -348,7 +348,7 @@ time_s,hr_bpm
 <div class="columns">
 <div class="column" style="width:50%;">
 <p>Every character is stored as a number. Here is one line of our file:</p>
-<div id="26ad390a" class="cell" data-execution_count="2">
+<div id="2015bb71" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">list</span>(<span class="st">"hr,78</span><span class="ch">\n</span><span class="st">"</span>.encode(<span class="st">"ascii"</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell fragment" data-execution_count="2">
@@ -407,7 +407,7 @@ time_s,hr_bpm
 </ul>
 </div>
 <div class="fragment">
-<div id="4f739e13" class="cell" data-execution_count="3">
+<div id="62972e09" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> symbol <span class="kw">in</span> [<span class="st">"°"</span>, <span class="st">"µ"</span>, <span class="st">"€"</span>]:</span>
 <span id="cb6-2"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(symbol, symbol.encode(<span class="st">"cp1252"</span>), symbol.encode(<span class="st">"utf-8"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -439,7 +439,7 @@ time_s,hr_bpm
 <section id="when-the-agreement-is-broken" class="slide level2 center">
 <h2>When the agreement is broken</h2>
 <p>UTF-8 bytes, read back as Windows <code>cp1252</code>:</p>
-<div id="4b0e3aa5" class="cell" data-execution_count="4">
+<div id="4065217c" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="" aria-hidden="true" tabindex="-1"></a>temperature <span class="op">=</span> <span class="st">"37.2 °C"</span></span>
 <span id="cb8-2"><a href="" aria-hidden="true" tabindex="-1"></a>raw <span class="op">=</span> temperature.encode(<span class="st">"utf-8"</span>)</span>
 <span id="cb8-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(raw)</span>
@@ -468,7 +468,7 @@ time_s,hr_bpm
 </div>
 <div class="fragment">
 <p>The other way round — a file written by a Windows device, read as UTF-8:</p>
-<div id="9ff8b1b8" class="cell" data-execution_count="5">
+<div id="17fbe8cc" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="" aria-hidden="true" tabindex="-1"></a>raw <span class="op">=</span> <span class="st">"37.2 °C"</span>.encode(<span class="st">"cp1252"</span>)</span>
 <span id="cb10-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(raw.decode(<span class="st">"utf-8"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -546,7 +546,7 @@ Cell <span class="ansi-green-fg ansi-bold">In[4], line 2</span>
 </section>
 <section id="a-path-is-an-address" class="slide level2 center">
 <h2>A path is an address</h2>
-<div id="c69a6a6c" class="cell" data-execution_count="6">
+<div id="887b7145" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">"C:/Users/ab123c/ENG2012/week4/data/recording.csv"</span>     <span class="co"># absolute: from the top of the disk</span></span>
 <span id="cb11-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">"data/recording.csv"</span>                                   <span class="co"># relative: from... where?</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -554,7 +554,7 @@ Cell <span class="ansi-green-fg ansi-bold">In[4], line 2</span>
 <p>A relative path starts from the <strong>working directory</strong>: the folder Python was <em>run from</em> — not the folder the script lives in.</p>
 </div>
 <div class="fragment">
-<div id="29ac9a2b" class="cell" data-execution_count="7">
+<div id="29b3f9d2" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
 <span id="cb12-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(Path.cwd())          <span class="co"># ask, don't guess</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -577,7 +577,7 @@ Cell <span class="ansi-green-fg ansi-bold">In[4], line 2</span>
 </section>
 <section id="windows-and-the-backslash" class="slide level2 center">
 <h2>Windows, and the backslash</h2>
-<div id="13a09473" class="cell" data-execution_count="8">
+<div id="feb360b3" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"C:</span><span class="ch">\t</span><span class="st">emp</span><span class="ch">\n</span><span class="st">ew.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell fragment" data-execution_count="8">
@@ -591,7 +591,7 @@ ew.csv</code></pre>
 </div>
 <div class="fragment">
 <p>Two ways out, both fine on Windows:</p>
-<div id="6289e20a" class="cell" data-execution_count="9">
+<div id="52090f06" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
 <span id="cb15-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"C:/temp/new.csv"</span>)                 <span class="co"># forward slashes work everywhere</span></span>
 <span id="cb15-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(Path(<span class="st">"data"</span>) <span class="op">/</span> <span class="st">"recording.csv"</span>)    <span class="co"># or let Python build the path</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -611,7 +611,7 @@ data\recording.csv</code></pre>
 </section>
 <section id="with-open..." class="slide level2 center">
 <h2><code>with open(...)</code></h2>
-<div id="9e2675fa" class="cell" data-execution_count="10">
+<div id="2f68b5b7" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">"data/recording.csv"</span>, encoding<span class="op">=</span><span class="st">"utf-8"</span>) <span class="im">as</span> <span class="bu">file</span>:</span>
 <span id="cb17-2"><a href="" aria-hidden="true" tabindex="-1"></a>    text <span class="op">=</span> <span class="bu">file</span>.read()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -638,7 +638,7 @@ data\recording.csv</code></pre>
 </section>
 <section id="what-comes-back-is-text-not-numbers" class="slide level2 center">
 <h2>What comes back is text, not numbers</h2>
-<div id="dd8bb0e6" class="cell" data-execution_count="11">
+<div id="6327344c" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">"data/recording.csv"</span>, encoding<span class="op">=</span><span class="st">"utf-8"</span>) <span class="im">as</span> <span class="bu">file</span>:</span>
 <span id="cb18-2"><a href="" aria-hidden="true" tabindex="-1"></a>    lines <span class="op">=</span> <span class="bu">file</span>.read().splitlines()        <span class="co"># one string per line of the file</span></span>
 <span id="cb18-3"><a href="" aria-hidden="true" tabindex="-1"></a></span>
@@ -653,7 +653,7 @@ data\recording.csv</code></pre>
 </div>
 <div class="fragment">
 <p>The whole second column, exactly as read from the file. What was the highest heart rate of the night?</p>
-<div id="bed9c06f" class="cell" data-execution_count="12">
+<div id="340d6fd6" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="" aria-hidden="true" tabindex="-1"></a>hr_texts <span class="op">=</span> [<span class="st">"78"</span>, <span class="st">"82"</span>, <span class="st">""</span>, <span class="st">"104"</span>, <span class="st">"110"</span>, <span class="st">"100"</span>, <span class="st">"96"</span>, <span class="st">""</span>, <span class="st">"300"</span>, <span class="st">"132"</span>]</span>
 <span id="cb20-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">max</span>(hr_texts))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -682,7 +682,7 @@ data\recording.csv</code></pre>
 <section id="not-every-csv-uses-commas" class="slide level2 center">
 <h2>Not every CSV uses commas</h2>
 <p>Where the comma is the decimal separator — most of Europe — spreadsheets export with <strong>semicolons</strong>. Other devices use <strong>tabs</strong> (TSV), or spaces. The extension <code>.csv</code> promises nothing: <strong>look at the file</strong>.</p>
-<div id="c22505f5" class="cell" data-execution_count="13">
+<div id="7a267646" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="" aria-hidden="true" tabindex="-1"></a>line <span class="op">=</span> <span class="st">"0;72,5"</span>                          <span class="co"># one line from an Italian Excel export</span></span>
 <span id="cb22-2"><a href="" aria-hidden="true" tabindex="-1"></a>time_text, hr_text <span class="op">=</span> line.split(<span class="st">";"</span>)</span>
 <span id="cb22-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">float</span>(hr_text.replace(<span class="st">","</span>, <span class="st">"."</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -694,7 +694,7 @@ data\recording.csv</code></pre>
 </div>
 <div class="fragment">
 <p>Now split it on the separator you <strong>assumed</strong>:</p>
-<div id="d9e71c2e" class="cell" data-execution_count="14">
+<div id="f26924f8" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="" aria-hidden="true" tabindex="-1"></a>time_text, hr_text <span class="op">=</span> line.split(<span class="st">","</span>)</span>
 <span id="cb24-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(time_text, <span class="st">"|"</span>, hr_text, <span class="st">"-&gt;"</span>, <span class="bu">float</span>(hr_text), <span class="st">"bpm"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -723,7 +723,7 @@ data\recording.csv</code></pre>
 <section id="when-the-separator-is-inside-a-value" class="slide level2 center">
 <h2>When the separator is inside a value</h2>
 <p>A field that contains the separator is wrapped in quotes — a note typed by a nurse, a patient’s name:</p>
-<div id="f4f7aef7" class="cell" data-execution_count="15">
+<div id="99c341ba" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="" aria-hidden="true" tabindex="-1"></a>line <span class="op">=</span> <span class="st">'0,78,"walking, then stairs"'</span></span>
 <span id="cb26-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(line.split(<span class="st">","</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -734,7 +734,7 @@ data\recording.csv</code></pre>
 </div>
 <div class="fragment">
 <p><code>split</code> knows nothing about quotes. The <strong><code>csv</code> module</strong> does — it comes with Python, nothing to install:</p>
-<div id="2e9eb9b1" class="cell" data-execution_count="16">
+<div id="19df324d" class="cell" data-execution_count="16">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> csv</span>
 <span id="cb28-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">next</span>(csv.reader([line])))          <span class="co"># one line here; on a file it reads every line</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -762,7 +762,7 @@ data\recording.csv</code></pre>
 </section>
 <section id="the-loader-is-a-step-a-fence-a-prompt-a-body" class="slide level2 center">
 <h2>The loader is a step: a fence, a prompt, a body</h2>
-<div id="9c77c5cc" class="cell" data-execution_count="17">
+<div id="44b7d76c" class="cell" data-execution_count="17">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> load_recording(path) <span class="op">-&gt;</span> <span class="bu">list</span>:</span>
 <span id="cb30-2"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Load heart rates (bpm) from a wearable export file."""</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -799,7 +799,7 @@ data\recording.csv</code></pre>
 <div class="columns">
 <div class="column" style="width:55%;">
 <p><strong>What you asked for</strong> — the <code># PROMPT</code> block, yours</p>
-<div id="0e08fe86" class="cell" data-execution_count="18">
+<div id="f6a0ac1e" class="cell" data-execution_count="18">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># PROMPT (final version used):</span></span>
 <span id="cb31-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Write a Python function load_recording(path)</span></span>
 <span id="cb31-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># that reads a heart-rate file exported by the</span></span>
@@ -819,7 +819,7 @@ data\recording.csv</code></pre>
 </div><div class="column" style="width:45%;">
 <div class="fragment">
 <p><strong>What the function promises</strong> — the signature and docstring, the machine’s, checked by you</p>
-<div id="9025a600" class="cell" data-execution_count="19">
+<div id="055318f1" class="cell" data-execution_count="19">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> load_recording(path) <span class="op">-&gt;</span> <span class="bu">list</span>:</span>
 <span id="cb32-2"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Load heart rates (bpm) from a</span></span>
 <span id="cb32-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">    wearable export file.</span></span>
@@ -868,7 +868,7 @@ data\recording.csv</code></pre>
 <section id="reading-the-body-it-wrote" class="slide level2 center">
 <h2>Reading the body it wrote</h2>
 <p>Week 2’s four things: the signature, the guards, the branch, the state.</p>
-<div id="271c8913" class="cell" data-execution_count="20">
+<div id="e5199286" class="cell" data-execution_count="20">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33" data-code-line-numbers="1|8-12|14-17|3-4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="" aria-label="1"></a><span class="kw">def</span> load_recording(path) <span class="op">-&gt;</span> <span class="bu">list</span>:</span>
 <span id="cb33-2"><a href="" aria-label="2"></a>    <span class="co">"""..."""</span></span>
 <span id="cb33-3"><a href="" aria-label="3"></a>    readings_bpm <span class="op">=</span> []</span>
@@ -909,7 +909,7 @@ data\recording.csv</code></pre>
 <p>Line 6 of the file is <code>30,</code> — a time, and no heart rate. What should the loader put in the list?</p>
 <div class="fragment">
 <p>Suppose the prompt had said nothing, and the machine chose <code>None</code> — Python’s word for <em>no value</em>. A perfectly reasonable choice. Load the file, then hand the list to last week’s step:</p>
-<div id="7c999e42" class="cell" data-execution_count="21">
+<div id="506648f0" class="cell" data-execution_count="21">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="" aria-hidden="true" tabindex="-1"></a>readings <span class="op">=</span> vitals.load_recording(<span class="st">"data/recording.csv"</span>)</span>
 <span id="cb34-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(readings[:<span class="dv">4</span>])</span>
 <span id="cb34-3"><a href="" aria-hidden="true" tabindex="-1"></a>vitals.percent_above(readings, limit_bpm<span class="op">=</span><span class="dv">100</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -942,7 +942,7 @@ TypeError: '&lt;=' not supported between instances of 'NoneType' and 'int'</code
 </section>
 <section id="the-orchestrator-now" class="slide level2 center">
 <h2>The orchestrator, now</h2>
-<div id="4041ff96" class="cell" data-execution_count="22">
+<div id="b8c8fcdb" class="cell" data-execution_count="22">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># main.py</span></span>
 <span id="cb36-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> vitals</span>
 <span id="cb36-3"><a href="" aria-hidden="true" tabindex="-1"></a></span>
@@ -977,7 +977,7 @@ TypeError: '&lt;=' not supported between instances of 'NoneType' and 'int'</code
 </section>
 <section id="mode-w" class="slide level2 center">
 <h2>Mode <code>"w"</code></h2>
-<div id="43a93bc5" class="cell" data-execution_count="23">
+<div id="5f3c445d" class="cell" data-execution_count="23">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">"summary.txt"</span>, <span class="st">"w"</span>, encoding<span class="op">=</span><span class="st">"utf-8"</span>) <span class="im">as</span> <span class="bu">file</span>:</span>
 <span id="cb38-2"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="bu">file</span>.write(<span class="ss">f"above 100 bpm: </span><span class="sc">{</span>percent<span class="sc">}</span><span class="ss"> % of the valid time</span><span class="ch">\n</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -1050,7 +1050,7 @@ TypeError: '&lt;=' not supported between instances of 'NoneType' and 'int'</code
 <section id="a-file-whose-answer-you-know" class="slide level2 center">
 <h2>A file whose answer you know</h2>
 <p>Last week: <code>make_readings</code> built a <strong>list</strong> with a known answer. This week it builds a <strong>file</strong>:</p>
-<div id="d64e382c" class="cell" data-execution_count="24">
+<div id="a1e8b850" class="cell" data-execution_count="24">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># make_fixtures.py — run it once</span></span>
 <span id="cb39-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> vitals</span>
 <span id="cb39-3"><a href="" aria-hidden="true" tabindex="-1"></a></span>
@@ -1140,7 +1140,7 @@ time_s,hr_bpm
 </section>
 <section id="a-test-is-a-function-whose-name-starts-with-test_" class="slide level2 center">
 <h2>A test is a function whose name starts with <code>test_</code></h2>
-<div id="13b990bd" class="cell" data-execution_count="25">
+<div id="a75fbbb1" class="cell" data-execution_count="25">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># test_vitals.py</span></span>
 <span id="cb41-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pytest</span>
 <span id="cb41-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> vitals</span>
@@ -1173,7 +1173,7 @@ time_s,hr_bpm
 <section id="checking-that-it-refuses" class="slide level2 center">
 <h2>Checking that it refuses</h2>
 <p>Last week, five lines:</p>
-<div id="fa15e0da" class="cell" data-execution_count="26">
+<div id="a4fcf053" class="cell" data-execution_count="26">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb42-2"><a href="" aria-hidden="true" tabindex="-1"></a>    vitals.percent_above([<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>], <span class="dv">100</span>)</span>
 <span id="cb42-3"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"NO ERROR — the fence is broken"</span>)</span>
@@ -1182,7 +1182,7 @@ time_s,hr_bpm
 </div>
 <div class="fragment">
 <p>This week, two:</p>
-<div id="b66878ea" class="cell" data-execution_count="27">
+<div id="bf40f408" class="cell" data-execution_count="27">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_empty_recording_is_refused():</span>
 <span id="cb43-2"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""No valid readings -&gt; ValueError, as the prompt says."""</span></span>
 <span id="cb43-3"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> pytest.raises(<span class="pp">ValueError</span>):</span>
@@ -1269,7 +1269,7 @@ E        +  where 8 = len([78.0, 82.0, 104.0, 110.0, 100.0, 96.0, ...])
 </section>
 <section id="the-suite-that-passes-because-nothing-ran" class="slide level2 center">
 <h2>The suite that passes because nothing ran</h2>
-<div id="dd2627ec" class="cell" data-execution_count="28">
+<div id="34ce1f17" class="cell" data-execution_count="28">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> check_known_file_20_6():          <span class="co"># not test_...</span></span>
 <span id="cb47-2"><a href="" aria-hidden="true" tabindex="-1"></a>    ...</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -1330,7 +1330,7 @@ E        +  where 8 = len([78.0, 82.0, 104.0, 110.0, 100.0, 96.0, ...])
 <h2>Building the test file, step by step</h2>
 <div class="columns">
 <div class="column" style="width:55%;">
-<div id="5a52ced0" class="cell" data-execution_count="29">
+<div id="765e2bf3" class="cell" data-execution_count="29">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># test_vitals.py — the skeleton you write</span></span>
 <span id="cb49-2"><a href="" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb49-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># PROMPT (final version used, sent in a new chat,</span></span>
