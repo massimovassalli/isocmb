@@ -1,0 +1,1483 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="ENG2012_lec06_files/libs/clipboard/clipboard.min.js"></script>
+<script src="ENG2012_lec06_files/libs/quarto-html/tabby.min.js"></script>
+<script src="ENG2012_lec06_files/libs/quarto-html/popper.min.js"></script>
+<script src="ENG2012_lec06_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="ENG2012_lec06_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="ENG2012_lec06_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="ENG2012_lec06_files/libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.10.19">
+
+  <meta name="author" content="Massimo Vassalli">
+  <title>Biomedical Engineering Skills 2</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="ENG2012_lec06_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="ENG2012_lec06_files/libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="ENG2012_lec06_files/libs/revealjs/dist/theme/quarto-a66d5f97dc36661424f13b5665fec6ea.css">
+  <link href="ENG2012_lec06_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="ENG2012_lec06_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="ENG2012_lec06_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="ENG2012_lec06_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Biomedical Engineering Skills 2</h1>
+  <p class="subtitle">Python 6 — The whole method, one more time</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Massimo Vassalli
+</div>
+        <p class="quarto-title-affiliation">
+            massimo.vassalli@glasgow.ac.uk
+          </p>
+    </div>
+</div>
+
+</section>
+<section>
+<section id="the-whole-method" class="title-slide slide level1 center">
+<h1>The whole method</h1>
+<div class="columns">
+<div class="column" style="width:35%;">
+<p><strong>DEFINE</strong></p>
+<p>↓</p>
+<p><strong>DECOMPOSE</strong></p>
+<p>↓</p>
+<p><strong>SPECIFY ⇄ DIAGNOSE</strong></p>
+<p>↓</p>
+<p><strong>VALIDATE</strong></p>
+</div><div class="column" style="width:65%;">
+<p>Six weeks ago this was a diagram. Since then you have used every box — one at a time.</p>
+<p>Today: the whole method, once, on a new problem. Then the final exercise, which is the same method on another one.</p>
+</div></div>
+</section>
+<section id="define-the-objective-in-numbers" class="slide level2 center">
+<h2>DEFINE: the objective, in numbers</h2>
+<p>What is the computation for? Say it as <strong>a number, with its units</strong> — and, where you can, say what <strong>success</strong> looks like <em>before</em> you compute anything.</p>
+<div class="fragment">
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">vague</th>
+<th style="text-align: left;">defined</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">“look at the data”</td>
+<td style="text-align: left;">one number per record, with its units, and how it is summarised</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">“is the method good?”</td>
+<td style="text-align: left;">on data whose answer we know, the method returns that answer</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">“is there a difference?”</td>
+<td style="text-align: left;">the difference between groups is larger than the spread within each</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fragment">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Tip</strong></p>
+</div>
+<div class="callout-content">
+<p>A definition of success written beforehand cannot be bent to fit the result afterwards.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="decompose-the-steps" class="slide level2 center">
+<h2>DECOMPOSE: the steps</h2>
+<p>Every problem this semester has had the same four steps — sometimes disguised:</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">step</th>
+<th style="text-align: left;">what it does</th>
+<th style="text-align: left;">you have done it in</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>set the environment</strong></td>
+<td style="text-align: left;">the right Python, the right packages, reproducibly</td>
+<td style="text-align: left;">weeks 1 and 5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>open and harmonise</strong></td>
+<td style="text-align: left;">get the data in, and make them clear to the computer: one format, known units</td>
+<td style="text-align: left;">weeks 4 and 5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>transform</strong></td>
+<td style="text-align: left;">prepare the data so that the information emerges: clean, filter, convert</td>
+<td style="text-align: left;">weeks 2–4 (dropped samples, artefacts)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>quantify</strong></td>
+<td style="text-align: left;">turn the prepared data into the number DEFINE asked for</td>
+<td style="text-align: left;">week 3 (<code>percent_above</code>), Assignment 3 (the longest stretch)</td>
+</tr>
+</tbody>
+</table>
+<div class="fragment">
+<p>Each step is a function with a signature, a prompt and tests. <code>main.py</code> calls them in order — and contains nothing else.</p>
+</div>
+</section>
+<section id="specify-diagnose-each-step-proved" class="slide level2 center">
+<h2>SPECIFY ⇄ DIAGNOSE: each step, proved</h2>
+<p>For <strong>each</strong> step:</p>
+<ol type="1">
+<li><strong>Specify</strong> it: the signature, the decisions, the prompt</li>
+<li>Have it <strong>built</strong></li>
+<li><strong>Diagnose</strong> it: does it do what was specified —
+<ul>
+<li>on the <strong>edge cases</strong> (empty, missing, exactly on a limit)</li>
+<li>on <strong>digital data</strong>: data made so that you already know the answer</li>
+<li>with an <strong>automated</strong> set of tests that runs in one command: <code>python -m pytest</code></li>
+</ul></li>
+</ol>
+<div class="fragment">
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Important</strong></p>
+</div>
+<div class="callout-content">
+<p>A step is not finished when it runs. It is finished when you can <strong>show</strong> that it works — and this can be done on a different, smaller dataset from the real one, chosen because you know its numbers.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="validate-all-the-data-and-the-question" class="slide level2 center">
+<h2>VALIDATE: all the data, and the question</h2>
+<p>Only now, the real data — all of it:</p>
+<ul>
+<li><strong>look</strong> at the results together: trends, groups, values that stand out</li>
+<li>do they <strong>generalise</strong>: does the step chosen on digital data work on every real record?</li>
+<li>are they <strong>stable</strong>: do they stay put when you change a parameter that should not matter?</li>
+</ul>
+<div class="fragment">
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">DIAGNOSE</th>
+<th style="text-align: left;">VALIDATE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">question</td>
+<td style="text-align: left;">did we build it <strong>right</strong>?</td>
+<td style="text-align: left;">did we build the <strong>right thing</strong>?</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">data</td>
+<td style="text-align: left;">small, known, digital</td>
+<td style="text-align: left;">all of it</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">when it fails, go back to</td>
+<td style="text-align: left;">SPECIFY</td>
+<td style="text-align: left;">DEFINE or DECOMPOSE</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section></section>
+<section>
+<section id="a-walk-through-the-breathing-study" class="title-slide slide level1 center">
+<h1>A walk through: the breathing study</h1>
+
+</section>
+<section id="define-what-are-we-measuring" class="slide level2 center">
+<h2>DEFINE: what are we measuring?</h2>
+<p>A chest belt records how much the chest expands, ten times per second, for 60 s. Twelve subjects: six <strong>at rest</strong>, six <strong>after exercise</strong>.</p>
+<p><img data-src="img/lec06_define.png" height="330"></p>
+<div class="fragment">
+<p>Each up-and-down is a breath. By eye, S08 breathes about twice as often as S03 — and both recordings are noisy.</p>
+</div>
+</section>
+<section id="define-the-goal-in-numbers" class="slide level2 center">
+<h2>DEFINE: the goal, in numbers</h2>
+<div class="fragment">
+<p><strong>The number.</strong> For each subject, the <strong>breathing rate</strong>: the number of breaths in the recording, divided by its duration — in <strong>breaths per minute</strong>. One breath = one peak of the chest signal.</p>
+</div>
+<div class="fragment">
+<p><strong>The summary.</strong> For each condition, the <strong>mean ± standard deviation</strong> of the rates, and how many subjects.</p>
+</div>
+<div class="fragment">
+<p><strong>Success, for the method.</strong> On digital recordings whose rate we choose — 12, 15, 25 breaths per minute, with noise like the real one — the method returns <strong>exactly</strong> that rate.</p>
+</div>
+<div class="fragment">
+<p><strong>Success, for the study.</strong> The difference between rest and exercise is <strong>larger than the spread</strong> within each group.</p>
+</div>
+<div class="fragment">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p>Nothing here mentions code. That is the point of DEFINE: it stays true whatever code you end up writing — and it tells you, before you start, what you will have to show.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="decompose-always-the-same" class="slide level2 center">
+<h2>DECOMPOSE: always the same</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">step</th>
+<th style="text-align: left;">in the breathing study</th>
+<th style="text-align: left;">function</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">set the environment</td>
+<td style="text-align: left;"><code>.venv</code>, <code>requirements.txt</code> (zarr, scipy, pytest)</td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">open and harmonise</td>
+<td style="text-align: left;">two belts, two layouts, two sets of units → one record, in s and mm</td>
+<td style="text-align: left;"><code>load_recording</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">transform</td>
+<td style="text-align: left;">the chest signal is noisy: smooth it</td>
+<td style="text-align: left;"><code>smooth</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">quantify</td>
+<td style="text-align: left;">count the breaths, divide by the duration</td>
+<td style="text-align: left;"><code>breaths_per_minute</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">(all the data)</td>
+<td style="text-align: left;">every subject, grouped by condition, mean ± sd</td>
+<td style="text-align: left;"><code>run_study</code></td>
+</tr>
+</tbody>
+</table>
+<div class="fragment">
+<p>The environment: you know it. A <code>.venv</code>, <code>python -m pip install -r requirements.txt</code>, <code>python -m pytest</code>, the clean rebuild before you submit.</p>
+</div>
+<div class="fragment">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Tip</strong></p>
+</div>
+<div class="callout-content">
+<p>We will walk the steps in a different order: <strong>open</strong>, then <strong>quantify</strong>, and only then <strong>transform</strong> — because the transform exists for the sake of the quantify, and you will see why only once you try to count.</p>
+</div>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="open-and-harmonise" class="title-slide slide level1 center">
+<h1>Open and harmonise</h1>
+
+</section>
+<section id="the-study-on-disk" class="slide level2 center">
+<h2>The study on disk</h2>
+<div id="06ceddeb" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="" aria-label="1"></a><span class="im">import</span> zarr</span>
+<span id="cb1-2"><a href="" aria-label="2"></a>root <span class="op">=</span> zarr.open_group(<span class="st">"data/breathing.zarr"</span>, mode<span class="op">=</span><span class="st">"r"</span>)</span>
+<span id="cb1-3"><a href="" aria-label="3"></a><span class="bu">print</span>(root.tree())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="columns">
+<div class="column" style="width:45%;">
+<pre><code>/
+├── S01
+│   └── data (600, 2) float64
+├── S02
+│   ├── chest (600,) float64
+│   └── time (600,) float64
+├── S03
+│   └── data (600, 2) float64
+...</code></pre>
+</div><div class="column" style="width:55%;">
+<div class="fragment">
+<p>Two belt models, and they do not agree on how to store a recording:</p>
+<ul>
+<li><strong>belt X</strong>: one array, 600 rows × 2 columns</li>
+<li><strong>belt Y</strong>: two arrays, one per quantity</li>
+</ul>
+<p>The same information. A loader that knows only one layout fails on half the study — or, worse, reads the wrong thing without failing.</p>
+</div>
+</div></div>
+</section>
+<section id="one-matrix-or-one-array-per-quantity" class="slide level2 center">
+<h2>One matrix, or one array per quantity?</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Belt X: a matrix</strong></p>
+<pre><code>S01/data   (600, 2)
+  attrs: columns ["time", "chest"]
+         units   ["s", "mm"]</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="" aria-label="1"></a>table <span class="op">=</span> data[:]          <span class="co"># [row, column]</span></span>
+<span id="cb4-2"><a href="" aria-label="2"></a>columns.index(<span class="st">"chest"</span>)   <span class="co"># 1: find it by name</span></span>
+<span id="cb4-3"><a href="" aria-label="3"></a>table[:, <span class="dv">1</span>]              <span class="co"># every row, column 1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column" style="width:50%;">
+<p><strong>Belt Y: one array per quantity</strong></p>
+<pre><code>S02/time    (600,)  attrs: units "ms"
+S02/chest   (600,)  attrs: units "cm"</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="" aria-label="1"></a>group[<span class="st">"chest"</span>][:]               <span class="co"># by name, directly</span></span>
+<span id="cb6-2"><a href="" aria-label="2"></a>group[<span class="st">"chest"</span>].attrs[<span class="st">"units"</span>]   <span class="co"># its own units</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div></div>
+<div class="fragment">
+<p>A matrix keeps the rows together (row 10 is one moment in time); separate arrays each carry their own units and can have their own types. Both are good. What matters is that <strong>the description is stored with the data</strong>: which column is which, in which units.</p>
+</div>
+<div class="fragment">
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Warning</strong></p>
+</div>
+<div class="callout-content">
+<p><code>table[:, 1]</code> is a <strong>position</strong>. If the order of the columns is written in the data, read it and never assume it: a wrong column raises no error, it gives you numbers — just not the right ones.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="harmonise-one-record-known-units" class="slide level2 center">
+<h2>Harmonise: one record, known units</h2>
+<p>Whatever the belt, the loader returns the same thing:</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">key</th>
+<th style="text-align: left;">type</th>
+<th style="text-align: left;">units</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>"subject_id"</code></td>
+<td style="text-align: left;"><code>str</code></td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>"condition"</code></td>
+<td style="text-align: left;"><code>str</code></td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>"time_s"</code></td>
+<td style="text-align: left;">numpy array</td>
+<td style="text-align: left;">s</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>"chest_mm"</code></td>
+<td style="text-align: left;">numpy array</td>
+<td style="text-align: left;">mm</td>
+</tr>
+</tbody>
+</table>
+<div class="fragment">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="" aria-label="1"></a>TIME_TO_S <span class="op">=</span> {<span class="st">"s"</span>: <span class="fl">1.0</span>, <span class="st">"ms"</span>: <span class="fl">1e-3</span>}</span>
+<span id="cb7-2"><a href="" aria-label="2"></a>CHEST_TO_MM <span class="op">=</span> {<span class="st">"mm"</span>: <span class="fl">1.0</span>, <span class="st">"cm"</span>: <span class="fl">10.0</span>}      <span class="co"># any other unit: ValueError, never a guess</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>S02 as stored:   time [0. 100. 200.] ms,   chest [0.318 0.025 0.296] cm
+S02 harmonised:  time [0.  0.1  0.2] s,    chest [3.18  0.25  2.96 ] mm</code></pre>
+</div>
+<div class="fragment">
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Important</strong></p>
+</div>
+<div class="callout-content">
+<p>The conversion table is a specification: it goes in the prompt, line by line. A wrong factor is the most silent failure there is — no error, plausible numbers, all off by a power of ten.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="check-it-on-data-you-know" class="slide level2 center">
+<h2>Check it on data you know</h2>
+<p><code>data/tiny.zarr</code>: the same five points, written once by each belt — small enough to know by heart.</p>
+<p><img data-src="img/lec06_tiny.png" height="250"></p>
+<div class="fragment">
+<p>As stored, the two look different: other numbers, other units. Harmonised, they must be <strong>the same curve</strong> — and we know which one: time 0, 0.1 … 0.4 s; chest 0, 1.5, 2.5, 1.5, 0 mm.</p>
+</div>
+</section>
+<section id="as-a-test" class="slide level2 center">
+<h2>… as a test</h2>
+<div id="b61f720c" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="" aria-label="1"></a><span class="kw">def</span> test_loader_belt_X():</span>
+<span id="cb9-2"><a href="" aria-label="2"></a>    <span class="co">"""T1, belt X (s, mm), written by hand: time 0, 0.1 ... 0.4 s; chest 0, 1.5, 2.5, 1.5, 0 mm."""</span></span>
+<span id="cb9-3"><a href="" aria-label="3"></a>    rec <span class="op">=</span> breathing.load_recording(TINY, <span class="st">"T1"</span>)</span>
+<span id="cb9-4"><a href="" aria-label="4"></a>    <span class="cf">assert</span> rec[<span class="st">"time_s"</span>] <span class="op">==</span> pytest.approx([<span class="fl">0.0</span>, <span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span>])</span>
+<span id="cb9-5"><a href="" aria-label="5"></a>    <span class="cf">assert</span> rec[<span class="st">"chest_mm"</span>] <span class="op">==</span> pytest.approx([<span class="fl">0.0</span>, <span class="fl">1.5</span>, <span class="fl">2.5</span>, <span class="fl">1.5</span>, <span class="fl">0.0</span>])</span>
+<span id="cb9-6"><a href="" aria-label="6"></a></span>
+<span id="cb9-7"><a href="" aria-label="7"></a><span class="kw">def</span> test_loader_belt_Y():</span>
+<span id="cb9-8"><a href="" aria-label="8"></a>    <span class="co">"""T2, belt Y (ms, cm): the same recording, so the same numbers once converted."""</span></span>
+<span id="cb9-9"><a href="" aria-label="9"></a>    rec <span class="op">=</span> breathing.load_recording(TINY, <span class="st">"T2"</span>)</span>
+<span id="cb9-10"><a href="" aria-label="10"></a>    <span class="cf">assert</span> rec[<span class="st">"time_s"</span>] <span class="op">==</span> pytest.approx([<span class="fl">0.0</span>, <span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span>])</span>
+<span id="cb9-11"><a href="" aria-label="11"></a>    <span class="cf">assert</span> rec[<span class="st">"chest_mm"</span>] <span class="op">==</span> pytest.approx([<span class="fl">0.0</span>, <span class="fl">1.5</span>, <span class="fl">2.5</span>, <span class="fl">1.5</span>, <span class="fl">0.0</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="fragment">
+<p>Two layouts, two sets of units, <strong>one expected answer</strong>, written by hand. If both pass, the loader turns both belts into the same thing — and you never computed the expected values with the code you are testing.</p>
+</div>
+</section></section>
+<section>
+<section id="quantify" class="title-slide slide level1 center">
+<h1>Quantify</h1>
+
+</section>
+<section id="a-breath-is-a-peak" class="slide level2 center">
+<h2>A breath is a peak</h2>
+<p>On a <strong>clean</strong> digital recording — 15 breaths per minute, no noise — a breath is easy to find: a point higher than both its neighbours. <code>scipy.signal.find_peaks</code> finds them all.</p>
+<div id="f18aab65" class="cell" data-fig-height="2.6" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="" aria-label="1"></a>time_s, clean_mm <span class="op">=</span> digital_breathing(<span class="dv">15</span>)</span>
+<span id="cb10-2"><a href="" aria-label="2"></a>peaks, _ <span class="op">=</span> find_peaks(clean_mm)</span>
+<span id="cb10-3"><a href="" aria-label="3"></a></span>
+<span id="cb10-4"><a href="" aria-label="4"></a>plt.plot(time_s, clean_mm, color<span class="op">=</span>INK)</span>
+<span id="cb10-5"><a href="" aria-label="5"></a>plt.plot(time_s[peaks], clean_mm[peaks], <span class="st">"o"</span>, color<span class="op">=</span>ORANGE)</span>
+<span id="cb10-6"><a href="" aria-label="6"></a>plt.xlabel(<span class="st">"time (s)"</span>)<span class="op">;</span> plt.ylabel(<span class="st">"chest (mm)"</span>)<span class="op">;</span> plt.show()</span>
+<span id="cb10-7"><a href="" aria-label="7"></a><span class="bu">print</span>(<span class="bu">len</span>(peaks), <span class="st">"peaks in 60 s:"</span>, breaths_per_minute(time_s, clean_mm), <span class="st">"breaths per minute"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell fragment" data-fig-height="2.6" data-execution_count="4">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="ENG2012_lec06_files/figure-revealjs/cell-5-output-1.png" width="739" height="285"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>15 peaks in 60 s: 15.0 breaths per minute</code></pre>
+</div>
+</div>
+<div class="fragment">
+<p>The step is specified (a peak is a breath; the duration is the number of points × the time step), built, and checked on data whose answer we chose. Nothing new.</p>
+</div>
+</section>
+<section id="the-same-count-on-a-noisy-recording" class="slide level2 center">
+<h2>The same count, on a noisy recording</h2>
+<p>The same 15 breaths per minute, with noise like the real belt (1.5 mm):</p>
+<div id="a3c7ddc0" class="cell" data-fig-height="2.6" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="" aria-label="1"></a>time_s, noisy_mm <span class="op">=</span> digital_breathing(<span class="dv">15</span>, noise_mm<span class="op">=</span><span class="fl">1.5</span>)</span>
+<span id="cb12-2"><a href="" aria-label="2"></a>peaks, _ <span class="op">=</span> find_peaks(noisy_mm)</span>
+<span id="cb12-3"><a href="" aria-label="3"></a></span>
+<span id="cb12-4"><a href="" aria-label="4"></a>plt.plot(time_s, noisy_mm, color<span class="op">=</span>LIGHT)</span>
+<span id="cb12-5"><a href="" aria-label="5"></a>plt.plot(time_s[peaks], noisy_mm[peaks], <span class="st">"o"</span>, ms<span class="op">=</span><span class="dv">3</span>, color<span class="op">=</span>ORANGE)</span>
+<span id="cb12-6"><a href="" aria-label="6"></a>plt.xlabel(<span class="st">"time (s)"</span>)<span class="op">;</span> plt.ylabel(<span class="st">"chest (mm)"</span>)<span class="op">;</span> plt.show()</span>
+<span id="cb12-7"><a href="" aria-label="7"></a><span class="bu">print</span>(<span class="bu">len</span>(peaks), <span class="st">"peaks in 60 s:"</span>, breaths_per_minute(time_s, noisy_mm), <span class="st">"breaths per minute"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell fragment" data-fig-height="2.6" data-execution_count="5">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="ENG2012_lec06_files/figure-revealjs/cell-6-output-1.png" width="748" height="285"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>193 peaks in 60 s: 193.0 breaths per minute</code></pre>
+</div>
+</div>
+<div class="fragment">
+<p>Every wiggle of the noise is “higher than both its neighbours”. The count is not wrong — the quantify does exactly what it was specified to do. <strong>The data are not ready for it.</strong></p>
+</div>
+</section></section>
+<section>
+<section id="transform-prepare-the-data" class="title-slide slide level1 center">
+<h1>Transform: prepare the data</h1>
+
+</section>
+<section id="why-a-transform" class="slide level2 center">
+<h2>Why a transform?</h2>
+<p>The quantify needs a signal where <strong>one breath = one peak</strong>. The recording gives one breath = one peak <em>plus</em> the noise.</p>
+<div class="fragment">
+<p>The transform is the step that turns the data into the <strong>representation the quantify needs</strong>. Microscopists do the same when they correct an uneven illumination before measuring cells — you will, next year, in ENG3090. Here: remove the fast wiggles of the noise, keep the slow wave of the breath.</p>
+</div>
+<div class="fragment">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p>A breath lasts about 4 s — 40 points. The noise changes at every point. That difference in <strong>speed</strong> is what lets us separate them.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="smoothing-average-the-neighbours" class="slide level2 center">
+<h2>Smoothing: average the neighbours</h2>
+<p>Replace each point with the <strong>average of the points around it</strong> — a window of <span class="math inline">\(N\)</span> points centred on it. With <span class="math inline">\(N = 5\)</span>:</p>
+<p><span class="math display">\[y_i = \frac{x_{i-2} + x_{i-1} + x_i + x_{i+1} + x_{i+2}}{5}\]</span></p>
+<div id="7b6f8e30" class="cell" data-fig-height="2.8" data-execution_count="6">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="ENG2012_lec06_files/figure-revealjs/cell-7-output-1.png" width="739" height="285"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p>The <strong>window</strong> (blue) slides along the signal, one point at a time; at each position, the average of the points inside becomes the new value (orange). The random errors of the noise partly cancel in the average; the slow breath, nearly the same across the window, survives.</p>
+</div>
+</section>
+<section id="the-size-of-the-window" class="slide level2 center">
+<h2>The size of the window</h2>
+<p>The same rectangular window, with three sizes:</p>
+<div id="c2c80341" class="cell" data-fig-height="3.2" data-execution_count="7">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="ENG2012_lec06_files/figure-revealjs/cell-8-output-1.png" width="757" height="319"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="fragment">
+<ul>
+<li><strong>3 points</strong>: too small — the noise is still there, and so are the false peaks</li>
+<li><strong>11 points</strong> (1.1 s): the breaths — with a few small bumps still on them</li>
+<li><strong>41 points</strong> (4.1 s, as long as a breath): too big — it averages the breath itself away</li>
+</ul>
+</div>
+<div class="fragment">
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Important</strong></p>
+</div>
+<div class="callout-content">
+<p>The size of the window is <strong>the</strong> decision: big enough to average out the noise, small enough to keep the fastest thing you need. Say it in the units of the signal (1.1 s), not only in points: points mean nothing without the sampling rate.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="a-filter-is-a-window" class="slide level2 center">
+<h2>A filter is a window</h2>
+<p>The rectangular window gives every point inside the same weight. Other windows weigh the neighbours differently:</p>
+<div id="569bbc50" class="cell" data-fig-height="2.6" data-execution_count="8">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="ENG2012_lec06_files/figure-revealjs/cell-9-output-1.png" width="857" height="275"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p>The <strong>Gaussian</strong> window gives more weight to close neighbours and fades out smoothly. Its size is set by σ, the <strong>width</strong>: most of the weight lies within ±2σ.</p>
+</div>
+<div class="fragment">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p>This is not a course on filters. What matters: every smoothing filter is a window, and <strong>its size is a parameter you choose</strong>. Choose the shape once (we suggest the Gaussian); then the size is what changes the answer. Next year the same windows slide over images, in two dimensions.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="why-we-suggest-the-gaussian" class="slide level2 center">
+<h2>Why we suggest the Gaussian</h2>
+<p>The two windows of the last slide have about the same size. Count the breaths (truly 15) after each:</p>
+<div id="5464dbc2" class="cell columns column-output-location" data-execution_count="9">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="" aria-label="1"></a>t, noisy <span class="op">=</span> digital_breathing(<span class="dv">15</span>, noise_mm<span class="op">=</span><span class="fl">1.5</span>)</span>
+<span id="cb14-2"><a href="" aria-label="2"></a><span class="bu">print</span>(<span class="bu">len</span>(find_peaks(uniform_filter1d(noisy, <span class="dv">11</span>, mode<span class="op">=</span><span class="st">"nearest"</span>))[<span class="dv">0</span>]), <span class="st">"peaks, rectangular"</span>)</span>
+<span id="cb14-3"><a href="" aria-label="3"></a><span class="bu">print</span>(<span class="bu">len</span>(find_peaks(gaussian_filter1d(noisy, <span class="dv">3</span>, mode<span class="op">=</span><span class="st">"nearest"</span>))[<span class="dv">0</span>]), <span class="st">"peaks, Gaussian"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column fragment">
+<div class="cell-output cell-output-stdout">
+<pre><code>36 peaks, rectangular
+15 peaks, Gaussian</code></pre>
+</div>
+</div></div>
+<div class="fragment">
+<p>The sharp edges of the rectangle leave small bumps on the smoothed signal, and every bump is a peak. The Gaussian fades out smoothly and leaves none. The choice of window depends on what the quantify needs: here, one peak per breath.</p>
+</div>
+</section>
+<section id="where-do-i-find-the-function-i-need" class="slide level2 center">
+<h2>Where do I find the function I need?</h2>
+<p>You know what the step must do. The words experts use for it are the search keys:</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">what you need</th>
+<th style="text-align: left;">search for</th>
+<th style="text-align: left;">where it usually lives</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">reduce the noise of a signal</td>
+<td style="text-align: left;"><em>smoothing</em>, <em>filter</em></td>
+<td style="text-align: left;"><code>scipy.ndimage</code>, <code>scipy.signal</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">find the peaks of a signal</td>
+<td style="text-align: left;"><em>peak detection</em></td>
+<td style="text-align: left;"><code>scipy.signal.find_peaks</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">fit a line</td>
+<td style="text-align: left;"><em>linear regression</em>, <em>least squares</em></td>
+<td style="text-align: left;"><code>numpy.polyfit</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mean, spread, percentiles</td>
+<td style="text-align: left;"><em>descriptive statistics</em></td>
+<td style="text-align: left;"><code>numpy</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">the same, on images (next year)</td>
+<td style="text-align: left;"><em>image filtering</em></td>
+<td style="text-align: left;"><code>skimage.filters</code></td>
+</tr>
+</tbody>
+</table>
+<div class="fragment micro">
+<p>For smoothing, the two windows above:</p>
+<ul>
+<li><code>scipy.ndimage.uniform_filter1d(signal, size=11)</code> — rectangular, <code>size</code> in points</li>
+<li><code>scipy.ndimage.gaussian_filter1d(signal, sigma=5)</code> — Gaussian, <code>sigma</code> in points: <strong>our suggestion</strong></li>
+</ul>
+<p><code>mode="nearest"</code> says what to do at the two ends, where the window runs out of neighbours. <code>help(gaussian_filter1d)</code> shows the rest.</p>
+</div>
+<div class="fragment">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Tip</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Ask the assistant for options, not for code</strong>: <em>“list three ways to smooth a noisy 1-D signal in Python, with the package, what the size parameter means, and when each fails”</em>. You choose; the prompt for the body names your choice.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="back-to-the-count-the-noise-in-the-noise-out" class="slide level2 center">
+<h2>Back to the count: the noise in, the noise out</h2>
+<p>The transform has done its job if adding the noise and removing it gives back the number of the clean signal:</p>
+<div id="d29bc888" class="cell columns column-output-location" data-execution_count="10">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="" aria-label="1"></a>t, clean <span class="op">=</span> digital_breathing(<span class="dv">15</span>)</span>
+<span id="cb16-2"><a href="" aria-label="2"></a>t, noisy <span class="op">=</span> digital_breathing(<span class="dv">15</span>, noise_mm<span class="op">=</span><span class="fl">1.5</span>)</span>
+<span id="cb16-3"><a href="" aria-label="3"></a></span>
+<span id="cb16-4"><a href="" aria-label="4"></a><span class="bu">print</span>(breaths_per_minute(t, clean))              <span class="co"># clean</span></span>
+<span id="cb16-5"><a href="" aria-label="5"></a><span class="bu">print</span>(breaths_per_minute(t, noisy))              <span class="co"># noise added</span></span>
+<span id="cb16-6"><a href="" aria-label="6"></a><span class="bu">print</span>(breaths_per_minute(t, smooth(noisy, <span class="dv">5</span>)))   <span class="co"># noise added, then smoothed</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column fragment">
+<div class="cell-output cell-output-stdout">
+<pre><code>15.0
+193.0
+15.0</code></pre>
+</div>
+</div></div>
+<div class="fragment">
+<p>Fifteen breaths went in; the noise turned them into almost two hundred; smoothing (Gaussian, σ = 5 points = 0.5 s) gives fifteen back. <code>smooth</code> is the demo’s step: <code>gaussian_filter1d(signal, width, mode="nearest")</code>.</p>
+</div>
+</section>
+<section id="choosing-the-window-on-digital-data" class="slide level2 center">
+<h2>Choosing the window — on digital data</h2>
+<p>Breaths per minute found, for three known rates — 12, 15 and 25 — and several widths:</p>
+<div id="34e39598" class="cell columns column-output-location" data-execution_count="11">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="" aria-label="1"></a><span class="cf">for</span> width <span class="kw">in</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">10</span>, <span class="dv">15</span>]:</span>
+<span id="cb18-2"><a href="" aria-label="2"></a>    found <span class="op">=</span> []</span>
+<span id="cb18-3"><a href="" aria-label="3"></a>    <span class="cf">for</span> rate <span class="kw">in</span> [<span class="dv">12</span>, <span class="dv">15</span>, <span class="dv">25</span>]:</span>
+<span id="cb18-4"><a href="" aria-label="4"></a>        t, noisy <span class="op">=</span> digital_breathing(rate, noise_mm<span class="op">=</span><span class="fl">1.5</span>)</span>
+<span id="cb18-5"><a href="" aria-label="5"></a>        found.append(breaths_per_minute(t, smooth(noisy, width)))</span>
+<span id="cb18-6"><a href="" aria-label="6"></a>    <span class="bu">print</span>(<span class="ss">f"width </span><span class="sc">{</span>width<span class="sc">:2}</span><span class="ss">:"</span>, <span class="st">"  "</span>.join(<span class="ss">f"</span><span class="sc">{</span>x<span class="sc">:3.0f}</span><span class="ss">"</span> <span class="cf">for</span> x <span class="kw">in</span> found))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column fragment">
+<div class="cell-output cell-output-stdout">
+<pre><code>width  1:  76   64   42
+width  2:  18   15   25
+width  3:  12   15   25
+width  5:  12   15   25
+width  6:  12   15   25
+width  8:  12   15   24
+width 10:  12   15   23
+width 15:  11   14    8</code></pre>
+</div>
+</div></div>
+<div class="fragment">
+<p>Too narrow: noise counted. Too wide: breaths merged — and the <strong>fastest</strong> breathing goes first. Widths <strong>3 to 6</strong> give back all three rates: the window is chosen here, where the answer is known, and limited by the fastest thing you need to keep.</p>
+</div>
+</section>
+<section id="and-as-a-test" class="slide level2 center">
+<h2>… and as a test</h2>
+<div id="1e135b54" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="" aria-label="1"></a><span class="kw">def</span> test_rate_on_clean_digital_data():</span>
+<span id="cb20-2"><a href="" aria-label="2"></a>    <span class="co">"""15 breaths per minute, no noise, no smoothing: 15 (by construction)."""</span></span>
+<span id="cb20-3"><a href="" aria-label="3"></a>    t, c <span class="op">=</span> digital_breathing(<span class="dv">15</span>)</span>
+<span id="cb20-4"><a href="" aria-label="4"></a>    <span class="cf">assert</span> breathing.breaths_per_minute(t, breathing.smooth(c, <span class="dv">0</span>)) <span class="op">==</span> pytest.approx(<span class="dv">15</span>)</span>
+<span id="cb20-5"><a href="" aria-label="5"></a></span>
+<span id="cb20-6"><a href="" aria-label="6"></a><span class="kw">def</span> test_rate_25_with_noise_and_smoothing():</span>
+<span id="cb20-7"><a href="" aria-label="7"></a>    <span class="co">"""25 breaths per minute (the fastest we expect), noise 1.5 mm, width 5: still 25."""</span></span>
+<span id="cb20-8"><a href="" aria-label="8"></a>    t, c <span class="op">=</span> digital_breathing(<span class="dv">25</span>, noise_mm<span class="op">=</span><span class="fl">1.5</span>)</span>
+<span id="cb20-9"><a href="" aria-label="9"></a>    <span class="cf">assert</span> breathing.breaths_per_minute(t, breathing.smooth(c, <span class="dv">5</span>)) <span class="op">==</span> pytest.approx(<span class="dv">25</span>)</span>
+<span id="cb20-10"><a href="" aria-label="10"></a></span>
+<span id="cb20-11"><a href="" aria-label="11"></a><span class="kw">def</span> test_noise_without_smoothing_is_wrong():</span>
+<span id="cb20-12"><a href="" aria-label="12"></a>    <span class="co">"""Why we smooth: without it, the noise is counted as breaths."""</span></span>
+<span id="cb20-13"><a href="" aria-label="13"></a>    t, c <span class="op">=</span> digital_breathing(<span class="dv">15</span>, noise_mm<span class="op">=</span><span class="fl">1.5</span>)</span>
+<span id="cb20-14"><a href="" aria-label="14"></a>    <span class="cf">assert</span> breathing.breaths_per_minute(t, c) <span class="op">&gt;</span> <span class="dv">30</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="fragment">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p>The exploration was done once, by you. The tests keep it true for ever: if somebody changes the width, or the filter, <code>python -m pytest</code> says so.</p>
+</div>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="validate-all-the-data" class="title-slide slide level1 center">
+<h1>Validate: all the data</h1>
+
+</section>
+<section id="querying-the-study" class="slide level2 center">
+<h2>Querying the study</h2>
+<p>Which subjects were recorded after exercise? Ask the attributes:</p>
+<div id="2f9481a6" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="" aria-label="1"></a>root <span class="op">=</span> zarr.open_group(<span class="st">"data/breathing.zarr"</span>, mode<span class="op">=</span><span class="st">"r"</span>)</span>
+<span id="cb21-2"><a href="" aria-label="2"></a>exercise <span class="op">=</span> []</span>
+<span id="cb21-3"><a href="" aria-label="3"></a><span class="cf">for</span> sid <span class="kw">in</span> <span class="bu">sorted</span>(root.group_keys()):</span>
+<span id="cb21-4"><a href="" aria-label="4"></a>    <span class="cf">if</span> root[sid].attrs[<span class="st">"condition"</span>] <span class="op">==</span> <span class="st">"exercise"</span>:</span>
+<span id="cb21-5"><a href="" aria-label="5"></a>        exercise.append(sid)</span>
+<span id="cb21-6"><a href="" aria-label="6"></a><span class="bu">print</span>(exercise)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<pre><code>['S07', 'S08', 'S09', 'S10', 'S11', 'S12']</code></pre>
+<div class="fragment">
+<p>The metadata stored with each recording are what makes the study <strong>searchable</strong>: by condition, by belt, by anything that was written down. <code>run_study</code> does the same for every subject: load, smooth, count, and collect the rates by condition.</p>
+</div>
+</section>
+<section id="mean-spread-per-group" class="slide level2 center">
+<h2>Mean ± spread, per group</h2>
+<pre><code>python main.py          # width 5 points, chosen on digital data
+exercise :  24.2 ± 1.9 breaths/min (n = 6)
+rest     :  13.8 ± 1.5 breaths/min (n = 6)</code></pre>
+<div class="fragment">
+<ul>
+<li><strong>sd</strong> with <code>ddof=1</code> (divides by n − 1): the sample standard deviation. With a single value there is no spread: <code>nan</code>, <em>not a number</em></li>
+<li><strong>Digits</strong>: the spread is in the units; one decimal is already generous. <code>24.166666666666668</code> claims a precision nobody has</li>
+</ul>
+</div>
+<div class="fragment">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Tip</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>The goal we defined</strong>: exercise − rest ≈ 10 breaths/min, five times the spread within a group. The difference is real, by the definition of success we wrote at the start.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="does-it-generalise-is-it-stable" class="slide level2 center">
+<h2>Does it generalise? Is it stable?</h2>
+<p>The same study, with other widths:</p>
+<pre><code>width  2:  exercise 24.7 ± 2.2   rest 30.2 ± 6.9     ← noise counted at rest
+width  5:  exercise 24.2 ± 1.9   rest 13.8 ± 1.5
+width  8:  exercise 24.2 ± 1.9   rest 13.7 ± 1.4
+width 15:  exercise  8.2 ± 1.7   rest 13.7 ± 1.4     ← fast breaths merged</code></pre>
+<div class="fragment">
+<p>The width chosen on digital data works on every real subject, and the answer does not move between 5 and 8. Outside that range the answer is about the <strong>window</strong>, not about the subjects — exactly what the digital data predicted.</p>
+</div>
+<div class="fragment">
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Important</strong></p>
+</div>
+<div class="callout-content">
+<p>Report the result <strong>with</strong> the choices it rests on: <em>“13.8 ± 1.5 breaths/min at rest, peaks counted after Gaussian smoothing over 0.5 s”</em>.</p>
+</div>
+</div>
+</div>
+</div>
+</section></section>
+<section id="take-home-message" class="title-slide slide level1 center">
+<h1>Take-home message</h1>
+<ul>
+<li><strong>DEFINE</strong> the number, and what success looks like, before computing it</li>
+<li><strong>DECOMPOSE</strong>: always the same steps — environment, open and harmonise, transform, quantify</li>
+<li><strong>SPECIFY ⇄ DIAGNOSE</strong> each step on data you know: edge cases, digital data, <code>python -m pytest</code></li>
+<li>The <strong>transform</strong> prepares the data for the quantify; a filter is a <strong>window</strong>, and its size is a decision — chosen on digital data, limited by the fastest thing you need to keep</li>
+<li><strong>VALIDATE</strong> on all the data: trends, mean ± sd with honest digits, and an answer that does not move when it should not</li>
+</ul>
+<div class="fragment">
+<p>Nobody will ask you to defend a loop. They will ask you to defend the number.</p>
+</div>
+<div class="fragment">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Next hour, the tutorial</strong>: the final exercise — the same walk, on a new problem.</p>
+</div>
+</div>
+</div>
+</div>
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<p><img src="UoG_colour.png" class="slide-logo"></p>
+<div class="footer footer-default">
+<p>ENG2012 Biomedical Engineering Skills 2</p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="ENG2012_lec06_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="ENG2012_lec06_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="ENG2012_lec06_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="ENG2012_lec06_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="ENG2012_lec06_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="ENG2012_lec06_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="ENG2012_lec06_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="ENG2012_lec06_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="ENG2012_lec06_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="ENG2012_lec06_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: true,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'fade',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>
