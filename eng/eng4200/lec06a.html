@@ -245,56 +245,60 @@ Massimo Vassalli
 <p><strong>Note</strong></p>
 </div>
 <div class="callout-content">
-<p>Trees and their ensembles (6b) are the core of CW2. Today’s single tree is also the building block of next lecture: its main weakness, instability, is exactly what ensembles fix.</p>
+<p>Trees and their ensembles (6b) are the core of CW2. Today’s single tree is also the building block of next lecture: its main weakness, instability, is exactly what ensembles fix. As in 5a, the imports and the data loading (breast cancer and diabetes, with the splits of 3a–5a) are done once, in a hidden cell.</p>
 </div>
 </div>
 </div>
 </div>
 </section>
-<section id="the-limits-of-a-line" class="slide level2 center">
-<h2>The limits of a line</h2>
-<p>Two problems that a linear model cannot solve: a <strong>step</strong> (class 1 only for <span class="math inline">\(5 &lt; x &lt; 10\)</span>) and the <strong>XOR</strong> pattern of 5a.</p>
-<div id="fa6f73c9" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.inspection <span class="im">import</span> DecisionBoundaryDisplay</span>
-<span id="cb1-2"><a href="" aria-label="2"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
-<span id="cb1-3"><a href="" aria-label="3"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> StratifiedKFold, cross_val_score</span>
-<span id="cb1-4"><a href="" aria-label="4"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> make_pipeline</span>
-<span id="cb1-5"><a href="" aria-label="5"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
-<span id="cb1-6"><a href="" aria-label="6"></a><span class="im">from</span> sklearn.tree <span class="im">import</span> DecisionTreeClassifier</span>
-<span id="cb1-7"><a href="" aria-label="7"></a>cv <span class="op">=</span> StratifiedKFold(<span class="dv">5</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">0</span>)        <span class="co"># how to split: 5 stratified folds</span></span>
-<span id="cb1-8"><a href="" aria-label="8"></a></span>
-<span id="cb1-9"><a href="" aria-label="9"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">0</span>)</span>
-<span id="cb1-10"><a href="" aria-label="10"></a>Xx <span class="op">=</span> rng.uniform(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, (<span class="dv">400</span>, <span class="dv">2</span>))                            <span class="co"># XOR, as in 5a</span></span>
-<span id="cb1-11"><a href="" aria-label="11"></a>yx <span class="op">=</span> (Xx[:, <span class="dv">0</span>] <span class="op">*</span> Xx[:, <span class="dv">1</span>] <span class="op">&gt;</span> <span class="dv">0</span>).astype(<span class="bu">int</span>)</span>
-<span id="cb1-12"><a href="" aria-label="12"></a>xs <span class="op">=</span> rng.uniform(<span class="dv">0</span>, <span class="dv">15</span>, (<span class="dv">200</span>, <span class="dv">1</span>))                            <span class="co"># the step</span></span>
-<span id="cb1-13"><a href="" aria-label="13"></a>ys <span class="op">=</span> ((xs[:, <span class="dv">0</span>] <span class="op">&gt;</span> <span class="dv">5</span>) <span class="op">&amp;</span> (xs[:, <span class="dv">0</span>] <span class="op">&lt;</span> <span class="dv">10</span>)).astype(<span class="bu">int</span>)</span>
-<span id="cb1-14"><a href="" aria-label="14"></a></span>
-<span id="cb1-15"><a href="" aria-label="15"></a>logit <span class="op">=</span> make_pipeline(StandardScaler(), LogisticRegression())</span>
-<span id="cb1-16"><a href="" aria-label="16"></a>tree <span class="op">=</span> DecisionTreeClassifier(random_state<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb1-17"><a href="" aria-label="17"></a><span class="cf">for</span> name, Xp, yp <span class="kw">in</span> [(<span class="st">"step"</span>, xs, ys), (<span class="st">"XOR "</span>, Xx, yx)]:</span>
-<span id="cb1-18"><a href="" aria-label="18"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>name<span class="sc">}</span><span class="ss">: CV accuracy  logistic </span><span class="sc">{</span>cross_val_score(logit, Xp, yp, cv<span class="op">=</span>cv)<span class="sc">.</span>mean()<span class="sc">:.3f}</span><span class="ss">"</span></span>
-<span id="cb1-19"><a href="" aria-label="19"></a>          <span class="ss">f"   tree </span><span class="sc">{</span>cross_val_score(tree, Xp, yp, cv<span class="op">=</span>cv)<span class="sc">.</span>mean()<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
-<span id="cb1-20"><a href="" aria-label="20"></a></span>
-<span id="cb1-21"><a href="" aria-label="21"></a><span class="kw">def</span> regions(model, X2, y2, ax, title):                       <span class="co"># decision regions of a 2-feature model</span></span>
-<span id="cb1-22"><a href="" aria-label="22"></a>    DecisionBoundaryDisplay.from_estimator(model.fit(X2, y2), X2, response_method<span class="op">=</span><span class="st">"predict"</span>,</span>
-<span id="cb1-23"><a href="" aria-label="23"></a>                                           cmap<span class="op">=</span><span class="st">"bwr"</span>, alpha<span class="op">=</span><span class="fl">0.25</span>, eps<span class="op">=</span><span class="dv">0</span>, ax<span class="op">=</span>ax)</span>
-<span id="cb1-24"><a href="" aria-label="24"></a>    ax.scatter(X2[:, <span class="dv">0</span>], X2[:, <span class="dv">1</span>], c<span class="op">=</span>y2, cmap<span class="op">=</span><span class="st">"bwr"</span>, s<span class="op">=</span><span class="dv">5</span>)</span>
-<span id="cb1-25"><a href="" aria-label="25"></a>    ax.set_title(title, fontsize<span class="op">=</span><span class="dv">9</span>)</span>
-<span id="cb1-26"><a href="" aria-label="26"></a>    ax.set_xticks([])<span class="op">;</span> ax.set_yticks([])</span>
-<span id="cb1-27"><a href="" aria-label="27"></a></span>
-<span id="cb1-28"><a href="" aria-label="28"></a>fig, axs <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="fl">2.8</span>))</span>
-<span id="cb1-29"><a href="" aria-label="29"></a>regions(logit, Xx, yx, axs[<span class="dv">0</span>], <span class="st">"logistic regression"</span>)</span>
-<span id="cb1-30"><a href="" aria-label="30"></a>regions(tree, Xx, yx, axs[<span class="dv">1</span>], <span class="st">"decision tree"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="the-limits-of-a-line-a-step" class="slide level2 center">
+<h2>The limits of a line: a step</h2>
+<p>One feature, and class 1 only for <span class="math inline">\(5 &lt; x &lt; 10\)</span>:</p>
+<div id="d3ebd715" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="" aria-label="1"></a>cv <span class="op">=</span> StratifiedKFold(<span class="dv">5</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">0</span>)        <span class="co"># how to split: 5 stratified folds</span></span>
+<span id="cb1-2"><a href="" aria-label="2"></a>logit <span class="op">=</span> make_pipeline(StandardScaler(), LogisticRegression())</span>
+<span id="cb1-3"><a href="" aria-label="3"></a>tree <span class="op">=</span> DecisionTreeClassifier(random_state<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb1-4"><a href="" aria-label="4"></a><span class="cf">for</span> name, m <span class="kw">in</span> [(<span class="st">"logistic"</span>, logit), (<span class="st">"tree    "</span>, tree)]:</span>
+<span id="cb1-5"><a href="" aria-label="5"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>name<span class="sc">}</span><span class="ss">: CV accuracy </span><span class="sc">{</span>cross_val_score(m, xs, ys, cv<span class="op">=</span>cv)<span class="sc">.</span>mean()<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell fragment" data-execution_count="2">
 <div class="cell-output cell-output-stdout">
-<pre><code>step: CV accuracy  logistic 0.615   tree 0.990
-XOR : CV accuracy  logistic 0.505   tree 0.985</code></pre>
+<pre><code>logistic: CV accuracy 0.615
+tree    : CV accuracy 0.990</code></pre>
 </div>
+</div>
+<div id="dd28ad2f" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="lec06a_files/figure-revealjs/cell-3-output-2.png" width="466" height="243"></p>
+<p><img data-src="lec06a_files/figure-revealjs/cell-4-output-1.png" width="459" height="231"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="fragment micro">
+<p>The probability of logistic regression is <strong>monotone</strong> in <span class="math inline">\(x\)</span>: it can say “more likely for large <span class="math inline">\(x\)</span>”, never “only in between”. Its best effort is to predict the majority class everywhere: 0.615 is exactly the fraction of class 0. The tree asks two questions, <span class="math inline">\(x \le 5\)</span>? and <span class="math inline">\(x \le 10\)</span>?, and gets the interval almost exactly.</p>
+</div>
+</section>
+<section id="the-limits-of-a-line-xor" class="slide level2 center">
+<h2>The limits of a line: XOR</h2>
+<p>Two features, class 1 when <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span> have the same sign (5a):</p>
+<div id="eafd3a50" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="" aria-label="1"></a>cv <span class="op">=</span> StratifiedKFold(<span class="dv">5</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">0</span>)        <span class="co"># how to split: 5 stratified folds</span></span>
+<span id="cb3-2"><a href="" aria-label="2"></a><span class="cf">for</span> name, m <span class="kw">in</span> [(<span class="st">"logistic"</span>, logit), (<span class="st">"tree    "</span>, tree)]:</span>
+<span id="cb3-3"><a href="" aria-label="3"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>name<span class="sc">}</span><span class="ss">: CV accuracy </span><span class="sc">{</span>cross_val_score(m, Xx, yx, cv<span class="op">=</span>cv)<span class="sc">.</span>mean()<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell fragment" data-execution_count="4">
+<div class="cell-output cell-output-stdout">
+<pre><code>logistic: CV accuracy 0.505
+tree    : CV accuracy 0.985</code></pre>
+</div>
+</div>
+<div id="65f7e01a" class="cell" data-execution_count="5">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec06a_files/figure-revealjs/cell-6-output-1.png" width="577" height="221"></p>
 </figure>
 </div>
 </div>
@@ -306,15 +310,28 @@ XOR : CV accuracy  logistic 0.505   tree 0.985</code></pre>
 <section id="twenty-questions" class="slide level2 center">
 <h2>Twenty questions</h2>
 <p>A decision tree predicts like the game of twenty questions: a sequence of yes/no questions, each chosen to narrow down the answer, each depending on the previous answers.</p>
+<div class="columns">
+<div class="column" style="width:48%;">
 <div class="micro">
 <ul>
-<li>each <strong>internal node</strong> asks a question about <strong>one</strong> feature, of the form “<span class="math inline">\(x_j \le \theta\)</span>?”, with a threshold <span class="math inline">\(\theta\)</span> learned from the data</li>
+<li>each <strong>internal node</strong> asks a question about <strong>one</strong> feature, “<span class="math inline">\(x_j \le \theta\)</span>?”, with a threshold <span class="math inline">\(\theta\)</span> learned from the data</li>
 <li>the answer sends the sample to the left (yes) or right (no) <strong>child</strong></li>
 <li>the first node is the <strong>root</strong>; the nodes that ask nothing are the <strong>leaves</strong>, and carry the prediction</li>
-<li>the <strong>depth</strong> of a node is the number of questions from the root; the depth of the tree is that of its deepest leaf</li>
-<li>every path from the root to a leaf is a <strong>rule</strong>: a conjunction of conditions (“<span class="math inline">\(x_3 \le 0.05\)</span> and <span class="math inline">\(x_{21} \le 16.8\)</span>”)</li>
+<li>the <strong>depth</strong> of a node is the number of questions from the root</li>
+<li>every path from the root to a leaf is a <strong>rule</strong>: “<span class="math inline">\(x_j \le \theta_1\)</span> and <span class="math inline">\(x_k &gt; \theta_2\)</span>: class 1”</li>
 </ul>
 </div>
+</div><div class="column" style="width:52%;">
+<div id="d969c2b3" class="cell" data-execution_count="6">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec06a_files/figure-revealjs/cell-7-output-1.png" width="347" height="234"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
 <div class="fragment micro">
 <p>The model <span class="math inline">\(H\)</span> is the set of all such trees: <strong>piecewise-constant</strong> functions on axis-aligned boxes. Its parameters are discrete (which feature at each node) and continuous (the thresholds <span class="math inline">\(\theta\)</span> and the leaf values). Do not confuse the split threshold <span class="math inline">\(\theta\)</span>, learned by the tree, with the decision threshold <span class="math inline">\(t\)</span> of 4a, applied to <span class="math inline">\(\hat p_i\)</span> after training.</p>
 </div>
@@ -322,27 +339,17 @@ XOR : CV accuracy  logistic 0.505   tree 0.985</code></pre>
 <section id="a-first-tree-on-breast-cancer" class="slide level2 center">
 <h2>A first tree on breast cancer</h2>
 <p>The breast cancer data of 3a–5b (malignant = 1), and a tree limited to depth 2:</p>
-<div id="ec74402e" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_breast_cancer</span>
-<span id="cb3-2"><a href="" aria-label="2"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
-<span id="cb3-3"><a href="" aria-label="3"></a><span class="im">from</span> sklearn.tree <span class="im">import</span> plot_tree</span>
-<span id="cb3-4"><a href="" aria-label="4"></a></span>
-<span id="cb3-5"><a href="" aria-label="5"></a>cancer <span class="op">=</span> load_breast_cancer()</span>
-<span id="cb3-6"><a href="" aria-label="6"></a>X, y <span class="op">=</span> cancer.data, <span class="dv">1</span> <span class="op">-</span> cancer.target                        <span class="co"># 1 = malignant</span></span>
-<span id="cb3-7"><a href="" aria-label="7"></a>names <span class="op">=</span> cancer.feature_names</span>
-<span id="cb3-8"><a href="" aria-label="8"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(</span>
-<span id="cb3-9"><a href="" aria-label="9"></a>    X, y, test_size<span class="op">=</span><span class="fl">0.25</span>, stratify<span class="op">=</span>y, random_state<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb3-10"><a href="" aria-label="10"></a></span>
-<span id="cb3-11"><a href="" aria-label="11"></a>t2 <span class="op">=</span> DecisionTreeClassifier(max_depth<span class="op">=</span><span class="dv">2</span>, random_state<span class="op">=</span><span class="dv">0</span>).fit(X_train, y_train)</span>
-<span id="cb3-12"><a href="" aria-label="12"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">3.4</span>))</span>
-<span id="cb3-13"><a href="" aria-label="13"></a>_ <span class="op">=</span> plot_tree(t2, feature_names<span class="op">=</span>names, class_names<span class="op">=</span>[<span class="st">"benign"</span>, <span class="st">"malignant"</span>],</span>
-<span id="cb3-14"><a href="" aria-label="14"></a>              filled<span class="op">=</span><span class="va">True</span>, impurity<span class="op">=</span><span class="va">True</span>, fontsize<span class="op">=</span><span class="dv">7</span>, ax<span class="op">=</span>ax)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="b19a5e95" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="" aria-label="1"></a>t2 <span class="op">=</span> DecisionTreeClassifier(max_depth<span class="op">=</span><span class="dv">2</span>, random_state<span class="op">=</span><span class="dv">0</span>).fit(X_train, y_train)</span>
+<span id="cb5-2"><a href="" aria-label="2"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">3.2</span>))</span>
+<span id="cb5-3"><a href="" aria-label="3"></a>_ <span class="op">=</span> plot_tree(t2, feature_names<span class="op">=</span>names, class_names<span class="op">=</span>[<span class="st">"benign"</span>, <span class="st">"malignant"</span>],</span>
+<span id="cb5-4"><a href="" aria-label="4"></a>              filled<span class="op">=</span><span class="va">True</span>, impurity<span class="op">=</span><span class="va">True</span>, fontsize<span class="op">=</span><span class="dv">7</span>, ax<span class="op">=</span>ax)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="cell fragment" data-execution_count="3">
+<div class="cell fragment" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="lec06a_files/figure-revealjs/cell-4-output-1.png" width="614" height="271"></p>
+<p><img data-src="lec06a_files/figure-revealjs/cell-8-output-1.png" width="614" height="256"></p>
 </figure>
 </div>
 </div>
@@ -356,13 +363,13 @@ XOR : CV accuracy  logistic 0.505   tree 0.985</code></pre>
 <div class="micro">
 <p>To predict, a sample is sent down the tree to a leaf. The <strong>predicted class</strong> is the majority class of the training samples in that leaf; the <strong>predicted probability</strong> is their proportion. <code>apply</code> returns the leaf (node number) reached by each sample:</p>
 </div>
-<div id="20237b65" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="" aria-label="1"></a><span class="bu">print</span>(<span class="st">"leaf reached       :"</span>, t2.<span class="bu">apply</span>(X_test[:<span class="dv">5</span>]))</span>
-<span id="cb4-2"><a href="" aria-label="2"></a><span class="bu">print</span>(<span class="st">"P(malignant)       :"</span>, t2.predict_proba(X_test[:<span class="dv">5</span>])[:, <span class="dv">1</span>].<span class="bu">round</span>(<span class="dv">3</span>))</span>
-<span id="cb4-3"><a href="" aria-label="3"></a><span class="bu">print</span>(<span class="st">"predicted / true   :"</span>, t2.predict(X_test[:<span class="dv">5</span>]), y_test[:<span class="dv">5</span>])</span>
-<span id="cb4-4"><a href="" aria-label="4"></a><span class="bu">print</span>(<span class="ss">f"depth-2 tree: test accuracy </span><span class="sc">{</span>t2<span class="sc">.</span>score(X_test, y_test)<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="ecd80772" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="" aria-label="1"></a><span class="bu">print</span>(<span class="st">"leaf reached       :"</span>, t2.<span class="bu">apply</span>(X_test[:<span class="dv">5</span>]))</span>
+<span id="cb6-2"><a href="" aria-label="2"></a><span class="bu">print</span>(<span class="st">"P(malignant)       :"</span>, t2.predict_proba(X_test[:<span class="dv">5</span>])[:, <span class="dv">1</span>].<span class="bu">round</span>(<span class="dv">3</span>))</span>
+<span id="cb6-3"><a href="" aria-label="3"></a><span class="bu">print</span>(<span class="st">"predicted / true   :"</span>, t2.predict(X_test[:<span class="dv">5</span>]), y_test[:<span class="dv">5</span>])</span>
+<span id="cb6-4"><a href="" aria-label="4"></a><span class="bu">print</span>(<span class="ss">f"depth-2 tree: test accuracy </span><span class="sc">{</span>t2<span class="sc">.</span>score(X_test, y_test)<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="cell fragment" data-execution_count="4">
+<div class="cell fragment" data-execution_count="8">
 <div class="cell-output cell-output-stdout">
 <pre><code>leaf reached       : [6 2 2 2 5]
 P(malignant)       : [0.947 0.016 0.016 0.016 0.182]
@@ -377,22 +384,23 @@ depth-2 tree: test accuracy 0.923</code></pre>
 <section id="boxes-in-feature-space" class="slide level2 center">
 <h2>Boxes in feature space</h2>
 <p>Two features, three models: the logistic boundary, a tree of depth 3 and a fully grown tree.</p>
-<div id="9f4f5abd" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="" aria-label="1"></a>j1, j2 <span class="op">=</span> <span class="bu">list</span>(names).index(<span class="st">"worst radius"</span>), <span class="bu">list</span>(names).index(<span class="st">"worst concave points"</span>)</span>
-<span id="cb6-2"><a href="" aria-label="2"></a>X2 <span class="op">=</span> X_train[:, [j1, j2]]</span>
-<span id="cb6-3"><a href="" aria-label="3"></a>fig, axs <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">2.7</span>))</span>
-<span id="cb6-4"><a href="" aria-label="4"></a><span class="cf">for</span> ax, (title, m) <span class="kw">in</span> <span class="bu">zip</span>(axs, [(<span class="st">"logistic"</span>, logit),</span>
-<span id="cb6-5"><a href="" aria-label="5"></a>                                (<span class="st">"tree, depth 3"</span>, DecisionTreeClassifier(max_depth<span class="op">=</span><span class="dv">3</span>, random_state<span class="op">=</span><span class="dv">0</span>)),</span>
-<span id="cb6-6"><a href="" aria-label="6"></a>                                (<span class="st">"tree, fully grown"</span>, DecisionTreeClassifier(random_state<span class="op">=</span><span class="dv">0</span>))]):</span>
-<span id="cb6-7"><a href="" aria-label="7"></a>    acc <span class="op">=</span> cross_val_score(m, X2, y_train, cv<span class="op">=</span>cv).mean()</span>
-<span id="cb6-8"><a href="" aria-label="8"></a>    regions(m, X2, y_train, ax, <span class="ss">f"</span><span class="sc">{</span>title<span class="sc">}</span><span class="ss">: CV </span><span class="sc">{</span>acc<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
-<span id="cb6-9"><a href="" aria-label="9"></a>axs[<span class="dv">0</span>].set_xlabel(<span class="st">"worst radius"</span>)<span class="op">;</span> _ <span class="op">=</span> axs[<span class="dv">0</span>].set_ylabel(<span class="st">"worst concave points"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="903bb744" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="" aria-label="1"></a>cv <span class="op">=</span> StratifiedKFold(<span class="dv">5</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">0</span>)        <span class="co"># how to split: 5 stratified folds</span></span>
+<span id="cb8-2"><a href="" aria-label="2"></a>j1, j2 <span class="op">=</span> <span class="bu">list</span>(names).index(<span class="st">"worst radius"</span>), <span class="bu">list</span>(names).index(<span class="st">"worst concave points"</span>)</span>
+<span id="cb8-3"><a href="" aria-label="3"></a>X2 <span class="op">=</span> X_train[:, [j1, j2]]</span>
+<span id="cb8-4"><a href="" aria-label="4"></a>fig, axs <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">2.7</span>))</span>
+<span id="cb8-5"><a href="" aria-label="5"></a><span class="cf">for</span> ax, (title, m) <span class="kw">in</span> <span class="bu">zip</span>(axs, [(<span class="st">"logistic"</span>, logit),</span>
+<span id="cb8-6"><a href="" aria-label="6"></a>                                (<span class="st">"tree, depth 3"</span>, DecisionTreeClassifier(max_depth<span class="op">=</span><span class="dv">3</span>, random_state<span class="op">=</span><span class="dv">0</span>)),</span>
+<span id="cb8-7"><a href="" aria-label="7"></a>                                (<span class="st">"tree, fully grown"</span>, DecisionTreeClassifier(random_state<span class="op">=</span><span class="dv">0</span>))]):</span>
+<span id="cb8-8"><a href="" aria-label="8"></a>    acc <span class="op">=</span> cross_val_score(m, X2, y_train, cv<span class="op">=</span>cv).mean()</span>
+<span id="cb8-9"><a href="" aria-label="9"></a>    regions(m, X2, y_train, ax, <span class="ss">f"</span><span class="sc">{</span>title<span class="sc">}</span><span class="ss">: CV </span><span class="sc">{</span>acc<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb8-10"><a href="" aria-label="10"></a>axs[<span class="dv">0</span>].set_xlabel(<span class="st">"worst radius"</span>)<span class="op">;</span> _ <span class="op">=</span> axs[<span class="dv">0</span>].set_ylabel(<span class="st">"worst concave points"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="cell fragment" data-execution_count="5">
+<div class="cell fragment" data-execution_count="9">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="lec06a_files/figure-revealjs/cell-6-output-1.png" width="633" height="255"></p>
+<p><img data-src="lec06a_files/figure-revealjs/cell-10-output-1.png" width="633" height="255"></p>
 </figure>
 </div>
 </div>
@@ -455,11 +463,11 @@ depth-2 tree: test accuracy 0.923</code></pre>
 <p>In scikit-learn: <code>criterion="gini"</code> (default), <code>"entropy"</code> or <code>"log_loss"</code> (the same). The error rate is not offered, for a reason we will see.</p>
 </div>
 </div><div class="column" style="width:50%;">
-<div id="b5bd75fd" class="cell" data-execution_count="6">
+<div id="544cc601" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="lec06a_files/figure-revealjs/cell-7-output-1.png" width="352" height="270"></p>
+<p><img data-src="lec06a_files/figure-revealjs/cell-11-output-1.png" width="352" height="270"></p>
 </figure>
 </div>
 </div>
@@ -472,68 +480,74 @@ depth-2 tree: test accuracy 0.923</code></pre>
 <p><span class="math display">\[
 \Delta Q = Q_m - \frac{n_L}{n_m}\,Q_L - \frac{n_R}{n_m}\,Q_R
 \]</span></p>
+<div class="columns">
+<div class="column" style="width:45%;">
 <div class="micro">
-<p>CART chooses the split <span class="math inline">\((j, \theta)\)</span> with the largest <span class="math inline">\(\Delta Q\)</span>. The root split of our depth-2 tree, found by hand with the Gini impurity:</p>
+<p>CART computes <span class="math inline">\(\Delta Q\)</span> for every feature <span class="math inline">\(j\)</span> and every candidate threshold <span class="math inline">\(\theta\)</span>, and chooses the split with the largest decrease. On the right, the Gini decrease at the root of the breast cancer tree, for every threshold on mean concave points: low at the extremes (one child almost empty), largest around 0.05, where the root of the previous tree splits.</p>
 </div>
-<div id="1d77582c" class="cell columns column-output-location" data-execution_count="7">
-<div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="" aria-label="1"></a><span class="kw">def</span> gini(labels):</span>
-<span id="cb7-2"><a href="" aria-label="2"></a>    p <span class="op">=</span> np.bincount(labels, minlength<span class="op">=</span><span class="dv">2</span>) <span class="op">/</span> <span class="bu">len</span>(labels)</span>
-<span id="cb7-3"><a href="" aria-label="3"></a>    <span class="cf">return</span> <span class="dv">1</span> <span class="op">-</span> np.<span class="bu">sum</span>(p<span class="op">**</span><span class="dv">2</span>)</span>
-<span id="cb7-4"><a href="" aria-label="4"></a></span>
-<span id="cb7-5"><a href="" aria-label="5"></a><span class="kw">def</span> decrease(xj, labels, theta):                  <span class="co"># Delta Q of the split xj &lt;= theta</span></span>
-<span id="cb7-6"><a href="" aria-label="6"></a>    left <span class="op">=</span> xj <span class="op">&lt;=</span> theta</span>
-<span id="cb7-7"><a href="" aria-label="7"></a>    w <span class="op">=</span> left.mean()                               <span class="co"># n_L / n_m</span></span>
-<span id="cb7-8"><a href="" aria-label="8"></a>    <span class="cf">return</span> gini(labels) <span class="op">-</span> w <span class="op">*</span> gini(labels[left]) <span class="op">-</span> (<span class="dv">1</span> <span class="op">-</span> w) <span class="op">*</span> gini(labels[<span class="op">~</span>left])</span>
-<span id="cb7-9"><a href="" aria-label="9"></a></span>
-<span id="cb7-10"><a href="" aria-label="10"></a>best <span class="op">=</span> (<span class="dv">0</span>, <span class="va">None</span>, <span class="va">None</span>)</span>
-<span id="cb7-11"><a href="" aria-label="11"></a><span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(X_train.shape[<span class="dv">1</span>]):                 <span class="co"># every feature</span></span>
-<span id="cb7-12"><a href="" aria-label="12"></a>    v <span class="op">=</span> np.unique(X_train[:, j])</span>
-<span id="cb7-13"><a href="" aria-label="13"></a>    <span class="cf">for</span> theta <span class="kw">in</span> (v[:<span class="op">-</span><span class="dv">1</span>] <span class="op">+</span> v[<span class="dv">1</span>:]) <span class="op">/</span> <span class="dv">2</span>:            <span class="co"># every midpoint</span></span>
-<span id="cb7-14"><a href="" aria-label="14"></a>        dq <span class="op">=</span> decrease(X_train[:, j], y_train, theta)</span>
-<span id="cb7-15"><a href="" aria-label="15"></a>        <span class="cf">if</span> dq <span class="op">&gt;</span> best[<span class="dv">0</span>]:</span>
-<span id="cb7-16"><a href="" aria-label="16"></a>            best <span class="op">=</span> (dq, j, theta)</span>
-<span id="cb7-17"><a href="" aria-label="17"></a><span class="bu">print</span>(<span class="ss">f"by hand     : </span><span class="sc">{</span>names[best[<span class="dv">1</span>]]<span class="sc">}</span><span class="ss"> &lt;= </span><span class="sc">{</span>best[<span class="dv">2</span>]<span class="sc">:.4f}</span><span class="ss">, Delta Q = </span><span class="sc">{</span>best[<span class="dv">0</span>]<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
-<span id="cb7-18"><a href="" aria-label="18"></a><span class="bu">print</span>(<span class="ss">f"scikit-learn: </span><span class="sc">{</span>names[t2.tree_.feature[<span class="dv">0</span>]]<span class="sc">}</span><span class="ss"> &lt;= </span><span class="sc">{</span>t2<span class="sc">.</span>tree_<span class="sc">.</span>threshold[<span class="dv">0</span>]<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb7-19"><a href="" aria-label="19"></a></span>
-<span id="cb7-20"><a href="" aria-label="20"></a>j <span class="op">=</span> best[<span class="dv">1</span>]</span>
-<span id="cb7-21"><a href="" aria-label="21"></a>v <span class="op">=</span> np.unique(X_train[:, j])<span class="op">;</span> ths <span class="op">=</span> (v[:<span class="op">-</span><span class="dv">1</span>] <span class="op">+</span> v[<span class="dv">1</span>:]) <span class="op">/</span> <span class="dv">2</span></span>
-<span id="cb7-22"><a href="" aria-label="22"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="fl">4.5</span>, <span class="fl">2.6</span>))</span>
-<span id="cb7-23"><a href="" aria-label="23"></a>ax.plot(ths, [decrease(X_train[:, j], y_train, th) <span class="cf">for</span> th <span class="kw">in</span> ths])</span>
-<span id="cb7-24"><a href="" aria-label="24"></a>ax.set_xlabel(<span class="ss">f"threshold on </span><span class="sc">{</span>names[j]<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb7-25"><a href="" aria-label="25"></a>_ <span class="op">=</span> ax.set_ylabel(<span class="vs">r"</span><span class="dv">$\D</span><span class="vs">elta Q</span><span class="dv">$</span><span class="vs"> </span><span class="kw">(</span><span class="vs">Gini</span><span class="kw">)</span><span class="vs">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div><div class="column fragment">
+</div><div class="column" style="width:55%;">
+<div id="4364aaab" class="cell" data-execution_count="11">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec06a_files/figure-revealjs/cell-12-output-1.png" width="373" height="253"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="the-best-split-by-hand" class="slide level2 center">
+<h2>The best split, by hand</h2>
+<p>The search of CART at the root, written out for the Gini impurity:</p>
+<div id="d500ffc0" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="" aria-label="1"></a><span class="kw">def</span> gini(labels):</span>
+<span id="cb9-2"><a href="" aria-label="2"></a>    p <span class="op">=</span> np.bincount(labels, minlength<span class="op">=</span><span class="dv">2</span>) <span class="op">/</span> <span class="bu">len</span>(labels)</span>
+<span id="cb9-3"><a href="" aria-label="3"></a>    <span class="cf">return</span> <span class="dv">1</span> <span class="op">-</span> np.<span class="bu">sum</span>(p<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb9-4"><a href="" aria-label="4"></a></span>
+<span id="cb9-5"><a href="" aria-label="5"></a><span class="kw">def</span> decrease(xj, labels, theta):                  <span class="co"># Delta Q of the split xj &lt;= theta</span></span>
+<span id="cb9-6"><a href="" aria-label="6"></a>    left <span class="op">=</span> xj <span class="op">&lt;=</span> theta</span>
+<span id="cb9-7"><a href="" aria-label="7"></a>    w <span class="op">=</span> left.mean()                               <span class="co"># n_L / n_m</span></span>
+<span id="cb9-8"><a href="" aria-label="8"></a>    <span class="cf">return</span> gini(labels) <span class="op">-</span> w <span class="op">*</span> gini(labels[left]) <span class="op">-</span> (<span class="dv">1</span> <span class="op">-</span> w) <span class="op">*</span> gini(labels[<span class="op">~</span>left])</span>
+<span id="cb9-9"><a href="" aria-label="9"></a></span>
+<span id="cb9-10"><a href="" aria-label="10"></a>best <span class="op">=</span> (<span class="dv">0</span>, <span class="va">None</span>, <span class="va">None</span>)</span>
+<span id="cb9-11"><a href="" aria-label="11"></a><span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(X_train.shape[<span class="dv">1</span>]):                 <span class="co"># every feature</span></span>
+<span id="cb9-12"><a href="" aria-label="12"></a>    v <span class="op">=</span> np.unique(X_train[:, j])</span>
+<span id="cb9-13"><a href="" aria-label="13"></a>    <span class="cf">for</span> theta <span class="kw">in</span> (v[:<span class="op">-</span><span class="dv">1</span>] <span class="op">+</span> v[<span class="dv">1</span>:]) <span class="op">/</span> <span class="dv">2</span>:            <span class="co"># every midpoint</span></span>
+<span id="cb9-14"><a href="" aria-label="14"></a>        dq <span class="op">=</span> decrease(X_train[:, j], y_train, theta)</span>
+<span id="cb9-15"><a href="" aria-label="15"></a>        <span class="cf">if</span> dq <span class="op">&gt;</span> best[<span class="dv">0</span>]:</span>
+<span id="cb9-16"><a href="" aria-label="16"></a>            best <span class="op">=</span> (dq, j, theta)</span>
+<span id="cb9-17"><a href="" aria-label="17"></a><span class="bu">print</span>(<span class="ss">f"by hand     : </span><span class="sc">{</span>names[best[<span class="dv">1</span>]]<span class="sc">}</span><span class="ss"> &lt;= </span><span class="sc">{</span>best[<span class="dv">2</span>]<span class="sc">:.4f}</span><span class="ss">, Delta Q = </span><span class="sc">{</span>best[<span class="dv">0</span>]<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb9-18"><a href="" aria-label="18"></a><span class="bu">print</span>(<span class="ss">f"scikit-learn: </span><span class="sc">{</span>names[t2.tree_.feature[<span class="dv">0</span>]]<span class="sc">}</span><span class="ss"> &lt;= </span><span class="sc">{</span>t2<span class="sc">.</span>tree_<span class="sc">.</span>threshold[<span class="dv">0</span>]<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell fragment" data-execution_count="12">
 <div class="cell-output cell-output-stdout">
 <pre><code>by hand     : mean concave points &lt;= 0.0489, Delta Q = 0.330
 scikit-learn: mean concave points &lt;= 0.0489</code></pre>
 </div>
-<div class="cell-output cell-output-display">
-<div>
-<figure>
-<p><img data-src="lec06a_files/figure-revealjs/cell-8-output-2.png" width="409" height="253"></p>
-</figure>
 </div>
+<div class="fragment micro">
+<p>About 12,000 candidate splits (30 features, about 400 thresholds each), the same answer as scikit-learn. The children are then searched in the same way, each on its own samples.</p>
 </div>
-</div></div>
 </section>
 <section id="why-not-the-error-rate" class="slide level2 center">
 <h2>Why not the error rate?</h2>
 <div class="micro">
 <p>The error rate seems the natural choice: it is what we want to minimise in the end. But it is a poor guide for <strong>growing</strong> a tree. A node with 400 samples of each class, and two candidate splits:</p>
 </div>
-<div id="bf5b67ed" class="cell" data-execution_count="8">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="" aria-label="1"></a><span class="kw">def</span> impurities(counts):                            <span class="co"># (Gini, entropy, error) of a node</span></span>
-<span id="cb9-2"><a href="" aria-label="2"></a>    p <span class="op">=</span> np.array(counts) <span class="op">/</span> np.<span class="bu">sum</span>(counts)</span>
-<span id="cb9-3"><a href="" aria-label="3"></a>    pz <span class="op">=</span> p[p <span class="op">&gt;</span> <span class="dv">0</span>]</span>
-<span id="cb9-4"><a href="" aria-label="4"></a>    <span class="cf">return</span> <span class="dv">1</span> <span class="op">-</span> np.<span class="bu">sum</span>(p<span class="op">**</span><span class="dv">2</span>), <span class="op">-</span>np.<span class="bu">sum</span>(pz <span class="op">*</span> np.log2(pz)), <span class="dv">1</span> <span class="op">-</span> p.<span class="bu">max</span>()</span>
-<span id="cb9-5"><a href="" aria-label="5"></a></span>
-<span id="cb9-6"><a href="" aria-label="6"></a><span class="cf">for</span> name, children <span class="kw">in</span> [(<span class="st">"A: (300, 100) + (100, 300)"</span>, [(<span class="dv">300</span>, <span class="dv">100</span>), (<span class="dv">100</span>, <span class="dv">300</span>)]),</span>
-<span id="cb9-7"><a href="" aria-label="7"></a>                       (<span class="st">"B: (200, 400) + (200,   0)"</span>, [(<span class="dv">200</span>, <span class="dv">400</span>), (<span class="dv">200</span>, <span class="dv">0</span>)])]:</span>
-<span id="cb9-8"><a href="" aria-label="8"></a>    n_ch <span class="op">=</span> [<span class="bu">sum</span>(c) <span class="cf">for</span> c <span class="kw">in</span> children]</span>
-<span id="cb9-9"><a href="" aria-label="9"></a>    Q <span class="op">=</span> np.<span class="bu">sum</span>([np.array(impurities(c)) <span class="op">*</span> nc <span class="op">/</span> <span class="dv">800</span> <span class="cf">for</span> c, nc <span class="kw">in</span> <span class="bu">zip</span>(children, n_ch)], axis<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb9-10"><a href="" aria-label="10"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>name<span class="sc">}</span><span class="ss">: children's weighted Gini </span><span class="sc">{</span>Q[<span class="dv">0</span>]<span class="sc">:.3f}</span><span class="ss">, entropy </span><span class="sc">{</span>Q[<span class="dv">1</span>]<span class="sc">:.3f}</span><span class="ss">, error </span><span class="sc">{</span>Q[<span class="dv">2</span>]<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="e720f4c8" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="" aria-label="1"></a><span class="kw">def</span> impurities(counts):                            <span class="co"># (Gini, entropy, error) of a node</span></span>
+<span id="cb11-2"><a href="" aria-label="2"></a>    p <span class="op">=</span> np.array(counts) <span class="op">/</span> np.<span class="bu">sum</span>(counts)</span>
+<span id="cb11-3"><a href="" aria-label="3"></a>    pz <span class="op">=</span> p[p <span class="op">&gt;</span> <span class="dv">0</span>]</span>
+<span id="cb11-4"><a href="" aria-label="4"></a>    <span class="cf">return</span> <span class="dv">1</span> <span class="op">-</span> np.<span class="bu">sum</span>(p<span class="op">**</span><span class="dv">2</span>), <span class="op">-</span>np.<span class="bu">sum</span>(pz <span class="op">*</span> np.log2(pz)), <span class="dv">1</span> <span class="op">-</span> p.<span class="bu">max</span>()</span>
+<span id="cb11-5"><a href="" aria-label="5"></a></span>
+<span id="cb11-6"><a href="" aria-label="6"></a><span class="cf">for</span> name, children <span class="kw">in</span> [(<span class="st">"A: (300, 100) + (100, 300)"</span>, [(<span class="dv">300</span>, <span class="dv">100</span>), (<span class="dv">100</span>, <span class="dv">300</span>)]),</span>
+<span id="cb11-7"><a href="" aria-label="7"></a>                       (<span class="st">"B: (200, 400) + (200,   0)"</span>, [(<span class="dv">200</span>, <span class="dv">400</span>), (<span class="dv">200</span>, <span class="dv">0</span>)])]:</span>
+<span id="cb11-8"><a href="" aria-label="8"></a>    n_ch <span class="op">=</span> [<span class="bu">sum</span>(c) <span class="cf">for</span> c <span class="kw">in</span> children]</span>
+<span id="cb11-9"><a href="" aria-label="9"></a>    Q <span class="op">=</span> np.<span class="bu">sum</span>([np.array(impurities(c)) <span class="op">*</span> nc <span class="op">/</span> <span class="dv">800</span> <span class="cf">for</span> c, nc <span class="kw">in</span> <span class="bu">zip</span>(children, n_ch)], axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb11-10"><a href="" aria-label="10"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>name<span class="sc">}</span><span class="ss">: children's weighted Gini </span><span class="sc">{</span>Q[<span class="dv">0</span>]<span class="sc">:.3f}</span><span class="ss">, entropy </span><span class="sc">{</span>Q[<span class="dv">1</span>]<span class="sc">:.3f}</span><span class="ss">, error </span><span class="sc">{</span>Q[<span class="dv">2</span>]<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="cell fragment" data-execution_count="8">
+<div class="cell fragment" data-execution_count="13">
 <div class="cell-output cell-output-stdout">
 <pre><code>A: (300, 100) + (100, 300): children's weighted Gini 0.375, entropy 0.811, error 0.250
 B: (200, 400) + (200,   0): children's weighted Gini 0.333, entropy 0.689, error 0.250</code></pre>
@@ -552,16 +566,14 @@ B: (200, 400) + (200,   0): children's weighted Gini 0.333, entropy 0.689, error
 <li>with the <strong>log-loss</strong> of 3a: <span class="math inline">\(\;-\sum_k \hat p_{mk}\ln \hat p_{mk}\)</span>, the <strong>entropy</strong> (scikit-learn computes it in bits, <span class="math inline">\(\log_2\)</span>: the same up to the factor <span class="math inline">\(\ln 2\)</span>)</li>
 </ul>
 </div>
-<div id="9bfe39af" class="cell" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> brier_score_loss, log_loss</span>
-<span id="cb11-2"><a href="" aria-label="2"></a></span>
-<span id="cb11-3"><a href="" aria-label="3"></a>p1 <span class="op">=</span> y_train.mean()                                       <span class="co"># root: proportion of malignant</span></span>
-<span id="cb11-4"><a href="" aria-label="4"></a>pred <span class="op">=</span> np.full(<span class="bu">len</span>(y_train), p1)                          <span class="co"># the root predicts p1 for every sample</span></span>
-<span id="cb11-5"><a href="" aria-label="5"></a>t_ent <span class="op">=</span> DecisionTreeClassifier(criterion<span class="op">=</span><span class="st">"entropy"</span>, max_depth<span class="op">=</span><span class="dv">1</span>).fit(X_train, y_train)</span>
-<span id="cb11-6"><a href="" aria-label="6"></a><span class="bu">print</span>(<span class="ss">f"root Gini    </span><span class="sc">{</span>t2<span class="sc">.</span>tree_<span class="sc">.</span>impurity[<span class="dv">0</span>]<span class="sc">:.4f}</span><span class="ss">   2 x Brier score     </span><span class="sc">{</span><span class="dv">2</span> <span class="op">*</span> brier_score_loss(y_train, pred)<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb11-7"><a href="" aria-label="7"></a><span class="bu">print</span>(<span class="ss">f"root entropy </span><span class="sc">{</span>t_ent<span class="sc">.</span>tree_<span class="sc">.</span>impurity[<span class="dv">0</span>]<span class="sc">:.4f}</span><span class="ss">   log-loss / ln 2     </span><span class="sc">{</span>log_loss(y_train, pred) <span class="op">/</span> np<span class="sc">.</span>log(<span class="dv">2</span>)<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="ef09c0cf" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="" aria-label="1"></a>p1 <span class="op">=</span> y_train.mean()                                       <span class="co"># root: proportion of malignant</span></span>
+<span id="cb13-2"><a href="" aria-label="2"></a>pred <span class="op">=</span> np.full(<span class="bu">len</span>(y_train), p1)                          <span class="co"># the root predicts p1 for every sample</span></span>
+<span id="cb13-3"><a href="" aria-label="3"></a>t_ent <span class="op">=</span> DecisionTreeClassifier(criterion<span class="op">=</span><span class="st">"entropy"</span>, max_depth<span class="op">=</span><span class="dv">1</span>).fit(X_train, y_train)</span>
+<span id="cb13-4"><a href="" aria-label="4"></a><span class="bu">print</span>(<span class="ss">f"root Gini    </span><span class="sc">{</span>t2<span class="sc">.</span>tree_<span class="sc">.</span>impurity[<span class="dv">0</span>]<span class="sc">:.4f}</span><span class="ss">   2 x Brier score     </span><span class="sc">{</span><span class="dv">2</span> <span class="op">*</span> brier_score_loss(y_train, pred)<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb13-5"><a href="" aria-label="5"></a><span class="bu">print</span>(<span class="ss">f"root entropy </span><span class="sc">{</span>t_ent<span class="sc">.</span>tree_<span class="sc">.</span>impurity[<span class="dv">0</span>]<span class="sc">:.4f}</span><span class="ss">   log-loss / ln 2     </span><span class="sc">{</span>log_loss(y_train, pred) <span class="op">/</span> np<span class="sc">.</span>log(<span class="dv">2</span>)<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="cell fragment" data-execution_count="9">
+<div class="cell fragment" data-execution_count="14">
 <div class="cell-output cell-output-stdout">
 <pre><code>root Gini    0.4679   2 x Brier score     0.4679
 root entropy 0.9531   log-loss / ln 2     0.9531</code></pre>
@@ -575,44 +587,50 @@ root entropy 0.9531   log-loss / ln 2     0.9531</code></pre>
 <section id="regression-trees" class="title-slide slide level1 center">
 <h1>Regression trees</h1>
 <p>Nothing in CART depends on the target being a class. For a numerical target, only two things change:</p>
+<div class="columns">
+<div class="column" style="width:50%;">
 <div class="micro">
 <ul>
 <li>the <strong>leaf value</strong> is the mean of the training targets in the leaf, <span class="math inline">\(\bar y_m = \frac{1}{n_m}\sum_{i \in \mathcal{D}_m} y_i\)</span>: the constant that minimises the squared error</li>
 <li>the <strong>impurity</strong> is the mean squared error around that value, the variance of the node, <span class="math inline">\(Q_m = \frac{1}{n_m}\sum_{i \in \mathcal{D}_m}(y_i - \bar y_m)^2\)</span>: the impurity decrease is the reduction in squared error (<code>criterion="squared_error"</code>, the default)</li>
+<li>with <code>criterion="absolute_error"</code>: the median and the mean absolute error (robust to outliers, like MAE in 2b and 4a; slower)</li>
 </ul>
 </div>
+</div><div class="column" style="width:50%;">
+<div id="d8934221" class="cell" data-execution_count="15">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec06a_files/figure-revealjs/cell-16-output-1.png" width="371" height="300"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
 <div class="fragment micro">
-<p>With <code>criterion="absolute_error"</code> the leaf value is the median and the impurity the mean absolute error (robust to outliers, like MAE in 2b and 4a; slower). The fitted function is <strong>piecewise constant</strong>: a staircase, one step per leaf.</p>
+<p>Each leaf <strong>replaces all its samples by their average</strong> (black line; grey segments are the residuals): a local smoothing, computed separately in each box. The fitted function is <strong>piecewise constant</strong>, a step-wise representation of the data with one step per leaf. More leaves, more and narrower steps.</p>
 </div>
 </section>
 <section id="a-staircase-on-diabetes" class="slide level2 center">
 <h2>A staircase on diabetes</h2>
 <p>The diabetes data of 2b–5a: disease progression against <code>bmi</code>, regression trees of increasing depth.</p>
-<div id="08e7be34" class="cell columns column-output-location" data-execution_count="10">
+<div id="1a6ddc7a" class="cell columns column-output-location" data-execution_count="16">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_diabetes</span>
-<span id="cb13-2"><a href="" aria-label="2"></a><span class="im">from</span> sklearn.tree <span class="im">import</span> DecisionTreeRegressor</span>
-<span id="cb13-3"><a href="" aria-label="3"></a></span>
-<span id="cb13-4"><a href="" aria-label="4"></a>diabetes <span class="op">=</span> load_diabetes()</span>
-<span id="cb13-5"><a href="" aria-label="5"></a>Xd, yd <span class="op">=</span> diabetes.data, diabetes.target</span>
-<span id="cb13-6"><a href="" aria-label="6"></a>Xd_train, Xd_test, yd_train, yd_test <span class="op">=</span> train_test_split(</span>
-<span id="cb13-7"><a href="" aria-label="7"></a>    Xd, yd, test_size<span class="op">=</span><span class="fl">0.25</span>, random_state<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb13-8"><a href="" aria-label="8"></a>bmi <span class="op">=</span> Xd_train[:, [<span class="dv">2</span>]]                                     <span class="co"># one feature: bmi</span></span>
-<span id="cb13-9"><a href="" aria-label="9"></a></span>
-<span id="cb13-10"><a href="" aria-label="10"></a>xg <span class="op">=</span> np.linspace(bmi.<span class="bu">min</span>(), bmi.<span class="bu">max</span>(), <span class="dv">500</span>).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
-<span id="cb13-11"><a href="" aria-label="11"></a>fig, axs <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="fl">5.5</span>, <span class="dv">4</span>), sharex<span class="op">=</span><span class="va">True</span>, sharey<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb13-12"><a href="" aria-label="12"></a><span class="cf">for</span> ax, depth <span class="kw">in</span> <span class="bu">zip</span>(axs.ravel(), [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">8</span>]):</span>
-<span id="cb13-13"><a href="" aria-label="13"></a>    reg <span class="op">=</span> DecisionTreeRegressor(max_depth<span class="op">=</span>depth, random_state<span class="op">=</span><span class="dv">0</span>).fit(bmi, yd_train)</span>
-<span id="cb13-14"><a href="" aria-label="14"></a>    ax.scatter(bmi, yd_train, s<span class="op">=</span><span class="dv">4</span>, alpha<span class="op">=</span><span class="fl">0.4</span>)</span>
-<span id="cb13-15"><a href="" aria-label="15"></a>    ax.plot(xg, reg.predict(xg), <span class="st">"C1"</span>)</span>
-<span id="cb13-16"><a href="" aria-label="16"></a>    ax.set_title(<span class="ss">f"depth </span><span class="sc">{</span>depth<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>reg<span class="sc">.</span>get_n_leaves()<span class="sc">}</span><span class="ss"> leaves"</span>, fontsize<span class="op">=</span><span class="dv">9</span>)</span>
-<span id="cb13-17"><a href="" aria-label="17"></a><span class="cf">for</span> ax <span class="kw">in</span> axs[<span class="dv">1</span>]:</span>
-<span id="cb13-18"><a href="" aria-label="18"></a>    ax.set_xlabel(<span class="st">"bmi (scaled)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="" aria-label="1"></a>bmi <span class="op">=</span> Xd_train[:, [<span class="dv">2</span>]]                                     <span class="co"># one feature: bmi</span></span>
+<span id="cb15-2"><a href="" aria-label="2"></a>xg <span class="op">=</span> np.linspace(bmi.<span class="bu">min</span>(), bmi.<span class="bu">max</span>(), <span class="dv">500</span>).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb15-3"><a href="" aria-label="3"></a>fig, axs <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="fl">5.5</span>, <span class="dv">4</span>), sharex<span class="op">=</span><span class="va">True</span>, sharey<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb15-4"><a href="" aria-label="4"></a><span class="cf">for</span> ax, depth <span class="kw">in</span> <span class="bu">zip</span>(axs.ravel(), [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">8</span>]):</span>
+<span id="cb15-5"><a href="" aria-label="5"></a>    reg <span class="op">=</span> DecisionTreeRegressor(max_depth<span class="op">=</span>depth, random_state<span class="op">=</span><span class="dv">0</span>).fit(bmi, yd_train)</span>
+<span id="cb15-6"><a href="" aria-label="6"></a>    ax.scatter(bmi, yd_train, s<span class="op">=</span><span class="dv">4</span>, alpha<span class="op">=</span><span class="fl">0.4</span>)</span>
+<span id="cb15-7"><a href="" aria-label="7"></a>    ax.plot(xg, reg.predict(xg), <span class="st">"C1"</span>)</span>
+<span id="cb15-8"><a href="" aria-label="8"></a>    ax.set_title(<span class="ss">f"depth </span><span class="sc">{</span>depth<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>reg<span class="sc">.</span>get_n_leaves()<span class="sc">}</span><span class="ss"> leaves"</span>, fontsize<span class="op">=</span><span class="dv">9</span>)</span>
+<span id="cb15-9"><a href="" aria-label="9"></a><span class="cf">for</span> ax <span class="kw">in</span> axs[<span class="dv">1</span>]:</span>
+<span id="cb15-10"><a href="" aria-label="10"></a>    ax.set_xlabel(<span class="st">"bmi (scaled)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="lec06a_files/figure-revealjs/cell-11-output-1.png" width="463" height="374"></p>
+<p><img data-src="lec06a_files/figure-revealjs/cell-17-output-1.png" width="463" height="374"></p>
 </figure>
 </div>
 </div>
@@ -626,27 +644,25 @@ root entropy 0.9531   log-loss / ln 2     0.9531</code></pre>
 <div class="micro">
 <p>Outside the range of the training data, a tree predicts the value of the last leaf: a constant. A linear trend learned from <span class="math inline">\(x \in [0, 10]\)</span> and predicted on <span class="math inline">\([-3, 13]\)</span>:</p>
 </div>
-<div id="65e8386a" class="cell columns column-output-location" data-execution_count="11">
+<div id="df86bde4" class="cell columns column-output-location" data-execution_count="17">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
-<span id="cb14-2"><a href="" aria-label="2"></a></span>
-<span id="cb14-3"><a href="" aria-label="3"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">1</span>)</span>
-<span id="cb14-4"><a href="" aria-label="4"></a>xl <span class="op">=</span> rng.uniform(<span class="dv">0</span>, <span class="dv">10</span>, (<span class="dv">60</span>, <span class="dv">1</span>))</span>
-<span id="cb14-5"><a href="" aria-label="5"></a>yl <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> xl[:, <span class="dv">0</span>] <span class="op">+</span> rng.normal(<span class="dv">0</span>, <span class="fl">1.5</span>, <span class="dv">60</span>)</span>
-<span id="cb14-6"><a href="" aria-label="6"></a>xq <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">3</span>, <span class="dv">13</span>, <span class="dv">300</span>).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
-<span id="cb14-7"><a href="" aria-label="7"></a></span>
-<span id="cb14-8"><a href="" aria-label="8"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="fl">4.5</span>, <span class="dv">3</span>))</span>
-<span id="cb14-9"><a href="" aria-label="9"></a>ax.scatter(xl, yl, s<span class="op">=</span><span class="dv">8</span>, color<span class="op">=</span><span class="st">"k"</span>)</span>
-<span id="cb14-10"><a href="" aria-label="10"></a>ax.plot(xq, LinearRegression().fit(xl, yl).predict(xq), label<span class="op">=</span><span class="st">"linear"</span>)</span>
-<span id="cb14-11"><a href="" aria-label="11"></a>ax.plot(xq, DecisionTreeRegressor(max_depth<span class="op">=</span><span class="dv">4</span>).fit(xl, yl).predict(xq), label<span class="op">=</span><span class="st">"tree, depth 4"</span>)</span>
-<span id="cb14-12"><a href="" aria-label="12"></a>ax.axvspan(<span class="op">-</span><span class="dv">3</span>, <span class="dv">0</span>, color<span class="op">=</span><span class="st">"grey"</span>, alpha<span class="op">=</span><span class="fl">0.15</span>)</span>
-<span id="cb14-13"><a href="" aria-label="13"></a>ax.axvspan(<span class="dv">10</span>, <span class="dv">13</span>, color<span class="op">=</span><span class="st">"grey"</span>, alpha<span class="op">=</span><span class="fl">0.15</span>)</span>
-<span id="cb14-14"><a href="" aria-label="14"></a>_ <span class="op">=</span> ax.legend(fontsize<span class="op">=</span><span class="dv">8</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="" aria-label="1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">1</span>)</span>
+<span id="cb16-2"><a href="" aria-label="2"></a>xl <span class="op">=</span> rng.uniform(<span class="dv">0</span>, <span class="dv">10</span>, (<span class="dv">60</span>, <span class="dv">1</span>))</span>
+<span id="cb16-3"><a href="" aria-label="3"></a>yl <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> xl[:, <span class="dv">0</span>] <span class="op">+</span> rng.normal(<span class="dv">0</span>, <span class="fl">1.5</span>, <span class="dv">60</span>)</span>
+<span id="cb16-4"><a href="" aria-label="4"></a>xq <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">3</span>, <span class="dv">13</span>, <span class="dv">300</span>).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb16-5"><a href="" aria-label="5"></a></span>
+<span id="cb16-6"><a href="" aria-label="6"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="fl">4.5</span>, <span class="dv">3</span>))</span>
+<span id="cb16-7"><a href="" aria-label="7"></a>ax.scatter(xl, yl, s<span class="op">=</span><span class="dv">8</span>, color<span class="op">=</span><span class="st">"k"</span>)</span>
+<span id="cb16-8"><a href="" aria-label="8"></a>ax.plot(xq, LinearRegression().fit(xl, yl).predict(xq), label<span class="op">=</span><span class="st">"linear"</span>)</span>
+<span id="cb16-9"><a href="" aria-label="9"></a>ax.plot(xq, DecisionTreeRegressor(max_depth<span class="op">=</span><span class="dv">4</span>).fit(xl, yl).predict(xq), label<span class="op">=</span><span class="st">"tree, depth 4"</span>)</span>
+<span id="cb16-10"><a href="" aria-label="10"></a>ax.axvspan(<span class="op">-</span><span class="dv">3</span>, <span class="dv">0</span>, color<span class="op">=</span><span class="st">"grey"</span>, alpha<span class="op">=</span><span class="fl">0.15</span>)</span>
+<span id="cb16-11"><a href="" aria-label="11"></a>ax.axvspan(<span class="dv">10</span>, <span class="dv">13</span>, color<span class="op">=</span><span class="st">"grey"</span>, alpha<span class="op">=</span><span class="fl">0.15</span>)</span>
+<span id="cb16-12"><a href="" aria-label="12"></a>_ <span class="op">=</span> ax.legend(fontsize<span class="op">=</span><span class="dv">8</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="lec06a_files/figure-revealjs/cell-12-output-1.png" width="383" height="264"></p>
+<p><img data-src="lec06a_files/figure-revealjs/cell-18-output-1.png" width="383" height="264"></p>
 </figure>
 </div>
 </div>
@@ -658,17 +674,16 @@ root entropy 0.9531   log-loss / ln 2     0.9531</code></pre>
 <section id="trees-and-linear-models-on-diabetes" class="slide level2 center">
 <h2>Trees and linear models on diabetes</h2>
 <p>All ten features, regression trees of increasing depth against the linear model, with the folds of 5a:</p>
-<div id="da6bfb42" class="cell" data-execution_count="12">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> KFold</span>
-<span id="cb15-2"><a href="" aria-label="2"></a>cv5 <span class="op">=</span> KFold(<span class="dv">5</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">0</span>)               <span class="co"># regression: 5 shuffled folds</span></span>
-<span id="cb15-3"><a href="" aria-label="3"></a></span>
-<span id="cb15-4"><a href="" aria-label="4"></a><span class="bu">print</span>(<span class="ss">f"linear regression : CV R2 = </span><span class="sc">{</span>cross_val_score(LinearRegression(), Xd_train, yd_train, cv<span class="op">=</span>cv5, scoring<span class="op">=</span><span class="st">'r2'</span>)<span class="sc">.</span>mean()<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
-<span id="cb15-5"><a href="" aria-label="5"></a><span class="cf">for</span> depth <span class="kw">in</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="va">None</span>]:</span>
-<span id="cb15-6"><a href="" aria-label="6"></a>    r2 <span class="op">=</span> cross_val_score(DecisionTreeRegressor(max_depth<span class="op">=</span>depth, random_state<span class="op">=</span><span class="dv">0</span>),</span>
-<span id="cb15-7"><a href="" aria-label="7"></a>                         Xd_train, yd_train, cv<span class="op">=</span>cv5, scoring<span class="op">=</span><span class="st">"r2"</span>).mean()</span>
-<span id="cb15-8"><a href="" aria-label="8"></a>    <span class="bu">print</span>(<span class="ss">f"tree, max_depth = </span><span class="sc">{</span><span class="bu">str</span>(depth)<span class="sc">:4s}</span><span class="ss">: CV R2 = </span><span class="sc">{</span>r2<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="dee549b8" class="cell" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="" aria-label="1"></a>cv5 <span class="op">=</span> KFold(<span class="dv">5</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">0</span>)               <span class="co"># regression: 5 shuffled folds</span></span>
+<span id="cb17-2"><a href="" aria-label="2"></a></span>
+<span id="cb17-3"><a href="" aria-label="3"></a><span class="bu">print</span>(<span class="ss">f"linear regression : CV R2 = </span><span class="sc">{</span>cross_val_score(LinearRegression(), Xd_train, yd_train, cv<span class="op">=</span>cv5, scoring<span class="op">=</span><span class="st">'r2'</span>)<span class="sc">.</span>mean()<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb17-4"><a href="" aria-label="4"></a><span class="cf">for</span> depth <span class="kw">in</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="va">None</span>]:</span>
+<span id="cb17-5"><a href="" aria-label="5"></a>    r2 <span class="op">=</span> cross_val_score(DecisionTreeRegressor(max_depth<span class="op">=</span>depth, random_state<span class="op">=</span><span class="dv">0</span>),</span>
+<span id="cb17-6"><a href="" aria-label="6"></a>                         Xd_train, yd_train, cv<span class="op">=</span>cv5, scoring<span class="op">=</span><span class="st">"r2"</span>).mean()</span>
+<span id="cb17-7"><a href="" aria-label="7"></a>    <span class="bu">print</span>(<span class="ss">f"tree, max_depth = </span><span class="sc">{</span><span class="bu">str</span>(depth)<span class="sc">:4s}</span><span class="ss">: CV R2 = </span><span class="sc">{</span>r2<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="cell fragment" data-execution_count="12">
+<div class="cell fragment" data-execution_count="18">
 <div class="cell-output cell-output-stdout">
 <pre><code>linear regression : CV R2 = 0.522
 tree, max_depth = 1   : CV R2 = 0.212
@@ -735,13 +750,13 @@ tree, max_depth = None: CV R2 = 0.078</code></pre>
 <section id="overfitting-and-its-control" class="title-slide slide level1 center">
 <h1>Overfitting and its control</h1>
 <p>A tree grown until every leaf is pure fits the training data perfectly:</p>
-<div id="1f374437" class="cell" data-execution_count="13">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="" aria-label="1"></a>full <span class="op">=</span> DecisionTreeClassifier(random_state<span class="op">=</span><span class="dv">0</span>).fit(X_train, y_train)</span>
-<span id="cb17-2"><a href="" aria-label="2"></a><span class="bu">print</span>(<span class="ss">f"fully grown tree: depth </span><span class="sc">{</span>full<span class="sc">.</span>get_depth()<span class="sc">}</span><span class="ss">, </span><span class="sc">{</span>full<span class="sc">.</span>get_n_leaves()<span class="sc">}</span><span class="ss"> leaves"</span>)</span>
-<span id="cb17-3"><a href="" aria-label="3"></a><span class="bu">print</span>(<span class="ss">f"training accuracy </span><span class="sc">{</span>full<span class="sc">.</span>score(X_train, y_train)<span class="sc">:.3f}</span><span class="ss">, test accuracy </span><span class="sc">{</span>full<span class="sc">.</span>score(X_test, y_test)<span class="sc">:.3f}</span><span class="ss">, "</span></span>
-<span id="cb17-4"><a href="" aria-label="4"></a>      <span class="ss">f"CV accuracy </span><span class="sc">{</span>cross_val_score(DecisionTreeClassifier(random_state<span class="op">=</span><span class="dv">0</span>), X_train, y_train, cv<span class="op">=</span>cv)<span class="sc">.</span>mean()<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="473644db" class="cell" data-execution_count="19">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="" aria-label="1"></a>full <span class="op">=</span> DecisionTreeClassifier(random_state<span class="op">=</span><span class="dv">0</span>).fit(X_train, y_train)</span>
+<span id="cb19-2"><a href="" aria-label="2"></a><span class="bu">print</span>(<span class="ss">f"fully grown tree: depth </span><span class="sc">{</span>full<span class="sc">.</span>get_depth()<span class="sc">}</span><span class="ss">, </span><span class="sc">{</span>full<span class="sc">.</span>get_n_leaves()<span class="sc">}</span><span class="ss"> leaves"</span>)</span>
+<span id="cb19-3"><a href="" aria-label="3"></a><span class="bu">print</span>(<span class="ss">f"training accuracy </span><span class="sc">{</span>full<span class="sc">.</span>score(X_train, y_train)<span class="sc">:.3f}</span><span class="ss">, test accuracy </span><span class="sc">{</span>full<span class="sc">.</span>score(X_test, y_test)<span class="sc">:.3f}</span><span class="ss">, "</span></span>
+<span id="cb19-4"><a href="" aria-label="4"></a>      <span class="ss">f"CV accuracy </span><span class="sc">{</span>cross_val_score(DecisionTreeClassifier(random_state<span class="op">=</span><span class="dv">0</span>), X_train, y_train, cv<span class="op">=</span>cv)<span class="sc">.</span>mean()<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="cell fragment" data-execution_count="13">
+<div class="cell fragment" data-execution_count="19">
 <div class="cell-output cell-output-stdout">
 <pre><code>fully grown tree: depth 6, 18 leaves
 training accuracy 1.000, test accuracy 0.944, CV accuracy 0.920</code></pre>
@@ -753,26 +768,25 @@ training accuracy 1.000, test accuracy 0.944, CV accuracy 0.920</code></pre>
 </section>
 <section id="the-validation-curve-of-the-depth" class="slide level2 center">
 <h2>The validation curve of the depth</h2>
-<div id="ebdd95fd" class="cell columns column-output-location" data-execution_count="14">
+<div id="022979b6" class="cell columns column-output-location" data-execution_count="20">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> validation_curve</span>
-<span id="cb19-2"><a href="" aria-label="2"></a>cv <span class="op">=</span> StratifiedKFold(<span class="dv">5</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">0</span>)        <span class="co"># how to split: 5 stratified folds</span></span>
-<span id="cb19-3"><a href="" aria-label="3"></a></span>
-<span id="cb19-4"><a href="" aria-label="4"></a>depths <span class="op">=</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">11</span>)</span>
-<span id="cb19-5"><a href="" aria-label="5"></a>tr, va <span class="op">=</span> validation_curve(DecisionTreeClassifier(random_state<span class="op">=</span><span class="dv">0</span>), X_train, y_train,</span>
-<span id="cb19-6"><a href="" aria-label="6"></a>                          param_name<span class="op">=</span><span class="st">"max_depth"</span>, param_range<span class="op">=</span>depths, cv<span class="op">=</span>cv)</span>
-<span id="cb19-7"><a href="" aria-label="7"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="fl">4.5</span>, <span class="dv">3</span>))</span>
-<span id="cb19-8"><a href="" aria-label="8"></a>ax.plot(depths, tr.mean(axis<span class="op">=</span><span class="dv">1</span>), <span class="st">"o-"</span>, markersize<span class="op">=</span><span class="dv">3</span>, label<span class="op">=</span><span class="st">"training"</span>)</span>
-<span id="cb19-9"><a href="" aria-label="9"></a>ax.plot(depths, va.mean(axis<span class="op">=</span><span class="dv">1</span>), <span class="st">"o-"</span>, markersize<span class="op">=</span><span class="dv">3</span>, label<span class="op">=</span><span class="st">"validation (CV)"</span>)</span>
-<span id="cb19-10"><a href="" aria-label="10"></a>ax.fill_between(depths, va.mean(axis<span class="op">=</span><span class="dv">1</span>) <span class="op">-</span> va.std(axis<span class="op">=</span><span class="dv">1</span>), va.mean(axis<span class="op">=</span><span class="dv">1</span>) <span class="op">+</span> va.std(axis<span class="op">=</span><span class="dv">1</span>), alpha<span class="op">=</span><span class="fl">0.2</span>, color<span class="op">=</span><span class="st">"C1"</span>)</span>
-<span id="cb19-11"><a href="" aria-label="11"></a>ax.set_xlabel(<span class="st">"max_depth"</span>)</span>
-<span id="cb19-12"><a href="" aria-label="12"></a>ax.set_ylabel(<span class="st">"accuracy"</span>)</span>
-<span id="cb19-13"><a href="" aria-label="13"></a>_ <span class="op">=</span> ax.legend(fontsize<span class="op">=</span><span class="dv">8</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="" aria-label="1"></a>cv <span class="op">=</span> StratifiedKFold(<span class="dv">5</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">0</span>)        <span class="co"># how to split: 5 stratified folds</span></span>
+<span id="cb21-2"><a href="" aria-label="2"></a></span>
+<span id="cb21-3"><a href="" aria-label="3"></a>depths <span class="op">=</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">11</span>)</span>
+<span id="cb21-4"><a href="" aria-label="4"></a>tr, va <span class="op">=</span> validation_curve(DecisionTreeClassifier(random_state<span class="op">=</span><span class="dv">0</span>), X_train, y_train,</span>
+<span id="cb21-5"><a href="" aria-label="5"></a>                          param_name<span class="op">=</span><span class="st">"max_depth"</span>, param_range<span class="op">=</span>depths, cv<span class="op">=</span>cv)</span>
+<span id="cb21-6"><a href="" aria-label="6"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="fl">4.5</span>, <span class="dv">3</span>))</span>
+<span id="cb21-7"><a href="" aria-label="7"></a>ax.plot(depths, tr.mean(axis<span class="op">=</span><span class="dv">1</span>), <span class="st">"o-"</span>, markersize<span class="op">=</span><span class="dv">3</span>, label<span class="op">=</span><span class="st">"training"</span>)</span>
+<span id="cb21-8"><a href="" aria-label="8"></a>ax.plot(depths, va.mean(axis<span class="op">=</span><span class="dv">1</span>), <span class="st">"o-"</span>, markersize<span class="op">=</span><span class="dv">3</span>, label<span class="op">=</span><span class="st">"validation (CV)"</span>)</span>
+<span id="cb21-9"><a href="" aria-label="9"></a>ax.fill_between(depths, va.mean(axis<span class="op">=</span><span class="dv">1</span>) <span class="op">-</span> va.std(axis<span class="op">=</span><span class="dv">1</span>), va.mean(axis<span class="op">=</span><span class="dv">1</span>) <span class="op">+</span> va.std(axis<span class="op">=</span><span class="dv">1</span>), alpha<span class="op">=</span><span class="fl">0.2</span>, color<span class="op">=</span><span class="st">"C1"</span>)</span>
+<span id="cb21-10"><a href="" aria-label="10"></a>ax.set_xlabel(<span class="st">"max_depth"</span>)</span>
+<span id="cb21-11"><a href="" aria-label="11"></a>ax.set_ylabel(<span class="st">"accuracy"</span>)</span>
+<span id="cb21-12"><a href="" aria-label="12"></a>_ <span class="op">=</span> ax.legend(fontsize<span class="op">=</span><span class="dv">8</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="lec06a_files/figure-revealjs/cell-15-output-1.png" width="421" height="283"></p>
+<p><img data-src="lec06a_files/figure-revealjs/cell-21-output-1.png" width="421" height="283"></p>
 </figure>
 </div>
 </div>
@@ -783,8 +797,8 @@ training accuracy 1.000, test accuracy 0.944, CV accuracy 0.920</code></pre>
 </section>
 <section id="stopping-early-pre-pruning" class="slide level2 center">
 <h2>Stopping early: pre-pruning</h2>
-<div class="micro">
 <p>The growth can be stopped by limits on the tree. Two kinds:</p>
+<div class="micro">
 <table class="caption-top">
 <colgroup>
 <col style="width: 33%">
@@ -827,43 +841,51 @@ training accuracy 1.000, test accuracy 0.944, CV accuracy 0.920</code></pre>
 </tbody>
 </table>
 </div>
-<div id="87691cbb" class="cell" data-execution_count="15">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="" aria-label="1"></a>fig, axs <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">2.7</span>))</span>
-<span id="cb20-2"><a href="" aria-label="2"></a><span class="cf">for</span> ax, leaf <span class="kw">in</span> <span class="bu">zip</span>(axs, [<span class="dv">1</span>, <span class="dv">10</span>, <span class="dv">40</span>]):</span>
-<span id="cb20-3"><a href="" aria-label="3"></a>    m <span class="op">=</span> DecisionTreeClassifier(min_samples_leaf<span class="op">=</span>leaf, random_state<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb20-4"><a href="" aria-label="4"></a>    acc <span class="op">=</span> cross_val_score(m, X2, y_train, cv<span class="op">=</span>cv).mean()</span>
-<span id="cb20-5"><a href="" aria-label="5"></a>    regions(m, X2, y_train, ax, <span class="ss">f"min_samples_leaf = </span><span class="sc">{</span>leaf<span class="sc">}</span><span class="ss">: CV </span><span class="sc">{</span>acc<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="fragment micro">
+<p>The local limits adapt to the data: dense regions can still be split finely, sparse ones stop early. They are usually better than a global depth, which cuts every branch at the same level whatever its data. All are hyperparameters, chosen by cross-validation (4b).</p>
 </div>
-<div class="cell fragment" data-execution_count="15">
+</section>
+<section id="larger-leaves-fewer-islands" class="slide level2 center">
+<h2>Larger leaves, fewer islands</h2>
+<p>The two breast cancer features of the boxes slide, with an increasing minimum leaf size:</p>
+<div id="60c719be" class="cell" data-execution_count="21">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="" aria-label="1"></a>cv <span class="op">=</span> StratifiedKFold(<span class="dv">5</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">0</span>)        <span class="co"># how to split: 5 stratified folds</span></span>
+<span id="cb22-2"><a href="" aria-label="2"></a>fig, axs <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">2.7</span>))</span>
+<span id="cb22-3"><a href="" aria-label="3"></a><span class="cf">for</span> ax, leaf <span class="kw">in</span> <span class="bu">zip</span>(axs, [<span class="dv">1</span>, <span class="dv">10</span>, <span class="dv">40</span>]):</span>
+<span id="cb22-4"><a href="" aria-label="4"></a>    m <span class="op">=</span> DecisionTreeClassifier(min_samples_leaf<span class="op">=</span>leaf, random_state<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb22-5"><a href="" aria-label="5"></a>    acc <span class="op">=</span> cross_val_score(m, X2, y_train, cv<span class="op">=</span>cv).mean()</span>
+<span id="cb22-6"><a href="" aria-label="6"></a>    regions(m, X2, y_train, ax, <span class="ss">f"min_samples_leaf = </span><span class="sc">{</span>leaf<span class="sc">}</span><span class="ss">: CV </span><span class="sc">{</span>acc<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell fragment" data-execution_count="21">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="lec06a_files/figure-revealjs/cell-16-output-1.png" width="639" height="236"></p>
+<p><img data-src="lec06a_files/figure-revealjs/cell-22-output-1.png" width="639" height="236"></p>
 </figure>
 </div>
 </div>
 </div>
 <div class="fragment micro">
-<p>Larger leaves remove the islands: each box must be supported by enough samples. The local limits adapt to the data (dense regions can still be split finely), and are usually better than a global depth. All are hyperparameters, chosen by cross-validation (4b).</p>
+<p>Larger leaves remove the islands: each box must be supported by enough samples. With 10 samples per leaf the boundary is simpler and the CV accuracy slightly higher; with 40 the tree starts to miss the corner where the classes meet (bias).</p>
 </div>
 </section>
 <section id="instability" class="slide level2 center">
 <h2>Instability</h2>
 <p>Small changes in the data can change a tree completely. Six trees, each grown on a bootstrap sample (4a) of the same training set:</p>
-<div id="4f0fa129" class="cell" data-execution_count="16">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="" aria-label="1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">0</span>)</span>
-<span id="cb21-2"><a href="" aria-label="2"></a>P <span class="op">=</span> []</span>
-<span id="cb21-3"><a href="" aria-label="3"></a><span class="cf">for</span> b <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">6</span>):</span>
-<span id="cb21-4"><a href="" aria-label="4"></a>    i <span class="op">=</span> rng.integers(<span class="dv">0</span>, <span class="bu">len</span>(y_train), <span class="bu">len</span>(y_train))           <span class="co"># bootstrap sample</span></span>
-<span id="cb21-5"><a href="" aria-label="5"></a>    tb <span class="op">=</span> DecisionTreeClassifier(random_state<span class="op">=</span><span class="dv">0</span>).fit(X_train[i], y_train[i])</span>
-<span id="cb21-6"><a href="" aria-label="6"></a>    P.append(tb.predict(X_test))</span>
-<span id="cb21-7"><a href="" aria-label="7"></a>    <span class="bu">print</span>(<span class="ss">f"tree </span><span class="sc">{</span>b<span class="sc">}</span><span class="ss">: root '</span><span class="sc">{</span>names[tb.tree_.feature[<span class="dv">0</span>]]<span class="sc">}</span><span class="ss">' &lt;= </span><span class="sc">{</span>tb<span class="sc">.</span>tree_<span class="sc">.</span>threshold[<span class="dv">0</span>]<span class="sc">:7.3f}</span><span class="ss">, "</span></span>
-<span id="cb21-8"><a href="" aria-label="8"></a>          <span class="ss">f"</span><span class="sc">{</span>tb<span class="sc">.</span>get_n_leaves()<span class="sc">:2d}</span><span class="ss"> leaves, test accuracy </span><span class="sc">{</span>tb<span class="sc">.</span>score(X_test, y_test)<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
-<span id="cb21-9"><a href="" aria-label="9"></a>P <span class="op">=</span> np.array(P)</span>
-<span id="cb21-10"><a href="" aria-label="10"></a>dis <span class="op">=</span> [np.mean(P[a] <span class="op">!=</span> P[b]) <span class="cf">for</span> a <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">6</span>) <span class="cf">for</span> b <span class="kw">in</span> <span class="bu">range</span>(a <span class="op">+</span> <span class="dv">1</span>, <span class="dv">6</span>)]</span>
-<span id="cb21-11"><a href="" aria-label="11"></a><span class="bu">print</span>(<span class="ss">f"two trees disagree on </span><span class="sc">{</span>np<span class="sc">.</span>mean(dis)<span class="sc">:.1%}</span><span class="ss"> of the test samples on average (up to </span><span class="sc">{</span><span class="bu">max</span>(dis)<span class="sc">:.1%}</span><span class="ss">)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="3b08f266" class="cell" data-execution_count="22">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="" aria-label="1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">0</span>)</span>
+<span id="cb23-2"><a href="" aria-label="2"></a>P <span class="op">=</span> []</span>
+<span id="cb23-3"><a href="" aria-label="3"></a><span class="cf">for</span> b <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">6</span>):</span>
+<span id="cb23-4"><a href="" aria-label="4"></a>    i <span class="op">=</span> rng.integers(<span class="dv">0</span>, <span class="bu">len</span>(y_train), <span class="bu">len</span>(y_train))           <span class="co"># bootstrap sample</span></span>
+<span id="cb23-5"><a href="" aria-label="5"></a>    tb <span class="op">=</span> DecisionTreeClassifier(random_state<span class="op">=</span><span class="dv">0</span>).fit(X_train[i], y_train[i])</span>
+<span id="cb23-6"><a href="" aria-label="6"></a>    P.append(tb.predict(X_test))</span>
+<span id="cb23-7"><a href="" aria-label="7"></a>    <span class="bu">print</span>(<span class="ss">f"tree </span><span class="sc">{</span>b<span class="sc">}</span><span class="ss">: root '</span><span class="sc">{</span>names[tb.tree_.feature[<span class="dv">0</span>]]<span class="sc">}</span><span class="ss">' &lt;= </span><span class="sc">{</span>tb<span class="sc">.</span>tree_<span class="sc">.</span>threshold[<span class="dv">0</span>]<span class="sc">:7.3f}</span><span class="ss">, "</span></span>
+<span id="cb23-8"><a href="" aria-label="8"></a>          <span class="ss">f"</span><span class="sc">{</span>tb<span class="sc">.</span>get_n_leaves()<span class="sc">:2d}</span><span class="ss"> leaves, test accuracy </span><span class="sc">{</span>tb<span class="sc">.</span>score(X_test, y_test)<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb23-9"><a href="" aria-label="9"></a>P <span class="op">=</span> np.array(P)</span>
+<span id="cb23-10"><a href="" aria-label="10"></a>dis <span class="op">=</span> [np.mean(P[a] <span class="op">!=</span> P[b]) <span class="cf">for</span> a <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">6</span>) <span class="cf">for</span> b <span class="kw">in</span> <span class="bu">range</span>(a <span class="op">+</span> <span class="dv">1</span>, <span class="dv">6</span>)]</span>
+<span id="cb23-11"><a href="" aria-label="11"></a><span class="bu">print</span>(<span class="ss">f"two trees disagree on </span><span class="sc">{</span>np<span class="sc">.</span>mean(dis)<span class="sc">:.1%}</span><span class="ss"> of the test samples on average (up to </span><span class="sc">{</span><span class="bu">max</span>(dis)<span class="sc">:.1%}</span><span class="ss">)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="cell fragment" data-execution_count="16">
+<div class="cell fragment" data-execution_count="22">
 <div class="cell-output cell-output-stdout">
 <pre><code>tree 0: root 'mean concave points' &lt;=   0.049, 10 leaves, test accuracy 0.937
 tree 1: root 'worst concave points' &lt;=   0.147, 10 leaves, test accuracy 0.909
@@ -902,24 +924,24 @@ R(T) = \sum_{m \in \text{leaves}} \frac{n_m}{n}\,Q_m
 <section id="the-pruning-path" class="slide level2 center">
 <h2>The pruning path</h2>
 <p><code>cost_complexity_pruning_path</code> returns the values of <span class="math inline">\(\lambda\)</span> at which the tree changes; we refit for each and cross-validate:</p>
-<div id="c4cfb8a8" class="cell columns column-output-location" data-execution_count="17">
+<div id="007117ad" class="cell columns column-output-location" data-execution_count="23">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="" aria-label="1"></a>path <span class="op">=</span> full.cost_complexity_pruning_path(X_train, y_train)</span>
-<span id="cb23-2"><a href="" aria-label="2"></a>lams <span class="op">=</span> path.ccp_alphas[:<span class="op">-</span><span class="dv">1</span>]                     <span class="co"># drop the last value: the root alone</span></span>
-<span id="cb23-3"><a href="" aria-label="3"></a>leaves, cv_mean, cv_std <span class="op">=</span> [], [], []</span>
-<span id="cb23-4"><a href="" aria-label="4"></a><span class="cf">for</span> lam <span class="kw">in</span> lams:</span>
-<span id="cb23-5"><a href="" aria-label="5"></a>    m <span class="op">=</span> DecisionTreeClassifier(ccp_alpha<span class="op">=</span>lam, random_state<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb23-6"><a href="" aria-label="6"></a>    s <span class="op">=</span> cross_val_score(m, X_train, y_train, cv<span class="op">=</span>cv)</span>
-<span id="cb23-7"><a href="" aria-label="7"></a>    leaves.append(m.fit(X_train, y_train).get_n_leaves())</span>
-<span id="cb23-8"><a href="" aria-label="8"></a>    cv_mean.append(s.mean())<span class="op">;</span> cv_std.append(s.std())</span>
-<span id="cb23-9"><a href="" aria-label="9"></a>cv_mean, cv_std <span class="op">=</span> np.array(cv_mean), np.array(cv_std)</span>
-<span id="cb23-10"><a href="" aria-label="10"></a></span>
-<span id="cb23-11"><a href="" aria-label="11"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="fl">4.5</span>, <span class="dv">3</span>))</span>
-<span id="cb23-12"><a href="" aria-label="12"></a>ax.errorbar(leaves, cv_mean, yerr<span class="op">=</span>cv_std, fmt<span class="op">=</span><span class="st">"o-"</span>, markersize<span class="op">=</span><span class="dv">3</span>, capsize<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb23-13"><a href="" aria-label="13"></a>ax.set_xlabel(<span class="vs">r"number of leaves </span><span class="dv">$</span><span class="cf">|</span><span class="vs">T</span><span class="cf">|</span><span class="dv">$</span><span class="vs"> </span><span class="kw">(</span><span class="vs">pruned tree</span><span class="kw">)</span><span class="vs">"</span>)</span>
-<span id="cb23-14"><a href="" aria-label="14"></a>_ <span class="op">=</span> ax.set_ylabel(<span class="st">"CV accuracy"</span>)</span>
-<span id="cb23-15"><a href="" aria-label="15"></a><span class="bu">print</span>(<span class="st">"lambda:"</span>, lams.<span class="bu">round</span>(<span class="dv">4</span>))</span>
-<span id="cb23-16"><a href="" aria-label="16"></a><span class="bu">print</span>(<span class="st">"leaves:"</span>, leaves)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="" aria-label="1"></a>path <span class="op">=</span> full.cost_complexity_pruning_path(X_train, y_train)</span>
+<span id="cb25-2"><a href="" aria-label="2"></a>lams <span class="op">=</span> path.ccp_alphas[:<span class="op">-</span><span class="dv">1</span>]                     <span class="co"># drop the last value: the root alone</span></span>
+<span id="cb25-3"><a href="" aria-label="3"></a>leaves, cv_mean, cv_std <span class="op">=</span> [], [], []</span>
+<span id="cb25-4"><a href="" aria-label="4"></a><span class="cf">for</span> lam <span class="kw">in</span> lams:</span>
+<span id="cb25-5"><a href="" aria-label="5"></a>    m <span class="op">=</span> DecisionTreeClassifier(ccp_alpha<span class="op">=</span>lam, random_state<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb25-6"><a href="" aria-label="6"></a>    s <span class="op">=</span> cross_val_score(m, X_train, y_train, cv<span class="op">=</span>cv)</span>
+<span id="cb25-7"><a href="" aria-label="7"></a>    leaves.append(m.fit(X_train, y_train).get_n_leaves())</span>
+<span id="cb25-8"><a href="" aria-label="8"></a>    cv_mean.append(s.mean())<span class="op">;</span> cv_std.append(s.std())</span>
+<span id="cb25-9"><a href="" aria-label="9"></a>cv_mean, cv_std <span class="op">=</span> np.array(cv_mean), np.array(cv_std)</span>
+<span id="cb25-10"><a href="" aria-label="10"></a></span>
+<span id="cb25-11"><a href="" aria-label="11"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="fl">4.5</span>, <span class="dv">3</span>))</span>
+<span id="cb25-12"><a href="" aria-label="12"></a>ax.errorbar(leaves, cv_mean, yerr<span class="op">=</span>cv_std, fmt<span class="op">=</span><span class="st">"o-"</span>, markersize<span class="op">=</span><span class="dv">3</span>, capsize<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb25-13"><a href="" aria-label="13"></a>ax.set_xlabel(<span class="vs">r"number of leaves </span><span class="dv">$</span><span class="cf">|</span><span class="vs">T</span><span class="cf">|</span><span class="dv">$</span><span class="vs"> </span><span class="kw">(</span><span class="vs">pruned tree</span><span class="kw">)</span><span class="vs">"</span>)</span>
+<span id="cb25-14"><a href="" aria-label="14"></a>_ <span class="op">=</span> ax.set_ylabel(<span class="st">"CV accuracy"</span>)</span>
+<span id="cb25-15"><a href="" aria-label="15"></a><span class="bu">print</span>(<span class="st">"lambda:"</span>, lams.<span class="bu">round</span>(<span class="dv">4</span>))</span>
+<span id="cb25-16"><a href="" aria-label="16"></a><span class="bu">print</span>(<span class="st">"leaves:"</span>, leaves)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 <div class="cell-output cell-output-stdout">
 <pre><code>lambda: [0.     0.0023 0.0023 0.0031 0.0038 0.0043 0.0046 0.006  0.0067 0.0077
@@ -929,7 +951,7 @@ leaves: [np.int64(18), np.int64(16), np.int64(14), np.int64(13), np.int64(12), n
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="lec06a_files/figure-revealjs/cell-18-output-2.png" width="412" height="283"></p>
+<p><img data-src="lec06a_files/figure-revealjs/cell-24-output-2.png" width="412" height="283"></p>
 </figure>
 </div>
 </div>
@@ -940,17 +962,17 @@ leaves: [np.int64(18), np.int64(16), np.int64(14), np.int64(13), np.int64(12), n
 <div class="micro">
 <p>The CV accuracy is flat: from 4 to 18 leaves all scores are within about 0.02, less than one standard deviation over the folds. <code>GridSearchCV</code> would simply pick the highest mean, here the full tree. Breiman’s <strong>one-standard-error rule</strong> asks instead for the <strong>simplest</strong> model whose score is within one standard error of the best: when the data cannot tell two models apart, prefer the smaller one.</p>
 </div>
-<div id="94833fce" class="cell" data-execution_count="18">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="" aria-label="1"></a>best <span class="op">=</span> np.argmax(cv_mean)</span>
-<span id="cb25-2"><a href="" aria-label="2"></a>se <span class="op">=</span> cv_std[best] <span class="op">/</span> np.sqrt(<span class="dv">5</span>)                            <span class="co"># standard error over 5 folds</span></span>
-<span id="cb25-3"><a href="" aria-label="3"></a>ok <span class="op">=</span> np.flatnonzero(cv_mean <span class="op">&gt;=</span> cv_mean[best] <span class="op">-</span> se)        <span class="co"># within one SE of the best</span></span>
-<span id="cb25-4"><a href="" aria-label="4"></a>lam_1se <span class="op">=</span> lams[ok].<span class="bu">max</span>()                                  <span class="co"># largest lambda: smallest tree</span></span>
-<span id="cb25-5"><a href="" aria-label="5"></a>pruned <span class="op">=</span> DecisionTreeClassifier(ccp_alpha<span class="op">=</span>lam_1se, random_state<span class="op">=</span><span class="dv">0</span>).fit(X_train, y_train)</span>
-<span id="cb25-6"><a href="" aria-label="6"></a><span class="bu">print</span>(<span class="ss">f"best CV: </span><span class="sc">{</span>cv_mean[best]<span class="sc">:.3f}</span><span class="ss"> (+/- </span><span class="sc">{</span>se<span class="sc">:.3f}</span><span class="ss"> SE) with </span><span class="sc">{</span>leaves[best]<span class="sc">}</span><span class="ss"> leaves"</span>)</span>
-<span id="cb25-7"><a href="" aria-label="7"></a><span class="bu">print</span>(<span class="ss">f"1-SE rule: lambda = </span><span class="sc">{</span>lam_1se<span class="sc">:.4f}</span><span class="ss">, </span><span class="sc">{</span>pruned<span class="sc">.</span>get_n_leaves()<span class="sc">}</span><span class="ss"> leaves, CV </span><span class="sc">{</span>cv_mean[lams <span class="op">==</span> lam_1se][<span class="dv">0</span>]<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
-<span id="cb25-8"><a href="" aria-label="8"></a><span class="bu">print</span>(<span class="ss">f"test accuracy: full tree </span><span class="sc">{</span>full<span class="sc">.</span>score(X_test, y_test)<span class="sc">:.3f}</span><span class="ss">, pruned tree </span><span class="sc">{</span>pruned<span class="sc">.</span>score(X_test, y_test)<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="6c9fca03" class="cell" data-execution_count="24">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="" aria-label="1"></a>best <span class="op">=</span> np.argmax(cv_mean)</span>
+<span id="cb27-2"><a href="" aria-label="2"></a>se <span class="op">=</span> cv_std[best] <span class="op">/</span> np.sqrt(<span class="dv">5</span>)                            <span class="co"># standard error over 5 folds</span></span>
+<span id="cb27-3"><a href="" aria-label="3"></a>ok <span class="op">=</span> np.flatnonzero(cv_mean <span class="op">&gt;=</span> cv_mean[best] <span class="op">-</span> se)        <span class="co"># within one SE of the best</span></span>
+<span id="cb27-4"><a href="" aria-label="4"></a>lam_1se <span class="op">=</span> lams[ok].<span class="bu">max</span>()                                  <span class="co"># largest lambda: smallest tree</span></span>
+<span id="cb27-5"><a href="" aria-label="5"></a>pruned <span class="op">=</span> DecisionTreeClassifier(ccp_alpha<span class="op">=</span>lam_1se, random_state<span class="op">=</span><span class="dv">0</span>).fit(X_train, y_train)</span>
+<span id="cb27-6"><a href="" aria-label="6"></a><span class="bu">print</span>(<span class="ss">f"best CV: </span><span class="sc">{</span>cv_mean[best]<span class="sc">:.3f}</span><span class="ss"> (+/- </span><span class="sc">{</span>se<span class="sc">:.3f}</span><span class="ss"> SE) with </span><span class="sc">{</span>leaves[best]<span class="sc">}</span><span class="ss"> leaves"</span>)</span>
+<span id="cb27-7"><a href="" aria-label="7"></a><span class="bu">print</span>(<span class="ss">f"1-SE rule: lambda = </span><span class="sc">{</span>lam_1se<span class="sc">:.4f}</span><span class="ss">, </span><span class="sc">{</span>pruned<span class="sc">.</span>get_n_leaves()<span class="sc">}</span><span class="ss"> leaves, CV </span><span class="sc">{</span>cv_mean[lams <span class="op">==</span> lam_1se][<span class="dv">0</span>]<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb27-8"><a href="" aria-label="8"></a><span class="bu">print</span>(<span class="ss">f"test accuracy: full tree </span><span class="sc">{</span>full<span class="sc">.</span>score(X_test, y_test)<span class="sc">:.3f}</span><span class="ss">, pruned tree </span><span class="sc">{</span>pruned<span class="sc">.</span>score(X_test, y_test)<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="cell fragment" data-execution_count="18">
+<div class="cell fragment" data-execution_count="24">
 <div class="cell-output cell-output-stdout">
 <pre><code>best CV: 0.920 (+/- 0.012 SE) with 18 leaves
 1-SE rule: lambda = 0.0113, 5 leaves, CV 0.911
@@ -965,17 +987,15 @@ test accuracy: full tree 0.944, pruned tree 0.923</code></pre>
 <section id="trees-in-practice-no-scaling-needed" class="title-slide slide level1 center">
 <h1>Trees in practice: no scaling needed</h1>
 <p>The table of 3b said that trees do not need scaled features. Now we can see why, and check it:</p>
-<div id="df3fbde9" class="cell" data-execution_count="19">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> QuantileTransformer</span>
-<span id="cb27-2"><a href="" aria-label="2"></a></span>
-<span id="cb27-3"><a href="" aria-label="3"></a><span class="cf">for</span> tf <span class="kw">in</span> [StandardScaler(), QuantileTransformer(n_quantiles<span class="op">=</span><span class="dv">100</span>)]:</span>
-<span id="cb27-4"><a href="" aria-label="4"></a>    pipe <span class="op">=</span> make_pipeline(tf, DecisionTreeClassifier(random_state<span class="op">=</span><span class="dv">0</span>)).fit(X_train, y_train)</span>
-<span id="cb27-5"><a href="" aria-label="5"></a>    same_leaves <span class="op">=</span> np.array_equal(pipe[<span class="op">-</span><span class="dv">1</span>].<span class="bu">apply</span>(pipe[<span class="dv">0</span>].transform(X_train)), full.<span class="bu">apply</span>(X_train))</span>
-<span id="cb27-6"><a href="" aria-label="6"></a>    agree <span class="op">=</span> np.mean(pipe.predict(X_test) <span class="op">==</span> full.predict(X_test))</span>
-<span id="cb27-7"><a href="" aria-label="7"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="bu">type</span>(tf)<span class="sc">.</span><span class="va">__name__</span><span class="sc">:20s}</span><span class="ss">: same training partition </span><span class="sc">{</span>same_leaves<span class="sc">}</span><span class="ss">, "</span></span>
-<span id="cb27-8"><a href="" aria-label="8"></a>          <span class="ss">f"same test predictions for </span><span class="sc">{</span>agree<span class="sc">:.1%}</span><span class="ss"> of the samples"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="c7c607eb" class="cell" data-execution_count="25">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="" aria-label="1"></a><span class="cf">for</span> tf <span class="kw">in</span> [StandardScaler(), QuantileTransformer(n_quantiles<span class="op">=</span><span class="dv">100</span>)]:</span>
+<span id="cb29-2"><a href="" aria-label="2"></a>    pipe <span class="op">=</span> make_pipeline(tf, DecisionTreeClassifier(random_state<span class="op">=</span><span class="dv">0</span>)).fit(X_train, y_train)</span>
+<span id="cb29-3"><a href="" aria-label="3"></a>    same_leaves <span class="op">=</span> np.array_equal(pipe[<span class="op">-</span><span class="dv">1</span>].<span class="bu">apply</span>(pipe[<span class="dv">0</span>].transform(X_train)), full.<span class="bu">apply</span>(X_train))</span>
+<span id="cb29-4"><a href="" aria-label="4"></a>    agree <span class="op">=</span> np.mean(pipe.predict(X_test) <span class="op">==</span> full.predict(X_test))</span>
+<span id="cb29-5"><a href="" aria-label="5"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="bu">type</span>(tf)<span class="sc">.</span><span class="va">__name__</span><span class="sc">:20s}</span><span class="ss">: same training partition </span><span class="sc">{</span>same_leaves<span class="sc">}</span><span class="ss">, "</span></span>
+<span id="cb29-6"><a href="" aria-label="6"></a>          <span class="ss">f"same test predictions for </span><span class="sc">{</span>agree<span class="sc">:.1%}</span><span class="ss"> of the samples"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="cell fragment" data-execution_count="19">
+<div class="cell fragment" data-execution_count="25">
 <div class="cell-output cell-output-stdout">
 <pre><code>StandardScaler      : same training partition True, same test predictions for 100.0% of the samples
 QuantileTransformer : same training partition True, same test predictions for 99.3% of the samples</code></pre>
@@ -988,19 +1008,18 @@ QuantileTransformer : same training partition True, same test predictions for 99
 <section id="missing-values" class="slide level2 center">
 <h2>Missing values</h2>
 <p>Since version 1.3, scikit-learn’s trees accept missing values (<code>NaN</code>) directly. Breast cancer with 10% of the entries deleted at random:</p>
-<div id="7b81d64e" class="cell" data-execution_count="20">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.impute <span class="im">import</span> SimpleImputer</span>
-<span id="cb29-2"><a href="" aria-label="2"></a>cv <span class="op">=</span> StratifiedKFold(<span class="dv">5</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">0</span>)        <span class="co"># how to split: 5 stratified folds</span></span>
-<span id="cb29-3"><a href="" aria-label="3"></a></span>
-<span id="cb29-4"><a href="" aria-label="4"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">0</span>)</span>
-<span id="cb29-5"><a href="" aria-label="5"></a>X_miss <span class="op">=</span> X_train.copy()</span>
-<span id="cb29-6"><a href="" aria-label="6"></a>X_miss[rng.random(X_miss.shape) <span class="op">&lt;</span> <span class="fl">0.1</span>] <span class="op">=</span> np.nan</span>
-<span id="cb29-7"><a href="" aria-label="7"></a><span class="cf">for</span> name, m <span class="kw">in</span> [(<span class="st">"tree with NaN            "</span>, DecisionTreeClassifier(random_state<span class="op">=</span><span class="dv">0</span>)),</span>
-<span id="cb29-8"><a href="" aria-label="8"></a>                (<span class="st">"imputer + indicator + tree"</span>, make_pipeline(SimpleImputer(add_indicator<span class="op">=</span><span class="va">True</span>),</span>
-<span id="cb29-9"><a href="" aria-label="9"></a>                                                              DecisionTreeClassifier(random_state<span class="op">=</span><span class="dv">0</span>)))]:</span>
-<span id="cb29-10"><a href="" aria-label="10"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>name<span class="sc">}</span><span class="ss">: CV accuracy </span><span class="sc">{</span>cross_val_score(m, X_miss, y_train, cv<span class="op">=</span>cv)<span class="sc">.</span>mean()<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="db870147" class="cell" data-execution_count="26">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="" aria-label="1"></a>cv <span class="op">=</span> StratifiedKFold(<span class="dv">5</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">0</span>)        <span class="co"># how to split: 5 stratified folds</span></span>
+<span id="cb31-2"><a href="" aria-label="2"></a></span>
+<span id="cb31-3"><a href="" aria-label="3"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">0</span>)</span>
+<span id="cb31-4"><a href="" aria-label="4"></a>X_miss <span class="op">=</span> X_train.copy()</span>
+<span id="cb31-5"><a href="" aria-label="5"></a>X_miss[rng.random(X_miss.shape) <span class="op">&lt;</span> <span class="fl">0.1</span>] <span class="op">=</span> np.nan</span>
+<span id="cb31-6"><a href="" aria-label="6"></a><span class="cf">for</span> name, m <span class="kw">in</span> [(<span class="st">"tree with NaN            "</span>, DecisionTreeClassifier(random_state<span class="op">=</span><span class="dv">0</span>)),</span>
+<span id="cb31-7"><a href="" aria-label="7"></a>                (<span class="st">"imputer + indicator + tree"</span>, make_pipeline(SimpleImputer(add_indicator<span class="op">=</span><span class="va">True</span>),</span>
+<span id="cb31-8"><a href="" aria-label="8"></a>                                                              DecisionTreeClassifier(random_state<span class="op">=</span><span class="dv">0</span>)))]:</span>
+<span id="cb31-9"><a href="" aria-label="9"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>name<span class="sc">}</span><span class="ss">: CV accuracy </span><span class="sc">{</span>cross_val_score(m, X_miss, y_train, cv<span class="op">=</span>cv)<span class="sc">.</span>mean()<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="cell fragment" data-execution_count="20">
+<div class="cell fragment" data-execution_count="26">
 <div class="cell-output cell-output-stdout">
 <pre><code>tree with NaN            : CV accuracy 0.913
 imputer + indicator + tree: CV accuracy 0.894</code></pre>
@@ -1019,16 +1038,14 @@ imputer + indicator + tree: CV accuracy 0.894</code></pre>
 <li><strong>probabilities</strong> are leaf proportions, so they are <strong>coarse</strong>: a fully grown tree has pure leaves and predicts only 0 or 1</li>
 </ul>
 </div>
-<div id="aa85c302" class="cell" data-execution_count="21">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> log_loss</span>
-<span id="cb31-2"><a href="" aria-label="2"></a></span>
-<span id="cb31-3"><a href="" aria-label="3"></a>t3 <span class="op">=</span> DecisionTreeClassifier(max_depth<span class="op">=</span><span class="dv">3</span>, random_state<span class="op">=</span><span class="dv">0</span>).fit(X_train, y_train)</span>
-<span id="cb31-4"><a href="" aria-label="4"></a><span class="cf">for</span> name, m <span class="kw">in</span> [(<span class="st">"fully grown"</span>, full), (<span class="st">"pruned (1-SE)"</span>, pruned), (<span class="st">"depth 3"</span>, t3)]:</span>
-<span id="cb31-5"><a href="" aria-label="5"></a>    p <span class="op">=</span> m.predict_proba(X_test)[:, <span class="dv">1</span>]</span>
-<span id="cb31-6"><a href="" aria-label="6"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>name<span class="sc">:13s}</span><span class="ss">: </span><span class="sc">{</span><span class="bu">len</span>(np.unique(p))<span class="sc">}</span><span class="ss"> distinct probabilities, test accuracy </span><span class="sc">{</span>m<span class="sc">.</span>score(X_test, y_test)<span class="sc">:.3f}</span><span class="ss">, "</span></span>
-<span id="cb31-7"><a href="" aria-label="7"></a>          <span class="ss">f"log-loss </span><span class="sc">{</span>log_loss(y_test, p)<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="c08907c1" class="cell" data-execution_count="27">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="" aria-label="1"></a>t3 <span class="op">=</span> DecisionTreeClassifier(max_depth<span class="op">=</span><span class="dv">3</span>, random_state<span class="op">=</span><span class="dv">0</span>).fit(X_train, y_train)</span>
+<span id="cb33-2"><a href="" aria-label="2"></a><span class="cf">for</span> name, m <span class="kw">in</span> [(<span class="st">"fully grown"</span>, full), (<span class="st">"pruned (1-SE)"</span>, pruned), (<span class="st">"depth 3"</span>, t3)]:</span>
+<span id="cb33-3"><a href="" aria-label="3"></a>    p <span class="op">=</span> m.predict_proba(X_test)[:, <span class="dv">1</span>]</span>
+<span id="cb33-4"><a href="" aria-label="4"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>name<span class="sc">:13s}</span><span class="ss">: </span><span class="sc">{</span><span class="bu">len</span>(np.unique(p))<span class="sc">}</span><span class="ss"> distinct probabilities, test accuracy </span><span class="sc">{</span>m<span class="sc">.</span>score(X_test, y_test)<span class="sc">:.3f}</span><span class="ss">, "</span></span>
+<span id="cb33-5"><a href="" aria-label="5"></a>          <span class="ss">f"log-loss </span><span class="sc">{</span>log_loss(y_test, p)<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="cell fragment" data-execution_count="21">
+<div class="cell fragment" data-execution_count="27">
 <div class="cell-output cell-output-stdout">
 <pre><code>fully grown  : 2 distinct probabilities, test accuracy 0.944, log-loss 2.016
 pruned (1-SE): 4 distinct probabilities, test accuracy 0.923, log-loss 0.268
@@ -1043,10 +1060,8 @@ depth 3      : 5 distinct probabilities, test accuracy 0.958, log-loss 0.158</co
 <section id="interpreting-trees" class="title-slide slide level1 center">
 <h1>Interpreting trees</h1>
 <p>A small tree is a set of <strong>rules</strong> that can be read, checked by a domain expert and even applied by hand:</p>
-<div id="d5218ae9" class="cell" data-execution_count="22">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.tree <span class="im">import</span> export_text</span>
-<span id="cb33-2"><a href="" aria-label="2"></a></span>
-<span id="cb33-3"><a href="" aria-label="3"></a><span class="bu">print</span>(export_text(pruned, feature_names<span class="op">=</span><span class="bu">list</span>(names), show_weights<span class="op">=</span><span class="va">True</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="69afdb9d" class="cell" data-execution_count="28">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="" aria-label="1"></a><span class="bu">print</span>(export_text(pruned, feature_names<span class="op">=</span><span class="bu">list</span>(names), show_weights<span class="op">=</span><span class="va">True</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>|--- mean concave points &lt;= 0.05
 |   |--- worst radius &lt;= 16.83
@@ -1075,15 +1090,15 @@ depth 3      : 5 distinct probabilities, test accuracy 0.958, log-loss 0.158</co
 \mathrm{Imp}(j) = \sum_{m:\ \text{split on } j} \frac{n_m}{n}\,\Delta Q_m
 \qquad \text{normalised so that } \sum_j \mathrm{Imp}(j) = 1
 \]</span></p>
-<div id="8382959e" class="cell columns column-output-location" data-execution_count="23">
+<div id="b4752f5d" class="cell columns column-output-location" data-execution_count="29">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="" aria-label="1"></a>imp <span class="op">=</span> full.feature_importances_</span>
-<span id="cb35-2"><a href="" aria-label="2"></a>top <span class="op">=</span> np.argsort(imp)[::<span class="op">-</span><span class="dv">1</span>][:<span class="dv">8</span>]</span>
-<span id="cb35-3"><a href="" aria-label="3"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="fl">4.5</span>, <span class="dv">3</span>))</span>
-<span id="cb35-4"><a href="" aria-label="4"></a>ax.barh(<span class="bu">range</span>(<span class="dv">8</span>)[::<span class="op">-</span><span class="dv">1</span>], imp[top])</span>
-<span id="cb35-5"><a href="" aria-label="5"></a>ax.set_yticks(<span class="bu">range</span>(<span class="dv">8</span>)[::<span class="op">-</span><span class="dv">1</span>], names[top], fontsize<span class="op">=</span><span class="dv">8</span>)</span>
-<span id="cb35-6"><a href="" aria-label="6"></a>_ <span class="op">=</span> ax.set_xlabel(<span class="st">"MDI importance (fully grown tree)"</span>)</span>
-<span id="cb35-7"><a href="" aria-label="7"></a><span class="bu">print</span>(<span class="ss">f"features used: </span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">sum</span>(imp <span class="op">&gt;</span> <span class="dv">0</span>)<span class="sc">}</span><span class="ss"> of 30;  mean concave points: </span><span class="sc">{</span>imp[top[<span class="dv">0</span>]]<span class="sc">:.2f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="" aria-label="1"></a>imp <span class="op">=</span> full.feature_importances_</span>
+<span id="cb37-2"><a href="" aria-label="2"></a>top <span class="op">=</span> np.argsort(imp)[::<span class="op">-</span><span class="dv">1</span>][:<span class="dv">8</span>]</span>
+<span id="cb37-3"><a href="" aria-label="3"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="fl">4.5</span>, <span class="dv">3</span>))</span>
+<span id="cb37-4"><a href="" aria-label="4"></a>ax.barh(<span class="bu">range</span>(<span class="dv">8</span>)[::<span class="op">-</span><span class="dv">1</span>], imp[top])</span>
+<span id="cb37-5"><a href="" aria-label="5"></a>ax.set_yticks(<span class="bu">range</span>(<span class="dv">8</span>)[::<span class="op">-</span><span class="dv">1</span>], names[top], fontsize<span class="op">=</span><span class="dv">8</span>)</span>
+<span id="cb37-6"><a href="" aria-label="6"></a>_ <span class="op">=</span> ax.set_xlabel(<span class="st">"MDI importance (fully grown tree)"</span>)</span>
+<span id="cb37-7"><a href="" aria-label="7"></a><span class="bu">print</span>(<span class="ss">f"features used: </span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">sum</span>(imp <span class="op">&gt;</span> <span class="dv">0</span>)<span class="sc">}</span><span class="ss"> of 30;  mean concave points: </span><span class="sc">{</span>imp[top[<span class="dv">0</span>]]<span class="sc">:.2f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 <div class="cell-output cell-output-stdout">
 <pre><code>features used: 13 of 30;  mean concave points: 0.71</code></pre>
@@ -1091,7 +1106,7 @@ depth 3      : 5 distinct probabilities, test accuracy 0.958, log-loss 0.158</co
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="lec06a_files/figure-revealjs/cell-24-output-2.png" width="476" height="283"></p>
+<p><img data-src="lec06a_files/figure-revealjs/cell-30-output-2.png" width="476" height="283"></p>
 </figure>
 </div>
 </div>
@@ -1102,36 +1117,35 @@ depth 3      : 5 distinct probabilities, test accuracy 0.958, log-loss 0.158</co
 </section>
 <section id="the-bias-of-mdi" class="slide level2 center">
 <h2>The bias of MDI</h2>
-<p>MDI is computed on the <strong>training</strong> data, so it also rewards the splits that overfit. Diabetes, a fully grown regression tree, and two extra columns of pure noise, one continuous and one binary. The <strong>permutation</strong> importance (next slide) is computed on the test set:</p>
-<div id="89a2daba" class="cell" data-execution_count="24">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.inspection <span class="im">import</span> permutation_importance</span>
-<span id="cb37-2"><a href="" aria-label="2"></a></span>
-<span id="cb37-3"><a href="" aria-label="3"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">0</span>)</span>
-<span id="cb37-4"><a href="" aria-label="4"></a>noise_tr <span class="op">=</span> np.c_[rng.normal(size<span class="op">=</span><span class="bu">len</span>(Xd_train)), rng.integers(<span class="dv">0</span>, <span class="dv">2</span>, <span class="bu">len</span>(Xd_train))]</span>
-<span id="cb37-5"><a href="" aria-label="5"></a>noise_te <span class="op">=</span> np.c_[rng.normal(size<span class="op">=</span><span class="bu">len</span>(Xd_test)), rng.integers(<span class="dv">0</span>, <span class="dv">2</span>, <span class="bu">len</span>(Xd_test))]</span>
-<span id="cb37-6"><a href="" aria-label="6"></a>names_d <span class="op">=</span> np.r_[diabetes.feature_names, [<span class="st">"noise (continuous)"</span>, <span class="st">"noise (binary)"</span>]]</span>
-<span id="cb37-7"><a href="" aria-label="7"></a></span>
-<span id="cb37-8"><a href="" aria-label="8"></a>tn <span class="op">=</span> DecisionTreeRegressor(random_state<span class="op">=</span><span class="dv">0</span>).fit(np.c_[Xd_train, noise_tr], yd_train)</span>
-<span id="cb37-9"><a href="" aria-label="9"></a>pi <span class="op">=</span> permutation_importance(tn, np.c_[Xd_test, noise_te], yd_test, n_repeats<span class="op">=</span><span class="dv">30</span>, random_state<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb37-10"><a href="" aria-label="10"></a><span class="bu">print</span>(<span class="ss">f"fully grown tree: </span><span class="sc">{</span>tn<span class="sc">.</span>get_n_leaves()<span class="sc">}</span><span class="ss"> leaves"</span>)</span>
-<span id="cb37-11"><a href="" aria-label="11"></a><span class="cf">for</span> j <span class="kw">in</span> np.argsort(tn.feature_importances_)[::<span class="op">-</span><span class="dv">1</span>][:<span class="dv">6</span>].tolist() <span class="op">+</span> [<span class="dv">1</span>, <span class="dv">11</span>]:   <span class="co"># top 6, then sex and binary noise</span></span>
-<span id="cb37-12"><a href="" aria-label="12"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>names_d[j]<span class="sc">:19s}</span><span class="ss">: MDI </span><span class="sc">{</span>tn<span class="sc">.</span>feature_importances_[j]<span class="sc">:.3f}</span><span class="ss">   permutation (drop in test R2) </span><span class="sc">{</span>pi<span class="sc">.</span>importances_mean[j]<span class="sc">:+.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="cell fragment" data-execution_count="24">
-<div class="cell-output cell-output-stdout">
-<pre><code>fully grown tree: 317 leaves
-s5                 : MDI 0.384   permutation (drop in test R2) +0.410
-bmi                : MDI 0.221   permutation (drop in test R2) +0.150
-bp                 : MDI 0.110   permutation (drop in test R2) +0.252
-noise (continuous) : MDI 0.056   permutation (drop in test R2) -0.182
-age                : MDI 0.051   permutation (drop in test R2) +0.036
-s3                 : MDI 0.040   permutation (drop in test R2) +0.001
-sex                : MDI 0.002   permutation (drop in test R2) -0.006
-noise (binary)     : MDI 0.001   permutation (drop in test R2) -0.004</code></pre>
+<p>MDI is computed on the <strong>training</strong> data, so it also rewards the splits that overfit. A fully grown regression tree on diabetes, plus two columns of pure noise:</p>
+<div id="3cb29803" class="cell columns column-output-location" data-execution_count="30">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="" aria-label="1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">0</span>)</span>
+<span id="cb39-2"><a href="" aria-label="2"></a><span class="kw">def</span> add_noise(A):                                 <span class="co"># + a continuous and a binary noise column</span></span>
+<span id="cb39-3"><a href="" aria-label="3"></a>    <span class="cf">return</span> np.c_[A, rng.normal(size<span class="op">=</span><span class="bu">len</span>(A)), rng.integers(<span class="dv">0</span>, <span class="dv">2</span>, <span class="bu">len</span>(A))]</span>
+<span id="cb39-4"><a href="" aria-label="4"></a></span>
+<span id="cb39-5"><a href="" aria-label="5"></a>tn <span class="op">=</span> DecisionTreeRegressor(random_state<span class="op">=</span><span class="dv">0</span>).fit(add_noise(Xd_train), yd_train)</span>
+<span id="cb39-6"><a href="" aria-label="6"></a>pi <span class="op">=</span> permutation_importance(tn, add_noise(Xd_test), yd_test,</span>
+<span id="cb39-7"><a href="" aria-label="7"></a>                            n_repeats<span class="op">=</span><span class="dv">30</span>, random_state<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb39-8"><a href="" aria-label="8"></a>names_d <span class="op">=</span> np.r_[diabetes.feature_names, [<span class="st">"noise (cont.)"</span>, <span class="st">"noise (bin.)"</span>]]</span>
+<span id="cb39-9"><a href="" aria-label="9"></a>show <span class="op">=</span> [<span class="dv">8</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">10</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">11</span>]                    <span class="co"># s5, bmi, bp, noise, age, sex, noise</span></span>
+<span id="cb39-10"><a href="" aria-label="10"></a>fig, axs <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="fl">4.6</span>, <span class="dv">3</span>), sharey<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb39-11"><a href="" aria-label="11"></a>axs[<span class="dv">0</span>].barh(<span class="bu">range</span>(<span class="dv">7</span>)[::<span class="op">-</span><span class="dv">1</span>], tn.feature_importances_[show])</span>
+<span id="cb39-12"><a href="" aria-label="12"></a>axs[<span class="dv">0</span>].set_title(<span class="st">"MDI (training)"</span>, fontsize<span class="op">=</span><span class="dv">9</span>)</span>
+<span id="cb39-13"><a href="" aria-label="13"></a>axs[<span class="dv">1</span>].barh(<span class="bu">range</span>(<span class="dv">7</span>)[::<span class="op">-</span><span class="dv">1</span>], pi.importances_mean[show], xerr<span class="op">=</span>pi.importances_std[show])</span>
+<span id="cb39-14"><a href="" aria-label="14"></a>axs[<span class="dv">1</span>].set_title(<span class="st">"permutation (test $R^2$)"</span>, fontsize<span class="op">=</span><span class="dv">9</span>)</span>
+<span id="cb39-15"><a href="" aria-label="15"></a>_ <span class="op">=</span> axs[<span class="dv">0</span>].set_yticks(<span class="bu">range</span>(<span class="dv">7</span>)[::<span class="op">-</span><span class="dv">1</span>], names_d[show], fontsize<span class="op">=</span><span class="dv">8</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column fragment">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec06a_files/figure-revealjs/cell-31-output-1.png" width="437" height="283"></p>
+</figure>
 </div>
 </div>
+</div></div>
 <div class="fragment micro">
-<p>The continuous noise column ranks <strong>fourth</strong> by MDI, above most of the real features: deep in the tree, among a handful of patients, a random column with hundreds of distinct values always offers some threshold that separates them by chance. Features with many distinct values (continuous, or categorical with many levels) have more chances, and are favoured; the binary columns, the real <code>sex</code> and the binary noise, offer a single split and get almost nothing. On test data the picture flips: shuffling the noise column <strong>raises</strong> <span class="math inline">\(R^2\)</span> (negative importance), because the tree had learned rules from it that do not hold on new patients. MDI measures what the tree used to fit the training set, not what helps it predict.</p>
+<p>The continuous noise ranks <strong>fourth</strong> by MDI, above most real features: deep in the tree, among a handful of patients, a column with hundreds of distinct values always offers a threshold that separates them by chance. Binary columns (<code>sex</code>, the binary noise) offer one split and get almost nothing. On test data the noise has a <strong>negative</strong> permutation importance: shuffling it raises <span class="math inline">\(R^2\)</span>, because the tree learned rules from it that do not hold on new patients.</p>
 </div>
 </section>
 <section id="permutation-importance" class="slide level2 center">
@@ -1139,24 +1153,24 @@ noise (binary)     : MDI 0.001   permutation (drop in test R2) -0.004</code></pr
 <div class="micro">
 <p>A model-agnostic measure (Breiman, 2001): take a fitted model and a <strong>held-out</strong> set; shuffle the values of one feature, breaking its link with the target while keeping its distribution; the importance is the drop in score. Repeat the shuffle several times (<code>n_repeats</code>) to get a mean and a spread. It works for <strong>any</strong> model and any <code>scoring</code>, so in CW2 it compares features across different models on the same footing:</p>
 </div>
-<div id="749a957e" class="cell columns column-output-location" data-execution_count="25">
+<div id="ae88315d" class="cell columns column-output-location" data-execution_count="31">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="" aria-label="1"></a>logit_full <span class="op">=</span> make_pipeline(StandardScaler(), LogisticRegression()).fit(X_train, y_train)</span>
-<span id="cb39-2"><a href="" aria-label="2"></a>fig, axs <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="fl">6.5</span>, <span class="dv">3</span>), sharey<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb39-3"><a href="" aria-label="3"></a>pis <span class="op">=</span> {}</span>
-<span id="cb39-4"><a href="" aria-label="4"></a><span class="cf">for</span> ax, (title, m) <span class="kw">in</span> <span class="bu">zip</span>(axs, [(<span class="st">"pruned tree"</span>, pruned), (<span class="st">"logistic regression"</span>, logit_full)]):</span>
-<span id="cb39-5"><a href="" aria-label="5"></a>    pis[title] <span class="op">=</span> permutation_importance(m, X_test, y_test, n_repeats<span class="op">=</span><span class="dv">30</span>, random_state<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb39-6"><a href="" aria-label="6"></a>top <span class="op">=</span> np.argsort(pis[<span class="st">"pruned tree"</span>].importances_mean <span class="op">+</span> pis[<span class="st">"logistic regression"</span>].importances_mean)[::<span class="op">-</span><span class="dv">1</span>][:<span class="dv">6</span>]</span>
-<span id="cb39-7"><a href="" aria-label="7"></a><span class="cf">for</span> ax, (title, r) <span class="kw">in</span> <span class="bu">zip</span>(axs, pis.items()):</span>
-<span id="cb39-8"><a href="" aria-label="8"></a>    ax.barh(<span class="bu">range</span>(<span class="dv">6</span>)[::<span class="op">-</span><span class="dv">1</span>], r.importances_mean[top], xerr<span class="op">=</span>r.importances_std[top])</span>
-<span id="cb39-9"><a href="" aria-label="9"></a>    ax.set_title(title, fontsize<span class="op">=</span><span class="dv">9</span>)</span>
-<span id="cb39-10"><a href="" aria-label="10"></a>    ax.set_xlabel(<span class="st">"drop in test accuracy"</span>)</span>
-<span id="cb39-11"><a href="" aria-label="11"></a>_ <span class="op">=</span> axs[<span class="dv">0</span>].set_yticks(<span class="bu">range</span>(<span class="dv">6</span>)[::<span class="op">-</span><span class="dv">1</span>], names[top], fontsize<span class="op">=</span><span class="dv">7</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="" aria-label="1"></a>logit_full <span class="op">=</span> make_pipeline(StandardScaler(), LogisticRegression()).fit(X_train, y_train)</span>
+<span id="cb40-2"><a href="" aria-label="2"></a>fig, axs <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="fl">6.5</span>, <span class="dv">3</span>), sharey<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb40-3"><a href="" aria-label="3"></a>pis <span class="op">=</span> {}</span>
+<span id="cb40-4"><a href="" aria-label="4"></a><span class="cf">for</span> ax, (title, m) <span class="kw">in</span> <span class="bu">zip</span>(axs, [(<span class="st">"pruned tree"</span>, pruned), (<span class="st">"logistic regression"</span>, logit_full)]):</span>
+<span id="cb40-5"><a href="" aria-label="5"></a>    pis[title] <span class="op">=</span> permutation_importance(m, X_test, y_test, n_repeats<span class="op">=</span><span class="dv">30</span>, random_state<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb40-6"><a href="" aria-label="6"></a>top <span class="op">=</span> np.argsort(pis[<span class="st">"pruned tree"</span>].importances_mean <span class="op">+</span> pis[<span class="st">"logistic regression"</span>].importances_mean)[::<span class="op">-</span><span class="dv">1</span>][:<span class="dv">6</span>]</span>
+<span id="cb40-7"><a href="" aria-label="7"></a><span class="cf">for</span> ax, (title, r) <span class="kw">in</span> <span class="bu">zip</span>(axs, pis.items()):</span>
+<span id="cb40-8"><a href="" aria-label="8"></a>    ax.barh(<span class="bu">range</span>(<span class="dv">6</span>)[::<span class="op">-</span><span class="dv">1</span>], r.importances_mean[top], xerr<span class="op">=</span>r.importances_std[top])</span>
+<span id="cb40-9"><a href="" aria-label="9"></a>    ax.set_title(title, fontsize<span class="op">=</span><span class="dv">9</span>)</span>
+<span id="cb40-10"><a href="" aria-label="10"></a>    ax.set_xlabel(<span class="st">"drop in test accuracy"</span>)</span>
+<span id="cb40-11"><a href="" aria-label="11"></a>_ <span class="op">=</span> axs[<span class="dv">0</span>].set_yticks(<span class="bu">range</span>(<span class="dv">6</span>)[::<span class="op">-</span><span class="dv">1</span>], names[top], fontsize<span class="op">=</span><span class="dv">7</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column fragment">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="lec06a_files/figure-revealjs/cell-26-output-1.png" width="614" height="300"></p>
+<p><img data-src="lec06a_files/figure-revealjs/cell-32-output-1.png" width="614" height="300"></p>
 </figure>
 </div>
 </div>
@@ -1168,17 +1182,16 @@ noise (binary)     : MDI 0.001   permutation (drop in test R2) -0.004</code></pr
 <section id="trees-for-feature-selection" class="slide level2 center">
 <h2>Trees for feature selection</h2>
 <p>The last entry of the 5a table: tree importances as an <strong>embedded</strong> selector, inside a pipeline, here in front of the logistic regression:</p>
-<div id="0da314fe" class="cell" data-execution_count="26">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.feature_selection <span class="im">import</span> SelectFromModel</span>
-<span id="cb40-2"><a href="" aria-label="2"></a>cv <span class="op">=</span> StratifiedKFold(<span class="dv">5</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">0</span>)        <span class="co"># how to split: 5 stratified folds</span></span>
-<span id="cb40-3"><a href="" aria-label="3"></a></span>
-<span id="cb40-4"><a href="" aria-label="4"></a>emb <span class="op">=</span> make_pipeline(SelectFromModel(DecisionTreeClassifier(max_depth<span class="op">=</span><span class="dv">4</span>, random_state<span class="op">=</span><span class="dv">0</span>)),</span>
-<span id="cb40-5"><a href="" aria-label="5"></a>                    StandardScaler(), LogisticRegression())</span>
-<span id="cb40-6"><a href="" aria-label="6"></a><span class="bu">print</span>(<span class="ss">f"tree-selected features + logistic: CV accuracy </span><span class="sc">{</span>cross_val_score(emb, X_train, y_train, cv<span class="op">=</span>cv)<span class="sc">.</span>mean()<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
-<span id="cb40-7"><a href="" aria-label="7"></a>emb.fit(X_train, y_train)</span>
-<span id="cb40-8"><a href="" aria-label="8"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>emb[<span class="dv">0</span>]<span class="sc">.</span>get_support()<span class="sc">.</span><span class="bu">sum</span>()<span class="sc">}</span><span class="ss"> features:"</span>, <span class="st">", "</span>.join(names[emb[<span class="dv">0</span>].get_support()]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="097eadb5" class="cell" data-execution_count="32">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="" aria-label="1"></a>cv <span class="op">=</span> StratifiedKFold(<span class="dv">5</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">0</span>)        <span class="co"># how to split: 5 stratified folds</span></span>
+<span id="cb41-2"><a href="" aria-label="2"></a></span>
+<span id="cb41-3"><a href="" aria-label="3"></a>emb <span class="op">=</span> make_pipeline(SelectFromModel(DecisionTreeClassifier(max_depth<span class="op">=</span><span class="dv">4</span>, random_state<span class="op">=</span><span class="dv">0</span>)),</span>
+<span id="cb41-4"><a href="" aria-label="4"></a>                    StandardScaler(), LogisticRegression())</span>
+<span id="cb41-5"><a href="" aria-label="5"></a><span class="bu">print</span>(<span class="ss">f"tree-selected features + logistic: CV accuracy </span><span class="sc">{</span>cross_val_score(emb, X_train, y_train, cv<span class="op">=</span>cv)<span class="sc">.</span>mean()<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb41-6"><a href="" aria-label="6"></a>emb.fit(X_train, y_train)</span>
+<span id="cb41-7"><a href="" aria-label="7"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>emb[<span class="dv">0</span>]<span class="sc">.</span>get_support()<span class="sc">.</span><span class="bu">sum</span>()<span class="sc">}</span><span class="ss"> features:"</span>, <span class="st">", "</span>.join(names[emb[<span class="dv">0</span>].get_support()]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="cell fragment" data-execution_count="26">
+<div class="cell fragment" data-execution_count="32">
 <div class="cell-output cell-output-stdout">
 <pre><code>tree-selected features + logistic: CV accuracy 0.941
 4 features: mean concave points, worst radius, worst texture, worst concavity</code></pre>
@@ -1192,19 +1205,19 @@ noise (binary)     : MDI 0.001   permutation (drop in test R2) -0.004</code></pr
 <section id="trees-and-linear-models" class="title-slide slide level1 center">
 <h1>Trees and linear models</h1>
 <p>The two families have opposite strengths. A diagonal boundary, easy for a line:</p>
-<div id="04e0b15d" class="cell" data-execution_count="27">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="" aria-label="1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">2</span>)</span>
-<span id="cb42-2"><a href="" aria-label="2"></a>Xg <span class="op">=</span> rng.uniform(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, (<span class="dv">300</span>, <span class="dv">2</span>))</span>
-<span id="cb42-3"><a href="" aria-label="3"></a>yg <span class="op">=</span> (Xg[:, <span class="dv">0</span>] <span class="op">+</span> Xg[:, <span class="dv">1</span>] <span class="op">&gt;</span> <span class="dv">0</span>).astype(<span class="bu">int</span>)</span>
-<span id="cb42-4"><a href="" aria-label="4"></a>fig, axs <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="fl">2.8</span>))</span>
-<span id="cb42-5"><a href="" aria-label="5"></a><span class="cf">for</span> ax, (title, m) <span class="kw">in</span> <span class="bu">zip</span>(axs, [(<span class="st">"logistic"</span>, logit), (<span class="st">"tree"</span>, DecisionTreeClassifier(random_state<span class="op">=</span><span class="dv">0</span>))]):</span>
-<span id="cb42-6"><a href="" aria-label="6"></a>    regions(m, Xg, yg, ax, <span class="ss">f"</span><span class="sc">{</span>title<span class="sc">}</span><span class="ss">: CV </span><span class="sc">{</span>cross_val_score(m, Xg, yg, cv<span class="op">=</span>cv)<span class="sc">.</span>mean()<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="7450591d" class="cell" data-execution_count="33">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="" aria-label="1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">2</span>)</span>
+<span id="cb43-2"><a href="" aria-label="2"></a>Xg <span class="op">=</span> rng.uniform(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, (<span class="dv">300</span>, <span class="dv">2</span>))</span>
+<span id="cb43-3"><a href="" aria-label="3"></a>yg <span class="op">=</span> (Xg[:, <span class="dv">0</span>] <span class="op">+</span> Xg[:, <span class="dv">1</span>] <span class="op">&gt;</span> <span class="dv">0</span>).astype(<span class="bu">int</span>)</span>
+<span id="cb43-4"><a href="" aria-label="4"></a>fig, axs <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="fl">2.8</span>))</span>
+<span id="cb43-5"><a href="" aria-label="5"></a><span class="cf">for</span> ax, (title, m) <span class="kw">in</span> <span class="bu">zip</span>(axs, [(<span class="st">"logistic"</span>, logit), (<span class="st">"tree"</span>, DecisionTreeClassifier(random_state<span class="op">=</span><span class="dv">0</span>))]):</span>
+<span id="cb43-6"><a href="" aria-label="6"></a>    regions(m, Xg, yg, ax, <span class="ss">f"</span><span class="sc">{</span>title<span class="sc">}</span><span class="ss">: CV </span><span class="sc">{</span>cross_val_score(m, Xg, yg, cv<span class="op">=</span>cv)<span class="sc">.</span>mean()<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="cell fragment" data-execution_count="27">
+<div class="cell fragment" data-execution_count="33">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="lec06a_files/figure-revealjs/cell-28-output-1.png" width="466" height="243"></p>
+<p><img data-src="lec06a_files/figure-revealjs/cell-34-output-1.png" width="466" height="243"></p>
 </figure>
 </div>
 </div>
