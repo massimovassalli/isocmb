@@ -1,0 +1,1631 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="lec07b_files/libs/clipboard/clipboard.min.js"></script>
+<script src="lec07b_files/libs/quarto-html/tabby.min.js"></script>
+<script src="lec07b_files/libs/quarto-html/popper.min.js"></script>
+<script src="lec07b_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="lec07b_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="lec07b_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="lec07b_files/libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.10.19">
+
+  <meta name="author" content="Jiabao Xu">
+  <meta name="author" content="Massimo Vassalli">
+  <title>Unsupervised learning: clustering</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="lec07b_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="lec07b_files/libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="lec07b_files/libs/revealjs/dist/theme/quarto-a66d5f97dc36661424f13b5665fec6ea.css">
+  <link href="lec07b_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="lec07b_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="lec07b_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="lec07b_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Unsupervised learning: clustering</h1>
+  <p class="subtitle">Introduction to Artificial Intelligence and Machine Learning 4</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Jiabao Xu
+</div>
+        <p class="quarto-title-affiliation">
+            Jiabao.Xu@glasgow.ac.uk
+          </p>
+    </div>
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Massimo Vassalli
+</div>
+        <p class="quarto-title-affiliation">
+            massimo.vassalli@glasgow.ac.uk
+          </p>
+    </div>
+</div>
+
+</section>
+<section>
+<section id="learning-without-labels" class="title-slide slide level1 center">
+<h1>Learning without labels</h1>
+<p>Every method so far learned from <strong>labelled</strong> data, pairs <span class="math inline">\((\mathbf{x}_i, y_i)\)</span>. In <strong>unsupervised</strong> learning there is no <span class="math inline">\(y\)</span>: only <span class="math inline">\(\mathbf{X}\)</span>, and the task is to find <strong>structure</strong> in it.</p>
+<div class="micro">
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Goal</th>
+<th style="text-align: left;">Question</th>
+<th style="text-align: left;">Methods</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">dimensionality reduction</td>
+<td style="text-align: left;">which directions carry the information?</td>
+<td style="text-align: left;">PCA (5b), t-SNE (today)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>clustering</strong></td>
+<td style="text-align: left;">which samples belong together?</td>
+<td style="text-align: left;">k-means, hierarchical, DBSCAN, Gaussian mixtures (today)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">density estimation</td>
+<td style="text-align: left;">where are the data likely?</td>
+<td style="text-align: left;">Gaussian mixtures (today)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">anomaly detection</td>
+<td style="text-align: left;">which samples do not fit?</td>
+<td style="text-align: left;">Isolation Forest, local outlier factor (today)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="micro">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p>PCA (5b) found <strong>continuous</strong> structure, directions; clustering looks for <strong>discrete</strong> structure, groups. Both rest on distances between samples (7a). As in 7a, imports and data are in a hidden cell: wine (4a, 5b), with the cultivars kept aside to check the results, and four 2-D toy shapes.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="what-is-a-cluster" class="slide level2 center">
+<h2>What is a cluster?</h2>
+<div class="columns">
+<div class="column" style="width:45%;">
+<div class="micro">
+<p>A <strong>cluster</strong> is a group of samples more similar to each other than to the samples of other groups. But “similar” needs a distance, and the distance depends on the <strong>units</strong> of the features.</p>
+<p>On the right: four small groups of points (one marker shape each), split into two clusters by k-means (colours; the method comes next). As measured, the groups are 1 apart vertically and 2 apart horizontally, so the clusters are <strong>left and right</strong>. Now multiply feature 2 by 4 (as if it were recorded in other units): the vertical gap becomes 4, larger than the horizontal one, and the same points split into <strong>top and bottom</strong>.</p>
+<p>Same data, two answers: a clustering is only defined once the distance is, and scaling (3b) is part of that choice.</p>
+</div>
+</div><div class="column" style="width:55%;">
+<div id="6eed1aeb" class="cell" data-execution_count="2">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec07b_files/figure-revealjs/cell-3-output-1.png" width="439" height="271"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+<div class="fragment micro">
+<p>Two kinds of clustering: <strong>hard</strong>, each sample in exactly one cluster (k-means, hierarchical, DBSCAN); <strong>soft</strong>, each sample with a degree of membership in every cluster (Gaussian mixtures).</p>
+</div>
+</section>
+<section id="distances-again" class="slide level2 center">
+<h2>Distances, again</h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<div class="micro">
+<p>The distances of 7a, Minkowski with <span class="math inline">\(p = 2\)</span> (Euclidean) above all, treat every direction alike. When features are <strong>correlated</strong>, the <strong>Mahalanobis</strong> distance measures differences in units of the data’s own spread: <span class="math display">\[
+d_M(\mathbf{x}, \mathbf{x}') = \sqrt{(\mathbf{x} - \mathbf{x}')^\mathsf{T}\,\boldsymbol\Sigma^{-1}(\mathbf{x} - \mathbf{x}')}
+\]</span> with <span class="math inline">\(\boldsymbol\Sigma\)</span> the covariance matrix of 5b.</p>
+<ul>
+<li><span class="math inline">\(\boldsymbol\Sigma = \mathbf{I}\)</span>: the Euclidean distance</li>
+<li><span class="math inline">\(\boldsymbol\Sigma\)</span> <strong>diagonal</strong>, with variances <span class="math inline">\(\sigma_j^2\)</span>: the features are uncorrelated, <span class="math inline">\(\boldsymbol\Sigma^{-1}\)</span> is diagonal with entries <span class="math inline">\(1/\sigma_j^2\)</span>, and <span class="math inline">\(d_M^2 = \sum_j (x_j - x'_j)^2/\sigma_j^2\)</span>: each difference is measured in standard deviations of its feature. This is the Euclidean distance after <strong>standardising</strong> (3b)</li>
+<li><span class="math inline">\(\boldsymbol\Sigma\)</span> <strong>full</strong>: correlated features; the next slide shows what <span class="math inline">\(\boldsymbol\Sigma^{-1}\)</span> does, with the PCA of 5b</li>
+</ul>
+</div>
+</div><div class="column" style="width:45%;">
+<div id="b9fbe7f0" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec07b_files/figure-revealjs/cell-4-output-1.png" width="250" height="272"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+<div class="fragment micro">
+<p>Along the direction where the data are spread, a large difference is normal and the Mahalanobis distance is small; across it, a small difference is already unusual. Gaussian mixtures (later) use exactly this distance, with one <span class="math inline">\(\boldsymbol\Sigma\)</span> per cluster.</p>
+</div>
+</section>
+<section id="mahalanobis-distance-and-pca" class="slide level2 center">
+<h2>Mahalanobis distance and PCA</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="micro">
+<p>In 5b, <span class="math inline">\(\boldsymbol\Sigma = \mathbf{V}\boldsymbol\Lambda\mathbf{V}^{T}\)</span>: the columns of <span class="math inline">\(\mathbf{V}\)</span> are the principal axes <span class="math inline">\(\mathbf{v}_j\)</span> (also the right singular vectors of <span class="math inline">\(\mathbf{X}_c\)</span>, with <span class="math inline">\(\lambda_j = s_j^2/(n-1)\)</span>), and <span class="math inline">\(\boldsymbol\Lambda\)</span> holds the variances <span class="math inline">\(\lambda_j\)</span> of the scores. <span class="math inline">\(\mathbf{V}\)</span> is orthogonal, <span class="math inline">\(\mathbf{V}^{-1} = \mathbf{V}^{T}\)</span>, so <span class="math display">\[
+\boldsymbol\Sigma^{-1} = \mathbf{V}\boldsymbol\Lambda^{-1}\mathbf{V}^{T}
+\]</span> and, with the scores <span class="math inline">\(\mathbf{z} = \mathbf{V}^{T}\mathbf{x}\)</span>, <span class="math display">\[
+d_M^2 = (\mathbf{x} - \mathbf{x}')^\mathsf{T}\mathbf{V}\boldsymbol\Lambda^{-1}\mathbf{V}^{T}(\mathbf{x} - \mathbf{x}') = \sum_{j=1}^{d}\frac{(z_j - z'_j)^2}{\lambda_j}
+\]</span></p>
+</div>
+</div><div class="column" style="width:50%;">
+<div id="894819e8" class="cell" data-execution_count="4">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec07b_files/figure-revealjs/cell-5-output-1.png" width="451" height="173"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+<div class="fragment micro">
+<p>Read the sum from right to left: <strong>rotate</strong> to the principal axes (the scores, uncorrelated), <strong>divide</strong> each score by its standard deviation <span class="math inline">\(\sqrt{\lambda_j}\)</span>, then take the ordinary Euclidean distance. This is <strong>whitening</strong>: the data become a round cloud of unit variance, and the Mahalanobis ellipse (red) a circle. Directions of small variance (small <span class="math inline">\(\lambda_j\)</span>) get a large weight: a small step across the cloud counts as much as a large step along it.</p>
+</div>
+</section>
+<section id="four-shapes" class="slide level2 center">
+<h2>Four shapes</h2>
+<p>The methods of today, on four 2-D problems whose groups we know (colours: the true groups; each set is standardised):</p>
+<div id="cfc82d8d" class="cell" data-execution_count="5">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec07b_files/figure-revealjs/cell-6-output-1.png" width="689" height="205"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="fragment micro">
+<p>Round groups of equal size; the same groups stretched along a diagonal; groups of very different spread; two interleaved half-moons. Each shape will defeat at least one method: every clustering method has a built-in idea of what a cluster looks like.</p>
+</div>
+</section></section>
+<section>
+<section id="k-means" class="title-slide slide level1 center">
+<h1>k-means</h1>
+<div class="micro">
+<p>Choose the number of clusters <span class="math inline">\(k\)</span>. Describe each cluster <span class="math inline">\(G_\ell\)</span> by a <strong>centroid</strong> <span class="math inline">\(\boldsymbol\mu_\ell\)</span>, and look for the partition that makes the samples closest to their centroids. With memberships <span class="math inline">\(r_{i\ell} = 1\)</span> if sample <span class="math inline">\(i\)</span> is in cluster <span class="math inline">\(\ell\)</span> and 0 otherwise, the loss is the <strong>inertia</strong> (within-cluster sum of squares): <span class="math display">\[
+J = \sum_{i=1}^{n}\sum_{\ell=1}^{k} r_{i\ell}\,\lVert\mathbf{x}_i - \boldsymbol\mu_\ell\rVert^2
+\]</span> As (H, L, A): <strong>model</strong>, <span class="math inline">\(k\)</span> centroids, each sample assigned to the nearest; <strong>strategy</strong>, minimise <span class="math inline">\(J\)</span> over the centroids and the memberships; <strong>algorithm</strong>, alternating minimisation (next slide).</p>
+</div>
+<div class="fragment micro">
+<p>Finding the best partition exactly is NP-hard: the number of ways of splitting <span class="math inline">\(n\)</span> samples into <span class="math inline">\(k\)</span> groups grows like <span class="math inline">\(k^n\)</span>. But <span class="math inline">\(J\)</span> is easy to minimise over <strong>one</strong> set of unknowns when the other is fixed:</p>
+<ul>
+<li><strong>centroids fixed</strong>: each term involves one sample; the best <span class="math inline">\(r_{i\ell}\)</span> puts sample <span class="math inline">\(i\)</span> in the cluster with the nearest centroid</li>
+<li><strong>memberships fixed</strong>: <span class="math inline">\(J\)</span> is a sum of squares in <span class="math inline">\(\boldsymbol\mu_\ell\)</span>; setting <span class="math inline">\(\dfrac{\partial J}{\partial\boldsymbol\mu_\ell} = -2\sum_i r_{i\ell}(\mathbf{x}_i - \boldsymbol\mu_\ell) = \mathbf{0}\)</span> gives <span class="math inline">\(\boldsymbol\mu_\ell = \dfrac{\sum_i r_{i\ell}\,\mathbf{x}_i}{\sum_i r_{i\ell}}\)</span>, the <strong>mean</strong> of the cluster (hence the name)</li>
+</ul>
+</div>
+</section>
+<section id="lloyds-algorithm" class="slide level2 center">
+<h2>Lloyd’s algorithm</h2>
+<div class="micro">
+<p>Alternate the two steps (Lloyd, 1957): start from <span class="math inline">\(k\)</span> centroids, then repeat <strong>assign</strong> (each sample to the nearest centroid) and <strong>update</strong> (each centroid to the mean of its samples) until nothing changes. By hand, on the blobs:</p>
+</div>
+<div id="53dfb11d" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="" aria-label="1"></a>X <span class="op">=</span> shapes[<span class="st">"blobs"</span>][<span class="dv">0</span>]</span>
+<span id="cb1-2"><a href="" aria-label="2"></a>mu <span class="op">=</span> X[[<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>]].copy()                                     <span class="co"># three samples as starting centroids</span></span>
+<span id="cb1-3"><a href="" aria-label="3"></a>snaps <span class="op">=</span> []</span>
+<span id="cb1-4"><a href="" aria-label="4"></a><span class="cf">for</span> it <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">4</span>):</span>
+<span id="cb1-5"><a href="" aria-label="5"></a>    r <span class="op">=</span> np.argmin(((X[:, <span class="va">None</span>, :] <span class="op">-</span> mu[<span class="va">None</span>]) <span class="op">**</span> <span class="dv">2</span>).<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">2</span>), axis<span class="op">=</span><span class="dv">1</span>)   <span class="co"># assign</span></span>
+<span id="cb1-6"><a href="" aria-label="6"></a>    snaps.append((mu.copy(), r))</span>
+<span id="cb1-7"><a href="" aria-label="7"></a>    mu <span class="op">=</span> np.array([X[r <span class="op">==</span> l].mean(axis<span class="op">=</span><span class="dv">0</span>) <span class="cf">for</span> l <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>)])               <span class="co"># update</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="0e0bfbdc" class="cell" data-execution_count="7">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec07b_files/figure-revealjs/cell-8-output-1.png" width="689" height="205"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="fragment micro">
+<p>Crosses: the centroids used for each assignment. Two of the three starting centroids lie in the same group, so the first assignment splits it and leaves two groups together; in a few iterations the centroids move apart and <span class="math inline">\(J\)</span> drops from 123 to 35.</p>
+</div>
+</section>
+<section id="convergence-and-local-minima" class="slide level2 center">
+<h2>Convergence and local minima</h2>
+<div class="columns">
+<div class="column" style="width:45%;">
+<div class="micro">
+<p>Each step minimises <span class="math inline">\(J\)</span> over one set of unknowns, so <span class="math inline">\(J\)</span> <strong>never increases</strong>; there are finitely many partitions, so the algorithm <strong>stops</strong>. But it stops at a <strong>local</strong> minimum, which depends on the start.</p>
+<p>Remedies in <code>KMeans</code>:</p>
+<ul>
+<li><code>n_init</code>: run several times from different starts, keep the lowest <span class="math inline">\(J\)</span></li>
+<li><strong>k-means++</strong> seeding (Arthur and Vassilvitskii, 2007), the default: the first centroid is a random sample; each next one is a sample drawn with probability proportional to its squared distance from the nearest centroid already chosen. Starts spread out, and are rarely bad</li>
+</ul>
+</div>
+</div><div class="column" style="width:55%;">
+<div id="c6bfa498" class="cell" data-execution_count="8">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec07b_files/figure-revealjs/cell-9-output-1.png" width="389" height="220"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+<div class="fragment micro">
+<p>Six well-separated groups, <span class="math inline">\(k = 6\)</span>, twenty runs from random starts: 5 of them find the six groups; the worst puts four centroids in the two upper groups and a single one for the three lower groups. Both are stable points of the algorithm, where no single step can improve <span class="math inline">\(J\)</span>; only the comparison of <span class="math inline">\(J\)</span> tells them apart.</p>
+</div>
+</section>
+<section id="k-means-on-wine" class="slide level2 center">
+<h2>k-means on wine</h2>
+<p>The 13 measurements of 178 wines, with and without standardisation:</p>
+<div id="8e0a71bd" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="" aria-label="1"></a>km_raw <span class="op">=</span> KMeans(<span class="dv">3</span>, n_init<span class="op">=</span><span class="dv">10</span>, random_state<span class="op">=</span><span class="dv">0</span>).fit(Xw)        <span class="co"># raw features</span></span>
+<span id="cb2-2"><a href="" aria-label="2"></a>km_std <span class="op">=</span> KMeans(<span class="dv">3</span>, n_init<span class="op">=</span><span class="dv">10</span>, random_state<span class="op">=</span><span class="dv">0</span>).fit(Xw_s)      <span class="co"># standardised</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="c1528577" class="cell" data-execution_count="10">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec07b_files/figure-revealjs/cell-11-output-1.png" width="620" height="282"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="fragment micro">
+<p>Each wine is drawn at its first two PCA scores (5b), with its cultivar as the marker shape and its cluster as the colour; the cultivars were never given to k-means. On the raw features, proline (in the hundreds) dominates the distance and the clusters cut across the cultivars. Standardised, the three clusters line up with the three cultivars, which occupy three regions of the score plot: the chemistry separates them on its own.</p>
+</div>
+</section>
+<section id="clusters-and-cultivars" class="slide level2 center">
+<h2>Clusters and cultivars</h2>
+<p>A table makes the comparison exact: wines of each cultivar (rows) in each cluster (columns); cluster numbers are arbitrary.</p>
+<div id="9a394fae" class="cell columns column-output-location" data-execution_count="11">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="" aria-label="1"></a><span class="cf">for</span> name, km <span class="kw">in</span> [(<span class="st">"raw features"</span>, km_raw), (<span class="st">"standardised"</span>, km_std)]:</span>
+<span id="cb3-2"><a href="" aria-label="2"></a>    <span class="bu">print</span>(name)</span>
+<span id="cb3-3"><a href="" aria-label="3"></a>    <span class="bu">print</span>(pd.crosstab(yw, km.labels_, rownames<span class="op">=</span>[<span class="st">"cultivar"</span>], colnames<span class="op">=</span>[<span class="st">"cluster"</span>]), <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column fragment">
+<div class="cell-output cell-output-stdout">
+<pre><code>raw features
+cluster    0   1   2
+cultivar            
+0          0  46  13
+1         50   1  20
+2         19   0  29 
+
+standardised
+cluster    0   1   2
+cultivar            
+0          0   0  59
+1         65   3   3
+2          0  48   0 
+</code></pre>
+</div>
+</div></div>
+<div class="fragment micro">
+<p>Raw: every cultivar is spread over two or three clusters. Standardised: each cluster is almost one cultivar, and only 6 of the 178 wines fall in a cluster dominated by another cultivar. Such a table needs the labels, so it is a check of the method, not part of using it; later we turn it into a single number, the adjusted Rand index.</p>
+</div>
+</section>
+<section id="how-many-clusters-the-elbow" class="slide level2 center">
+<h2>How many clusters? The elbow</h2>
+<div id="e89ed893" class="cell columns column-output-location" data-execution_count="12">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="" aria-label="1"></a>ks <span class="op">=</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">9</span>)</span>
+<span id="cb5-2"><a href="" aria-label="2"></a>J <span class="op">=</span> [KMeans(k, n_init<span class="op">=</span><span class="dv">10</span>, random_state<span class="op">=</span><span class="dv">0</span>).fit(Xw_s).inertia_ <span class="cf">for</span> k <span class="kw">in</span> ks]</span>
+<span id="cb5-3"><a href="" aria-label="3"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="fl">4.2</span>, <span class="fl">2.9</span>))</span>
+<span id="cb5-4"><a href="" aria-label="4"></a>ax.plot(ks, J, <span class="st">"o-"</span>)</span>
+<span id="cb5-5"><a href="" aria-label="5"></a>ax.set_xlabel(<span class="st">"number of clusters $k$"</span>)<span class="op">;</span> ax.set_ylabel(<span class="st">"inertia $J$"</span>)</span>
+<span id="cb5-6"><a href="" aria-label="6"></a>_ <span class="op">=</span> ax.set_title(<span class="st">"wine, standardised"</span>, fontsize<span class="op">=</span><span class="dv">9</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column fragment">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec07b_files/figure-revealjs/cell-13-output-1.png" width="394" height="292"></p>
+</figure>
+</div>
+</div>
+</div></div>
+<div class="fragment micro">
+<p><span class="math inline">\(J\)</span> always decreases with <span class="math inline">\(k\)</span>: with <span class="math inline">\(k = n\)</span> every sample is its own centroid and <span class="math inline">\(J = 0\)</span>. So <span class="math inline">\(J\)</span> cannot choose <span class="math inline">\(k\)</span> by minimisation, as the training error could not choose a model in 4b. The <strong>elbow</strong> heuristic looks for the <span class="math inline">\(k\)</span> after which the decrease slows down: here a bend at <span class="math inline">\(k = 3\)</span>, but elbows are often unclear. Domain knowledge, when available, is the best guide.</p>
+</div>
+</section>
+<section id="the-silhouette" class="slide level2 center">
+<h2>The silhouette</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="micro">
+<p>How well does each sample sit in its cluster? For sample <span class="math inline">\(i\)</span> (Rousseeuw, 1987):</p>
+<ul>
+<li><span class="math inline">\(a_i\)</span>: its mean distance to the <strong>other members of its own cluster</strong></li>
+<li><span class="math inline">\(b_i\)</span>: its mean distance to the members of the <strong>nearest other cluster</strong></li>
+</ul>
+<p><span class="math display">\[
+s_i = \frac{b_i - a_i}{\max(a_i, b_i)} \in [-1, 1]
+\]</span> <span class="math inline">\(s_i\)</span> near 1: much closer to its own cluster than to any other; near 0: on the border between two; negative: closer, on average, to another cluster than to its own, so probably misassigned.</p>
+</div>
+</div><div class="column" style="width:50%;">
+<div id="0dfb839c" class="cell" data-execution_count="13">
+<div class="cell-output cell-output-display" data-execution_count="13">
+<pre><code>(np.float64(-0.8490382869862287),
+ np.float64(3.385507834365913),
+ np.float64(-0.5146398002122091),
+ np.float64(0.968507433227793))</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec07b_files/figure-revealjs/cell-14-output-2.png" width="298" height="146"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+<div class="fragment micro">
+<p>The silhouette is an <strong>internal</strong> criterion: it uses only <span class="math inline">\(\mathbf{X}\)</span> and the clusters, never labels, so it can be used for real.</p>
+</div>
+</section>
+<section id="reading-the-silhouette" class="slide level2 center">
+<h2>Reading the silhouette</h2>
+<div id="1beee092" class="cell" data-execution_count="14">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec07b_files/figure-revealjs/cell-15-output-1.png" width="563" height="281"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="fragment micro">
+<p>Wine, standardised, k-means with <span class="math inline">\(k\)</span> = 2, 3, 4: one horizontal bar per sample, sorted within each cluster. The <strong>mean</strong> (dashed) is the single number used to compare values of <span class="math inline">\(k\)</span>: here highest at <span class="math inline">\(k = 3\)</span>. But the plot shows more than the mean: the <strong>thickness</strong> of each block is the size of the cluster, a block that stays below the mean is a weak cluster, and samples with <span class="math inline">\(s_i &lt; 0\)</span> (7 at <span class="math inline">\(k = 3\)</span>) are the ones to inspect. The level matters too: a mean silhouette below about 0.5 signals <strong>weak</strong> structure, as here, where the cultivars overlap in 13 dimensions even though k-means recovers them well.</p>
+</div>
+</section>
+<section id="where-k-means-fails" class="slide level2 center">
+<h2>Where k-means fails</h2>
+<div id="46da754e" class="cell" data-execution_count="15">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec07b_files/figure-revealjs/cell-16-output-1.png" width="689" height="205"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="fragment micro">
+<p>k-means assigns each point to the nearest centroid, so its clusters are the <strong>Voronoi cells</strong> of the centroids (shaded): convex regions separated by straight lines halfway between centroids. Minimising squared distances to a centre favours <strong>round</strong> clusters of <strong>similar size</strong>. It works on the blobs; it cuts the stretched groups across, gives the wide group’s edges to its neighbours, and cannot follow the moons. The other methods of today relax these assumptions, one at a time.</p>
+</div>
+</section></section>
+<section>
+<section id="hierarchical-clustering" class="title-slide slide level1 center">
+<h1>Hierarchical clustering</h1>
+<div class="micro">
+<p><strong>Agglomerative</strong> clustering builds a whole hierarchy of clusterings, bottom up:</p>
+<ol type="1">
+<li>start with <span class="math inline">\(n\)</span> clusters, one sample each</li>
+<li>merge the two <strong>closest</strong> clusters</li>
+<li>repeat until a single cluster is left</li>
+</ol>
+<p>The result is a tree of merges, and any number of clusters can be read from it afterwards. The key choice is the distance between two <strong>clusters</strong> <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, the <strong>linkage</strong>:</p>
+</div>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="micro">
+<ul>
+<li><strong>single</strong>: the closest pair, <span class="math inline">\(\min_{i \in A, j \in B} d(\mathbf{x}_i, \mathbf{x}_j)\)</span></li>
+<li><strong>complete</strong>: the farthest pair, <span class="math inline">\(\max_{i \in A, j \in B} d(\mathbf{x}_i, \mathbf{x}_j)\)</span></li>
+<li><strong>average</strong>: the mean over all pairs</li>
+<li><strong>Ward</strong>: the increase in inertia <span class="math inline">\(J\)</span> caused by merging <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>; merges that keep the clusters compact, as k-means</li>
+</ul>
+</div>
+</div><div class="column" style="width:50%;">
+<div id="9546c0ac" class="cell" data-execution_count="16">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec07b_files/figure-revealjs/cell-17-output-1.png" width="287" height="155"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="the-dendrogram" class="slide level2 center">
+<h2>The dendrogram</h2>
+<div id="4c410a7d" class="cell columns column-output-location" data-execution_count="17">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="" aria-label="1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">0</span>)</span>
+<span id="cb7-2"><a href="" aria-label="2"></a>sub <span class="op">=</span> np.sort(rng.choice(<span class="bu">len</span>(Xw_s), <span class="dv">40</span>, replace<span class="op">=</span><span class="va">False</span>))      <span class="co"># 40 wines, for a readable tree</span></span>
+<span id="cb7-3"><a href="" aria-label="3"></a>Lk <span class="op">=</span> linkage(Xw_s[sub], method<span class="op">=</span><span class="st">"ward"</span>)                         <span class="co"># the sequence of merges</span></span>
+<span id="cb7-4"><a href="" aria-label="4"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="fl">4.8</span>, <span class="fl">3.0</span>))</span>
+<span id="cb7-5"><a href="" aria-label="5"></a>dendrogram(Lk, labels<span class="op">=</span>[<span class="ss">f"</span><span class="sc">{</span>c<span class="sc">}</span><span class="ss">"</span> <span class="cf">for</span> c <span class="kw">in</span> yw[sub]], color_threshold<span class="op">=</span><span class="dv">12</span>, ax<span class="op">=</span>ax, leaf_font_size<span class="op">=</span><span class="dv">6</span>)</span>
+<span id="cb7-6"><a href="" aria-label="6"></a>ax.axhline(<span class="dv">12</span>, color<span class="op">=</span><span class="st">"k"</span>, linestyle<span class="op">=</span><span class="st">"--"</span>, lw<span class="op">=</span><span class="fl">0.8</span>)</span>
+<span id="cb7-7"><a href="" aria-label="7"></a>ax.set_ylabel(<span class="st">"merge distance (Ward)"</span>)</span>
+<span id="cb7-8"><a href="" aria-label="8"></a>_ <span class="op">=</span> ax.set_xlabel(<span class="st">"wines (labelled by cultivar, for checking)"</span>, fontsize<span class="op">=</span><span class="dv">8</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column fragment">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec07b_files/figure-revealjs/cell-18-output-1.png" width="435" height="275"></p>
+</figure>
+</div>
+</div>
+</div></div>
+<div class="fragment micro">
+<p>Each U-shape is a merge, drawn at the height of the linkage distance between the two clusters it joins. Cutting the tree at a height (dashed) gives a clustering: here three clusters, which follow the cultivars closely. A long vertical stretch before the next merge means well-separated clusters; the tree shows the structure at <strong>every</strong> scale, not only for one <span class="math inline">\(k\)</span>.</p>
+</div>
+</section>
+<section id="cutting-the-tree" class="slide level2 center">
+<h2>Cutting the tree</h2>
+<div id="ef001fab" class="cell" data-execution_count="18">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec07b_files/figure-revealjs/cell-19-output-1.png" width="694" height="205"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="fragment micro">
+<p>One tree (Ward linkage, the shape with unequal spread), cut lower and lower. Each cut only <strong>splits</strong> clusters of the cut above, never moves a sample from one cluster to another: the clusterings of one tree are <strong>nested</strong>. The cut decides <strong>how many</strong> clusters (<code>n_clusters</code>, or a height with <code>distance_threshold</code>); the <strong>shape</strong> of the clusters is decided before, by the linkage, through the order of the merges. A different linkage builds a different tree, as the next slide shows.</p>
+</div>
+</section>
+<section id="linkage-matters" class="slide level2 center">
+<h2>Linkage matters</h2>
+<div id="0de2b455" class="cell" data-execution_count="19">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec07b_files/figure-revealjs/cell-20-output-1.png" width="797" height="316"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="fragment micro">
+<p>Single linkage joins clusters through their closest points, so it follows chains: it traces the moons perfectly, but on the noisier shape it puts almost everything in one cluster and leaves a few outliers alone (<strong>chaining</strong>). Complete and Ward prefer compact clusters, like k-means. On wine, Ward finds three clusters close to the cultivars, while single linkage leaves one cluster of 174 wines and two of 3 and 1: the hierarchy is only as good as the linkage suits the data.</p>
+</div>
+</section></section>
+<section>
+<section id="density-based-clustering-dbscan" class="title-slide slide level1 center">
+<h1>Density-based clustering: DBSCAN</h1>
+<div class="columns">
+<div class="column" style="width:45%;">
+<div class="micro">
+<p><strong>DBSCAN</strong> (Ester et al., 1996) defines clusters as regions of <strong>high density</strong> separated by regions of low density. Two parameters, a radius <code>eps</code> (<span class="math inline">\(\varepsilon\)</span>) and a count <code>min_samples</code>:</p>
+<ul>
+<li>a <strong>core</strong> point has at least <code>min_samples</code> points (itself included) within distance <span class="math inline">\(\varepsilon\)</span></li>
+<li>a <strong>border</strong> point is within <span class="math inline">\(\varepsilon\)</span> of a core point, but not core itself</li>
+<li>a <strong>noise</strong> point is neither</li>
+</ul>
+<p>A cluster is a set of core points connected through chains of neighbours within <span class="math inline">\(\varepsilon\)</span>, plus their border points. Noise gets the label <span class="math inline">\(-1\)</span>.</p>
+</div>
+</div><div class="column" style="width:55%;">
+<div id="01d15f3e" class="cell" data-execution_count="21">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec07b_files/figure-revealjs/cell-22-output-1.png" width="317" height="194"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+<div class="fragment micro">
+<p>No <span class="math inline">\(k\)</span> to choose: the number of clusters follows from the density. Clusters can take <strong>any shape</strong>, and isolated samples are left out instead of being forced into a cluster. The price: one global density threshold for the whole space.</p>
+</div>
+</section>
+<section id="choosing-eps" class="slide level2 center">
+<h2>Choosing <code>eps</code></h2>
+<div id="361c5720" class="cell columns column-output-location" data-execution_count="22">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="" aria-label="1"></a>Xm <span class="op">=</span> shapes[<span class="st">"moons"</span>][<span class="dv">0</span>]</span>
+<span id="cb8-2"><a href="" aria-label="2"></a>nn <span class="op">=</span> NearestNeighbors(n_neighbors<span class="op">=</span><span class="dv">5</span>).fit(Xm)                   <span class="co"># 5 = min_samples (the point itself included)</span></span>
+<span id="cb8-3"><a href="" aria-label="3"></a>dist, _ <span class="op">=</span> nn.kneighbors(Xm)</span>
+<span id="cb8-4"><a href="" aria-label="4"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="fl">4.2</span>, <span class="fl">2.7</span>))</span>
+<span id="cb8-5"><a href="" aria-label="5"></a>ax.plot(np.sort(dist[:, <span class="op">-</span><span class="dv">1</span>]))</span>
+<span id="cb8-6"><a href="" aria-label="6"></a>ax.axhline(<span class="fl">0.2</span>, color<span class="op">=</span><span class="st">"C3"</span>, linestyle<span class="op">=</span><span class="st">"--"</span>, lw<span class="op">=</span><span class="fl">0.8</span>)</span>
+<span id="cb8-7"><a href="" aria-label="7"></a>ax.axhline(<span class="fl">0.3</span>, color<span class="op">=</span><span class="st">"C2"</span>, linestyle<span class="op">=</span><span class="st">"--"</span>, lw<span class="op">=</span><span class="fl">0.8</span>)</span>
+<span id="cb8-8"><a href="" aria-label="8"></a>ax.set_xlabel(<span class="st">"samples, sorted"</span>)<span class="op">;</span> ax.set_ylabel(<span class="st">"distance to the 4th neighbour"</span>)</span>
+<span id="cb8-9"><a href="" aria-label="9"></a>_ <span class="op">=</span> ax.set_title(<span class="st">"moons: the k-distance plot"</span>, fontsize<span class="op">=</span><span class="dv">9</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column fragment">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec07b_files/figure-revealjs/cell-23-output-1.png" width="382" height="278"></p>
+</figure>
+</div>
+</div>
+</div></div>
+<div class="fragment micro">
+<p>For each sample, the distance to its farthest neighbour among <code>min_samples</code> (the neighbour search of 7a), sorted. Most samples lie in dense regions and have small distances; the curve bends up where the sparse samples begin. At the bend (red, 0.2), DBSCAN finds the two moons but cuts a small third piece off one of them; a little above (green, 0.3), it recovers the two moons with a single sample labelled noise. The bend is a starting point, not an answer. On wine it fails: the values of <code>eps</code> that give three clusters (around 2.1) label a third of the wines as noise. In 13 dimensions distances concentrate (7a) and density is hard to estimate. <strong>HDBSCAN</strong> (<code>HDBSCAN</code> in scikit-learn) varies the density threshold and removes the need for <code>eps</code>.</p>
+</div>
+</section></section>
+<section>
+<section id="gaussian-mixtures" class="title-slide slide level1 center">
+<h1>Gaussian mixtures</h1>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="micro">
+<p>A <strong>generative</strong> model: each sample is produced by first picking a component <span class="math inline">\(\ell\)</span> with probability <span class="math inline">\(\pi_\ell\)</span> (the <strong>weights</strong>, <span class="math inline">\(\sum_\ell \pi_\ell = 1\)</span>), then drawing <span class="math inline">\(\mathbf{x}\)</span> from that component’s Gaussian, with mean <span class="math inline">\(\boldsymbol\mu_\ell\)</span> and covariance <span class="math inline">\(\boldsymbol\Sigma_\ell\)</span>. The density of the data is the weighted sum, a <strong>mixture</strong>: <span class="math display">\[
+p(\mathbf{x}) = \sum_{\ell=1}^{k}\pi_\ell\,\mathcal{N}(\mathbf{x} \mid \boldsymbol\mu_\ell, \boldsymbol\Sigma_\ell)
+\]</span> In <span class="math inline">\(d\)</span> dimensions each Gaussian is a bell centred at <span class="math inline">\(\boldsymbol\mu_\ell\)</span> that decreases with the Mahalanobis distance of its own covariance, <span class="math inline">\(\mathcal{N} \propto \exp\left(-\tfrac{1}{2}d_M^2(\mathbf{x}, \boldsymbol\mu_\ell)\right)\)</span>: its contours are ellipses.</p>
+</div>
+</div><div class="column" style="width:50%;">
+<div id="a166914c" class="cell" data-execution_count="24">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec07b_files/figure-revealjs/cell-25-output-1.png" width="317" height="260"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+<div class="fragment micro">
+<p>One feature, two components (<span class="math inline">\(\pi\)</span> = 0.6 and 0.4): a histogram of 400 samples drawn from the model, each weighted Gaussian (dashed) and their sum (black). Unlike k-means, the model has <strong>shapes</strong> (each component its own spread, and in <span class="math inline">\(d\)</span> dimensions its own orientation) and gives a <strong>density</strong>: it can say how likely any sample is.</p>
+</div>
+</section>
+<section id="soft-memberships" class="slide level2 center">
+<h2>Soft memberships</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="micro">
+<p>At a point <span class="math inline">\(x\)</span>, the mixture density is the sum of the components’ contributions. The share contributed by component <span class="math inline">\(\ell\)</span> is the probability that a sample at <span class="math inline">\(x\)</span> came from it (Bayes’ rule, with prior <span class="math inline">\(\pi_\ell\)</span>), its <strong>responsibility</strong>: <span class="math display">\[
+r_{\ell}(\mathbf{x}) = \frac{\pi_\ell\,\mathcal{N}(\mathbf{x} \mid \boldsymbol\mu_\ell, \boldsymbol\Sigma_\ell)}{\sum_{m=1}^{k}\pi_m\,\mathcal{N}(\mathbf{x} \mid \boldsymbol\mu_m, \boldsymbol\Sigma_m)},
+\qquad \sum_\ell r_\ell(\mathbf{x}) = 1
+\]</span> For a training sample we write <span class="math inline">\(r_{i\ell} = r_\ell(\mathbf{x}_i)\)</span>: the soft version of the 0/1 memberships of k-means. <code>predict_proba</code> returns the <span class="math inline">\(r_{i\ell}\)</span>; <code>predict</code> the component with the largest one.</p>
+</div>
+</div><div class="column" style="width:50%;">
+<div id="f48585f2" class="cell" data-execution_count="25">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec07b_files/figure-revealjs/cell-26-output-1.png" width="362" height="275"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+<div class="fragment micro">
+<p>Top: the mixture density split into the two contributions; bottom: their shares. Far from the overlap one component takes all the responsibility; in between the membership is shared, and a hard assignment (dotted line, where both are 0.5) would hide that uncertainty.</p>
+</div>
+</section>
+<section id="the-em-algorithm" class="slide level2 center">
+<h2>The EM algorithm</h2>
+<div class="micro">
+<p>The parameters are chosen to make the observed data as probable as possible: <strong>maximum likelihood</strong>. The likelihood is the density of the whole training set under the model, <span class="math inline">\(\mathcal{L} = \prod_i p(\mathbf{x}_i)\)</span> (samples independent), and we maximise its logarithm, <span class="math display">\[
+\ln\mathcal{L} = \sum_{i=1}^{n}\ln p(\mathbf{x}_i) = \sum_{i=1}^{n}\ln\sum_{\ell=1}^{k}\pi_\ell\,\mathcal{N}(\mathbf{x}_i \mid \boldsymbol\mu_\ell, \boldsymbol\Sigma_\ell)
+\]</span> the strategy <span class="math inline">\(L\)</span> of the method. With the memberships unknown there is no closed form, but the problem splits as in k-means. The <strong>expectation–maximisation</strong> algorithm (Dempster, Laird and Rubin, 1977) alternates:</p>
+<ul>
+<li><strong>E step</strong>: with the parameters fixed, compute the responsibilities <span class="math inline">\(r_{i\ell}\)</span> (previous slide)</li>
+<li><strong>M step</strong>: with the responsibilities fixed, update the parameters as <strong>weighted</strong> averages; with <span class="math inline">\(n_\ell = \sum_i r_{i\ell}\)</span>, the effective size of cluster <span class="math inline">\(\ell\)</span>: <span class="math display">\[
+\pi_\ell = \frac{n_\ell}{n},
+\qquad
+\boldsymbol\mu_\ell = \frac{1}{n_\ell}\sum_{i} r_{i\ell}\,\mathbf{x}_i,
+\qquad
+\boldsymbol\Sigma_\ell = \frac{1}{n_\ell}\sum_{i} r_{i\ell}\,(\mathbf{x}_i - \boldsymbol\mu_\ell)(\mathbf{x}_i - \boldsymbol\mu_\ell)^\mathsf{T}
+\]</span></li>
+</ul>
+</div>
+<div class="fragment micro">
+<p>The likelihood never decreases, and the algorithm converges to a local maximum (so <code>n_init</code> again). <strong>k-means is a limit of EM</strong>: take all <span class="math inline">\(\boldsymbol\Sigma_\ell = \sigma^2\mathbf{I}\)</span> and equal <span class="math inline">\(\pi_\ell\)</span>. Then <span class="math inline">\(r_{i\ell} \propto \exp\left(-\lVert\mathbf{x}_i - \boldsymbol\mu_\ell\rVert^2 / 2\sigma^2\right)\)</span>, and as <span class="math inline">\(\sigma \to 0\)</span> the nearest centroid takes all the weight: <span class="math inline">\(r_{i\ell}\)</span> becomes 0 or 1, the E step becomes the assignment step and the M step the mean. A Gaussian mixture is k-means with soft memberships and a shape for every cluster.</p>
+</div>
+</section>
+<section id="mixtures-and-shapes" class="slide level2 center">
+<h2>Mixtures and shapes</h2>
+<div id="728d03f5" class="cell" data-execution_count="26">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec07b_files/figure-revealjs/cell-27-output-1.png" width="644" height="235"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="fragment micro">
+<p>The stretched groups. A mixture with <strong>spherical</strong> covariances (<span class="math inline">\(\boldsymbol\Sigma_\ell = \sigma_\ell^2\mathbf{I}\)</span>) behaves much like k-means; with <strong>full</strong> covariances each Gaussian takes the orientation and elongation of its group (ellipses at 1 and 2 standard deviations) and the groups are recovered. <code>covariance_type</code> sets the number of parameters per cluster: <code>"spherical"</code> (1), <code>"diag"</code> (<span class="math inline">\(d\)</span>), <code>"tied"</code> (one full matrix shared), <code>"full"</code> (<span class="math inline">\(d(d+1)/2\)</span> each). More flexible shapes need more data.</p>
+</div>
+</section>
+<section id="how-many-components" class="slide level2 center">
+<h2>How many components?</h2>
+<div class="columns">
+<div class="column" style="width:45%;">
+<div class="micro">
+<p>The number of components <span class="math inline">\(k\)</span> is a <strong>hyperparameter</strong>, as <span class="math inline">\(k\)</span> in k-means. Without labels there is no accuracy to cross-validate, but the likelihood itself can be: fit the mixture on the training folds and measure the log-likelihood of the <strong>held-out</strong> samples, how probable the model finds data it has not seen (<code>GaussianMixture.score</code> gives the average <span class="math inline">\(\ln p(\mathbf{x})\)</span> per sample).</p>
+<p>On the training data the log-likelihood <strong>always</strong> increases with <span class="math inline">\(k\)</span>, as <span class="math inline">\(J\)</span> always fell: more components fit the same samples better. On held-out data it rises, then falls: too many components fit the noise of the training samples (5a).</p>
+</div>
+</div><div class="column" style="width:55%;">
+<div id="cb06d0cb" class="cell" data-execution_count="27">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="" aria-label="1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> KFold, cross_val_score</span>
+<span id="cb9-2"><a href="" aria-label="2"></a>cv5 <span class="op">=</span> KFold(<span class="dv">5</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb9-3"><a href="" aria-label="3"></a>ks <span class="op">=</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">7</span>)</span>
+<span id="cb9-4"><a href="" aria-label="4"></a>train_ll <span class="op">=</span> [GaussianMixture(k, n_init<span class="op">=</span><span class="dv">5</span>, random_state<span class="op">=</span><span class="dv">0</span>).fit(Zw).score(Zw) <span class="cf">for</span> k <span class="kw">in</span> ks]</span>
+<span id="cb9-5"><a href="" aria-label="5"></a>valid_ll <span class="op">=</span> [cross_val_score(GaussianMixture(k, n_init<span class="op">=</span><span class="dv">5</span>, random_state<span class="op">=</span><span class="dv">0</span>), Zw, cv<span class="op">=</span>cv5).mean() <span class="cf">for</span> k <span class="kw">in</span> ks]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="a4e823de" class="cell" data-execution_count="28">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec07b_files/figure-revealjs/cell-29-output-1.png" width="371" height="254"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+<div class="fragment micro">
+<p>On the first two PCA scores of wine, the held-out log-likelihood is highest at <span class="math inline">\(k = 3\)</span>: the same reasoning as choosing a model by validation (4b), with the likelihood in place of a score.</p>
+</div>
+</section>
+<section id="bic-a-shortcut" class="slide level2 center">
+<h2>BIC: a shortcut</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="micro">
+<p>Cross-validation refits the mixture <span class="math inline">\(K\)</span> times for each <span class="math inline">\(k\)</span>. The <strong>Bayesian information criterion</strong> (Schwarz, 1978) estimates the same trade-off from a single fit on all the data: the fit, minus a price for the number of free parameters <span class="math inline">\(q\)</span>, <span class="math display">\[
+\mathrm{BIC} = -2\ln\hat{\mathcal{L}} + q\ln n
+\]</span> where <span class="math inline">\(\ln\hat{\mathcal{L}}\)</span> is the log-likelihood of the previous slides at the fitted parameters; smaller is better. For full covariances in <span class="math inline">\(d\)</span> dimensions, <span class="math inline">\(q = (k - 1) + kd + k\,\frac{d(d+1)}{2}\)</span>: the weights, the means, the covariances. The penalty grows with <span class="math inline">\(q\)</span> and slowly with <span class="math inline">\(n\)</span>: the idea of the penalties of 5a, with a weight fixed by theory instead of by CV.</p>
+</div>
+</div><div class="column" style="width:50%;">
+<div id="cabf76a0" class="cell" data-execution_count="29">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="" aria-label="1"></a>bic <span class="op">=</span> [GaussianMixture(k, n_init<span class="op">=</span><span class="dv">5</span>, random_state<span class="op">=</span><span class="dv">0</span>).fit(Zw).bic(Zw) <span class="cf">for</span> k <span class="kw">in</span> ks]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="7264542e" class="cell" data-execution_count="30">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec07b_files/figure-revealjs/cell-31-output-1.png" width="364" height="247"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+<div class="fragment micro">
+<p>BIC is lowest at <span class="math inline">\(k = 3\)</span>, in agreement with the held-out likelihood. With all 13 features and full covariances, <span class="math inline">\(q\)</span> would be 314 for <span class="math inline">\(k = 3\)</span>, against 178 samples: then BIC prefers fewer and simpler components, and <code>covariance_type="diag"</code> is the better choice.</p>
+</div>
+</section></section>
+<section>
+<section id="evaluating-clusterings" class="title-slide slide level1 center">
+<h1>Evaluating clusterings</h1>
+<div class="micro">
+<p>Two kinds of criteria:</p>
+<ul>
+<li><strong>internal</strong>: from <span class="math inline">\(\mathbf{X}\)</span> alone: inertia, silhouette, BIC. Each favours the kind of cluster its method assumes</li>
+<li><strong>external</strong>: against known groups, when we have them (as for wine, or the toy shapes); for checking methods, not in real use, where labels are missing</li>
+</ul>
+</div>
+<div class="micro">
+<p>The <strong>Rand index</strong> compares two groupings of the same <span class="math inline">\(n\)</span> samples by looking at all <span class="math inline">\(\binom{n}{2}\)</span> <strong>pairs</strong>: a pair <strong>agrees</strong> if the two samples are together in both groupings or apart in both. The Rand index is the fraction of agreeing pairs. Cluster numbers do not matter, only who is with whom.</p>
+<p>But most pairs are “apart” in any grouping with several clusters, so even a random grouping scores high. The <strong>adjusted Rand index</strong> (Hubert and Arabie, 1985) subtracts what is expected by chance, for random groupings with the same cluster sizes: <span class="math display">\[
+\mathrm{ARI} = \frac{\mathrm{RI} - \mathbb{E}[\mathrm{RI}]}{\max \mathrm{RI} - \mathbb{E}[\mathrm{RI}]}
+\]</span> 1 for identical groupings (up to renaming), about 0 for random ones, negative when worse than chance (<code>adjusted_rand_score</code>).</p>
+</div>
+</section>
+<section id="methods-and-shapes" class="slide level2 center">
+<h2>Methods and shapes</h2>
+<div id="5f24832e" class="cell" data-execution_count="31">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec07b_files/figure-revealjs/cell-32-output-1.png" width="720" height="458"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="micro">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Tip</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Take-home.</strong> No method wins everywhere. k-means and agglomerative clustering with Ward linkage suit round groups; the full mixture adds orientation and spread, and recovers the stretched and unequal groups (ARI 1.00 and 0.95); DBSCAN alone follows the moons (0.99), but merges groups that touch (blobs, stretched) and leaves the sparse edges of the wide group as noise (grey). Choose the method whose idea of a cluster matches the data, and look at the clusters, not only at a score.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="clustering-wine" class="slide level2 center">
+<h2>Clustering wine</h2>
+<div id="4df61737" class="cell" data-execution_count="32">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec07b_files/figure-revealjs/cell-33-output-1.png" width="572" height="238"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="micro">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Tip</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Take-home.</strong> Standardisation is the largest single effect (k-means from 0.37 to 0.90). After it, k-means, agglomerative clustering with Ward linkage and a diagonal mixture all recover most of the cultivar structure (ARI 0.79 to 0.92) without ever seeing a label. Single linkage, built for chains, finds nothing (ARI about 0); DBSCAN, at its best <code>eps</code>, reaches 0.42, with two clusters and a fifth of the wines labelled noise. The mixture uses diagonal covariances: full ones would need more parameters than wine has samples.</p>
+</div>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="anomaly-detection" class="title-slide slide level1 center">
+<h1>Anomaly detection</h1>
+<div class="columns">
+<div class="column" style="width:45%;">
+<div class="micro">
+<p>Samples that do not fit: measurement errors, fraud, faults, rare events. Two settings: <strong>outlier detection</strong> (anomalies are in the training data) and <strong>novelty detection</strong> (training data are clean; new samples are judged). Two ideas, each from earlier in the course:</p>
+<p><strong>Isolation Forest</strong> (Liu, Ting and Zhou, 2008): grow random trees (6a), each split on a random feature at a random threshold, until every sample is alone. An anomaly, far from the rest, is <strong>isolated in few splits</strong>; a sample inside a dense group needs many. Averaged over many trees (6b), a short path means a high anomaly score.</p>
+</div>
+</div><div class="column" style="width:55%;">
+<div id="d1fb97bd" class="cell" data-execution_count="33">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec07b_files/figure-revealjs/cell-34-output-1.png" width="390" height="219"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+<div class="fragment micro">
+<p>One random tree, followed only along the branch that contains the red sample. The score of <code>IsolationForest</code> normalises the average path length by the average for <span class="math inline">\(n\)</span> samples, so it lies between 0 and 1 (near 1: anomaly). No distances are computed, so it scales well to many samples and features.</p>
+</div>
+</section>
+<section id="local-outlier-factor" class="slide level2 center">
+<h2>Local outlier factor</h2>
+<div class="columns">
+<div class="column" style="width:45%;">
+<div class="micro">
+<p><strong>LOF</strong> (Breunig et al., 2000) compares the density around a sample with the density around its neighbours, both estimated from the distances to the <span class="math inline">\(k\)</span> nearest neighbours (7a): <span class="math display">\[
+\mathrm{LOF}(\mathbf{x}) \approx \frac{\text{average density of the } k \text{ neighbours of } \mathbf{x}}{\text{density around } \mathbf{x}}
+\]</span> About 1 inside any cluster, dense or sparse; well above 1 for a sample in a sparser place than its neighbours. Because the comparison is <strong>local</strong>, a single threshold works for clusters of different densities, where a global distance cut-off would not.</p>
+</div>
+</div><div class="column" style="width:55%;">
+<div id="f044d14a" class="cell" data-execution_count="34">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec07b_files/figure-revealjs/cell-35-output-1.png" width="343" height="250"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+<div class="fragment micro">
+<p>The two points just outside the dense cluster are closer to their neighbours than many ordinary points of the sparse cluster, so a global distance threshold would miss them; LOF flags them (scores above 4) because they are much sparser than <strong>their own</strong> neighbourhood. The third planted point, above the sparse cluster, scores only 2.0: its neighbours are themselves sparse, so locally it is less unusual. Both detectors give scores; the threshold (<code>contamination</code>) is a decision about the cost of false alarms, as the decision threshold in 4a.</p>
+</div>
+</section></section>
+<section>
+<section id="visualising-structure-the-digits" class="title-slide slide level1 center">
+<h1>Visualising structure: the digits</h1>
+<div class="columns">
+<div class="column" style="width:45%;">
+<div class="micro">
+<p>The digits of 5b: 1797 handwritten digits, each an <span class="math inline">\(8 \times 8\)</span> image, i.e.&nbsp;a sample with <span class="math inline">\(d = 64\)</span> features (the grey level of each pixel, 0–16). Labels exist (the digit), but here they are used <strong>only to colour</strong> the plots.</p>
+<p>Can the ten groups be <strong>seen</strong>? PCA (5b) gives the best linear view in 2-D: the two directions of largest variance. Some digits form separate regions (0, 6, 4), but most overlap: ten groups do not fit in a linear 2-D projection of a 64-dimensional space.</p>
+</div>
+</div><div class="column" style="width:55%;">
+<div id="80cca1c8" class="cell" data-execution_count="35">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec07b_files/figure-revealjs/cell-36-output-1.png" width="443" height="325"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="t-sne" class="slide level2 center">
+<h2>t-SNE</h2>
+<div class="columns">
+<div class="column" style="width:45%;">
+<div class="micro">
+<p><strong>t-SNE</strong> (t-distributed stochastic neighbour embedding; van der Maaten and Hinton, 2008) looks for 2-D points <span class="math inline">\(\mathbf{z}_i\)</span> that keep the <strong>neighbours</strong> of each sample, not the distances:</p>
+<ol type="1">
+<li>in <span class="math inline">\(\mathbb{R}^d\)</span>: for each pair, a neighbour probability <span class="math inline">\(p_{ij}\)</span>, large when <span class="math inline">\(\mathbf{x}_j\)</span> is among the nearest samples of <span class="math inline">\(\mathbf{x}_i\)</span> (a Gaussian of the distance, with its width set so that each sample has about <code>perplexity</code> effective neighbours)</li>
+<li>in 2-D: the same for the points <span class="math inline">\(\mathbf{z}_i\)</span>, <span class="math inline">\(q_{ij}\)</span>, with a heavy-tailed Student-<span class="math inline">\(t\)</span> curve in place of the Gaussian (the “t” of t-SNE)</li>
+<li>move the <span class="math inline">\(\mathbf{z}_i\)</span> by gradient descent until the <span class="math inline">\(q_{ij}\)</span> match the <span class="math inline">\(p_{ij}\)</span> (minimising the Kullback–Leibler divergence)</li>
+</ol>
+<p>The heavy tails let groups that are far apart in <span class="math inline">\(\mathbb{R}^d\)</span> move far apart in the map.</p>
+</div>
+</div><div class="column" style="width:55%;">
+<div id="3afc838e" class="cell" data-execution_count="36">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec07b_files/figure-revealjs/cell-37-output-1.png" width="317" height="271"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+<div class="fragment micro">
+<p>The same 1797 images: t-SNE, which never saw the labels, separates the ten digits into islands. Use it to <strong>look</strong>, not to model: it has no <code>transform</code> for new samples (so no pipelines), the map changes with <code>perplexity</code> and the seed, and the sizes of the islands and the distances between them mean nothing. <strong>UMAP</strong> (McInnes et al., 2018, the separate <code>umap-learn</code> package) is a faster relative with the same caveats.</p>
+</div>
+</section></section>
+<section>
+<section id="unsupervised-tools-in-supervised-pipelines" class="title-slide slide level1 center">
+<h1>Unsupervised tools in supervised pipelines</h1>
+<div class="micro">
+<p>In CW2 your data have labels, but unsupervised methods can still help, <strong>inside</strong> the pipeline, fitted on the training folds only (3b):</p>
+<ul>
+<li><strong>dimensionality reduction</strong>: <code>PCA</code> before a distance-based model (5b, 7a)</li>
+<li><strong>imputation from similar samples</strong>: <code>KNNImputer</code> fills a missing value with the mean of the <span class="math inline">\(k\)</span> nearest samples (7a)</li>
+<li><strong>cluster features</strong>: <code>KMeans</code> is also a transformer: <code>transform</code> returns the distances to the <span class="math inline">\(k\)</span> centroids, new features that describe where a sample lies; or add the cluster label as a categorical feature (3b)</li>
+<li><strong>anomalies</strong>: flag or remove unusual training samples before fitting; never remove test samples, which must be predicted as they come</li>
+<li><strong>exploration</strong>: clusters, silhouettes and t-SNE maps to understand the data before modelling, and to explain errors after</li>
+</ul>
+</div>
+<div class="fragment micro">
+<p>As with every pre-processing step, the choice (whether to use it, <span class="math inline">\(k\)</span>, <code>eps</code>) is a hyperparameter, chosen by cross-validation on the supervised score, inside the pipeline (4b).</p>
+</div>
+</section>
+<section id="towards-representation-learning" class="slide level2 center">
+<h2>Towards representation learning</h2>
+<div class="micro">
+<p>Today’s methods describe data with a few prototypes, densities or neighbourhoods, all computed in the original features or a linear projection of them. The neural networks of weeks 8–10 learn their <strong>own features</strong>, and the classical ideas return inside them:</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Classical method</th>
+<th style="text-align: left;">What it represents</th>
+<th style="text-align: left;">Neural counterpart</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">PCA (5b)</td>
+<td style="text-align: left;">a linear low-dimensional projection</td>
+<td style="text-align: left;">autoencoder: a non-linear encoder and decoder</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">k-means</td>
+<td style="text-align: left;">discrete prototypes</td>
+<td style="text-align: left;">vector quantisation, learned prototypes</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">kNN (7a)</td>
+<td style="text-align: left;">similarity in the input space</td>
+<td style="text-align: left;">nearest neighbours in a learned embedding space</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Gaussian mixture</td>
+<td style="text-align: left;">a density of the data</td>
+<td style="text-align: left;">deep generative models</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fragment micro">
+<p>The question of this lecture, what makes two samples similar, does not go away with neural networks: it moves from the choice of a distance to the choice of a representation, learned from data.</p>
+</div>
+</section></section>
+<section>
+<section id="summary-clustering-as-h-l-a" class="title-slide slide level1 center">
+<h1>Summary: clustering as (H, L, A)</h1>
+<div class="micro">
+<table class="caption-top">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Element</th>
+<th style="text-align: left;">k-means</th>
+<th style="text-align: left;">Agglomerative</th>
+<th style="text-align: left;">DBSCAN</th>
+<th style="text-align: left;">Gaussian mixture</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Model</strong> <span class="math inline">\(H\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(k\)</span> centroids; nearest centroid</td>
+<td style="text-align: left;">a tree of merges, cut at a level</td>
+<td style="text-align: left;">dense regions connected by core points</td>
+<td style="text-align: left;"><span class="math inline">\(k\)</span> weighted Gaussians</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Strategy</strong> <span class="math inline">\(L\)</span></td>
+<td style="text-align: left;">inertia <span class="math inline">\(J\)</span></td>
+<td style="text-align: left;">greedy merges by linkage</td>
+<td style="text-align: left;">density threshold (<span class="math inline">\(\varepsilon\)</span>, <code>min_samples</code>)</td>
+<td style="text-align: left;">likelihood</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Algorithm</strong> <span class="math inline">\(A\)</span></td>
+<td style="text-align: left;">Lloyd (alternating)</td>
+<td style="text-align: left;">repeated merging</td>
+<td style="text-align: left;">neighbour search</td>
+<td style="text-align: left;">EM (alternating)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">choose</td>
+<td style="text-align: left;"><span class="math inline">\(k\)</span></td>
+<td style="text-align: left;">linkage, <span class="math inline">\(k\)</span> or height</td>
+<td style="text-align: left;"><span class="math inline">\(\varepsilon\)</span>, <code>min_samples</code></td>
+<td style="text-align: left;"><span class="math inline">\(k\)</span>, <code>covariance_type</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">clusters</td>
+<td style="text-align: left;">round, similar size</td>
+<td style="text-align: left;">depends on linkage</td>
+<td style="text-align: left;">any shape, plus noise</td>
+<td style="text-align: left;">ellipses, soft</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">scikit-learn</td>
+<td style="text-align: left;"><code>KMeans</code></td>
+<td style="text-align: left;"><code>AgglomerativeClustering</code></td>
+<td style="text-align: left;"><code>DBSCAN</code>, <code>HDBSCAN</code></td>
+<td style="text-align: left;"><code>GaussianMixture</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fragment micro">
+<p>All depend on a notion of distance, so on <strong>scaling</strong> and on the choice of features. Internal criteria (inertia, silhouette, BIC) help choose <span class="math inline">\(k\)</span>; external ones (ARI) only check methods on data whose groups are known.</p>
+</div>
+</section>
+<section id="the-methods-of-weeks-27" class="slide level2 center">
+<h2>The methods of weeks 2–7</h2>
+<div id="e0296463" class="cell" data-execution_count="37">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec07b_files/figure-revealjs/cell-38-output-1.png" width="689" height="351"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="fragment micro">
+<p>The supervised families differ in their model <span class="math inline">\(H\)</span>; the grey band applies to all of them, and is where most of the work of CW1 and CW2 lies; the unsupervised methods describe <span class="math inline">\(\mathbf{X}\)</span> itself. Neural networks (weeks 8–10) will join the top row as a fourth family, and reuse the bottom two bands.</p>
+</div>
+</section></section>
+<section id="what-to-look-for" class="title-slide slide level1 center">
+<h1>What to look for</h1>
+<div class="micro">
+<p>When you use a clustering method, check:</p>
+<ul>
+<li>that the features are <strong>scaled</strong>, and chosen with care: the distance defines what “similar” means</li>
+<li>that the method’s idea of a cluster (round, chained, dense, elliptical) suits the data: <strong>look</strong> at the clusters (PCA scores, t-SNE maps)</li>
+<li>that <span class="math inline">\(k\)</span>, <code>eps</code> or the linkage were chosen with a stated criterion (elbow, silhouette, BIC, domain knowledge), and how sensitive the result is to it</li>
+<li>that k-means and mixtures were run from <strong>several starts</strong> (<code>n_init</code>)</li>
+<li>for anomaly scores: how the threshold was set, and what a false alarm costs</li>
+<li>that t-SNE maps are used to look, not as features, and not over-interpreted (island sizes and distances)</li>
+<li>in a supervised pipeline: that every unsupervised step is fitted on the <strong>training folds only</strong>, and its settings chosen by the supervised CV score</li>
+</ul>
+</div>
+</section>
+
+<section id="suggested-readings-and-activities" class="title-slide slide level1 center" data-background-color="darkgreen">
+<h1>Suggested readings and activities</h1>
+<p>Suggested <strong>readings</strong>:</p>
+<ul>
+<li><a href="https://hastie.su.domains/ElemStatLearn/">The Elements of Statistical Learning</a>, chapter 14 (unsupervised learning: k-means, hierarchical clustering, mixtures) and section 8.5 (the EM algorithm); the chapter on clustering in <a href="https://doi.org/10.1007/978-3-031-33342-2">Machine Learning with Python</a>.</li>
+<li>The scikit-learn user guide on <a href="https://scikit-learn.org/stable/modules/clustering.html">clustering</a> (with its comparison of methods on toy shapes), <a href="https://scikit-learn.org/stable/modules/mixture.html">Gaussian mixtures</a> and <a href="https://scikit-learn.org/stable/modules/outlier_detection.html">outlier detection</a>; Wattenberg et al., <a href="https://distill.pub/2016/misread-tsne/">How to use t-SNE effectively</a>.</li>
+</ul>
+<p>Suggested <strong>activities</strong>:</p>
+<ul>
+<li>Run k-means on the wine data after PCA with 2, 5 and 13 components: how does the agreement with the cultivars change?</li>
+<li>Implement one EM iteration by hand for a 1-D mixture of two Gaussians and compare with <code>GaussianMixture</code>.</li>
+<li>Plot the k-distance curve of the wine data: why is there no clear bend?</li>
+<li>Run t-SNE on the digits with perplexity 5, 30 and 100: which features of the map are stable?</li>
+</ul>
+</section>
+
+<section id="coursework-cw2" class="title-slide slide level1 center" data-background-color="darkred">
+<h1>Coursework: CW2</h1>
+<p>For <strong>CW2</strong> (2–3 scikit-learn tools on your CW1 dataset, critical comparison, best pipeline: deadlines and the brief on <strong>Moodle</strong>), today’s concepts can support your analysis:</p>
+<ul>
+<li>clustering and PCA or t-SNE maps to <strong>explore</strong> your data and explain where models fail</li>
+<li>unsupervised steps <strong>inside</strong> a supervised pipeline (<code>KNNImputer</code>, <code>KMeans</code> distances as features, anomaly flags), fitted on the training folds and judged by the supervised CV score</li>
+<li>the role of <strong>scaling</strong> and of the chosen features in every distance-based method (7a, 7b)</li>
+</ul>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Tip</strong></p>
+</div>
+<div class="callout-content">
+<p>This closes the first block of the course. Next: <strong>artificial neural networks</strong> with Jiabao Xu (weeks 8–10), the basis of CW3.</p>
+</div>
+</div>
+</div>
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<p><img src="img/UoG_colour.png" class="slide-logo"></p>
+<div class="footer footer-default">
+<p>ENG4200 AI4</p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="lec07b_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="lec07b_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="lec07b_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="lec07b_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="lec07b_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="lec07b_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="lec07b_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="lec07b_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="lec07b_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="lec07b_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: true,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'fade',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>
